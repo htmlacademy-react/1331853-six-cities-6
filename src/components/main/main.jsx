@@ -91,7 +91,7 @@ const Main = ({offersCount, places}) => {
                 </form>
                 <div className="cities__places-list places__list tabs__content">
                   {
-                    places.map((item, i) => <PlaceCard key={i} type={item.type} img={item.img} price={item.price} />)
+                    places.map((item, i) => <PlaceCard key={item.type + i} type={item.type} img={item.img} price={item.price} />)
                   }
                 </div>
               </section>
