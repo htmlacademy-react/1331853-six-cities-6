@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Main from '../main/main';
 import PlaceProperty from '../place-property/place-property';
 import Login from '../login/login';
+import Favorites from '../favorites/favorites';
 
 const App = ({offersCount, places, auth, userName}) => {
   return (
@@ -10,6 +11,7 @@ const App = ({offersCount, places, auth, userName}) => {
       <Main offersCount={offersCount} auth={auth} userName={userName} places={places} />
       <PlaceProperty auth={auth} userName={userName} />
       <Login />
+      <Favorites auth={auth} userName={userName}/>
     </>
   );
 };
