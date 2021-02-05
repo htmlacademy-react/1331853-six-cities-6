@@ -5,6 +5,7 @@ import PlaceProperty from '../place-property/place-property';
 import Login from '../login/login';
 import Favorites from '../favorites/favorites';
 import Page404 from '../page-404/page-404';
+import FavoritesEmpty from '../favorites/favorites-empty/favorites-empty';
 
 const App = ({offersCount, places, auth, userName}) => (
   <>
@@ -12,6 +13,7 @@ const App = ({offersCount, places, auth, userName}) => (
     <PlaceProperty auth={auth} userName={userName} />
     <Login />
     <Favorites auth={auth} userName={userName} />
+    <FavoritesEmpty auth={auth} userName={userName} />
     <Page404 auth={auth} userName={userName}/>
   </>
 );
