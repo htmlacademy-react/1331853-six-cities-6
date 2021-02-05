@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 const Page404 = ({auth, userName}) => (
   <div className="container" style={{height: `100vh`}}>
     <Header auth={auth} userName={userName}/>
-    <h1>Page not Found</h1>
+    <h1>Error 40<span style={{transform: `scale(-1, 1)`, display: `inline-block`}}>4</span>  <br/><small>Page not Found</small></h1>
     <Link to="/">Return to the main page</Link>
   </div>
 
