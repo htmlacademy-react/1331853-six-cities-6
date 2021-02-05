@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../header/header';
 import {Link} from 'react-router-dom';
+
+import Header from '../../components/header/header';
 
 const Page404 = ({auth, userName}) => (
   <div className="container" style={{height: `100vh`}}>

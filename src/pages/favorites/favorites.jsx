@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import LocationBtn from '../common/location-btn';
-import W3cInfo from '../common/w3c-info';
-import Footer from '../footer/footer';
-import Header from '../header/header';
+import LocationBtn from '../../components/common/location-btn';
+import Footer from '../../components/footer/footer';
+import Header from '../../components/header/header';
 
 const Favorites = ({auth, userName}) => (
   <>
-    <W3cInfo />
     <div className="page">
       <Header auth={auth} userName={userName}/>
       <main className="page__main page__main--favorites">

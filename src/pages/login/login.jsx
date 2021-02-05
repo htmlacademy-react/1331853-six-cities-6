@@ -1,11 +1,9 @@
 import React from 'react';
-import LocationBtn from '../common/location-btn';
-import W3cInfo from '../common/w3c-info';
-import Header from '../header/header';
+import LocationBtn from '../../components/common/location-btn';
+import Header from '../../components/header/header';
 
 const Login = () => (
   <>
-    <W3cInfo />
     <div className="page page--gray page--login">
       <Header />
       <main className="page__main page__main--login">

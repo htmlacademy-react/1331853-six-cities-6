@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import W3cInfo from '../common/w3c-info';
-import Header from '../header/header';
-import Review from './review/review';
+import Header from '../../components/header/header';
+import Review from '../../components/place-property/review/review';
 
 const PlaceProperty = ({auth, userName}) => (
   <>
-    <W3cInfo />
     <div className="page">
       <Header auth={auth} userName={userName}/>
       <main className="page__main page__main--property">

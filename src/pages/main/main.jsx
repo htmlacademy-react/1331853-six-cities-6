@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card';
-import Header from '../header/header';
-import W3cInfo from '../common/w3c-info';
+import PlaceCard from '../../components/place-card/place-card';
+import Header from '../../components/header/header';
 
 const Main = ({offersCount, places, auth, userName}) => (
   <>
-    <W3cInfo />
     <div className="page page--gray page--main">
       <Header auth={auth} userName={userName}/>
       <main className="page__main page__main--index">
@@ -69,7 +67,7 @@ const Main = ({offersCount, places, auth, userName}) => (
               </form>
               <div className="cities__places-list places__list tabs__content">
                 {
-                  places.map((item, i) => <PlaceCard key={item.type + i} type={item.type} img={item.img} price={item.price} />)
+                  places.map(({type, img, price}, i) => <PlaceCard key={type + i} type={type} img={img} price={price} />)
                 }
               </div>
             </section>
