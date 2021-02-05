@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Header = ({auth, userName}) => (
+const Header = ({auth = false, userName = ``}) => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">
