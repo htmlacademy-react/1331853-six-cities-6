@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Main from '../main/main';
 import PlaceProperty from '../place-property/place-property';
+import Login from '../login/login';
 
 const App = ({offersCount, places, auth, userName}) => {
   return (
     <>
       <Main offersCount={offersCount} auth={auth} userName={userName} places={places} />
       <PlaceProperty auth={auth} userName={userName} />
+      <Login />
     </>
   );
 };
