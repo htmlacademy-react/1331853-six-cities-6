@@ -4,10 +4,13 @@ import App from './components/app/app';
 import {places} from './mocks/places';
 
 const Setting = {
-  OFFERS_COUNT: 5
+  OFFERS_COUNT: 5,
+  AUTH: false
 };
 
+const {OFFERS_COUNT: offersCount, AUTH: auth} = Setting;
+
 ReactDOM.render(
-    <App offersCount={Setting.OFFERS_COUNT} places={places} />,
+    <App offersCount={offersCount} places={places} auth={auth} />,
     document.querySelector(`#root`)
 );
