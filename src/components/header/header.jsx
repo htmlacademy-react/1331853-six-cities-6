@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Header = (props) => (
+const Header = ({auth, userName}) => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">
@@ -16,7 +16,7 @@ const Header = (props) => (
               <a className="header__nav-link header__nav-link--profile" href="#">
                 <div className="header__avatar-wrapper user__avatar-wrapper">
                 </div>
-                <span className="header__user-name user__name">{props.auth ? props.userName : `Sign In`}</span>
+                <span className="header__user-name user__name">{auth ? userName : `Sign In`}</span>
               </a>
             </li>
           </ul>
