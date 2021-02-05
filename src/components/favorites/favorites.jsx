@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import LocationBtn from '../common/location-btn';
 import W3cInfo from '../common/w3c-info';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -16,11 +17,7 @@ const Favorites = ({auth, userName}) => (
             <ul className="favorites__list">
               <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
+                  <LocationBtn />
                 </div>
                 <div className="favorites__places">
                   <article className="favorites__card place-card">
@@ -89,11 +86,7 @@ const Favorites = ({auth, userName}) => (
               </li>
               <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Cologne</span>
-                    </a>
-                  </div>
+                  <LocationBtn />
                 </div>
                 <div className="favorites__places">
                   <article className="favorites__card place-card">

@@ -1,4 +1,5 @@
 import React from 'react';
+import LocationBtn from '../common/location-btn';
 import W3cInfo from '../common/w3c-info';
 import Header from '../header/header';
 
@@ -24,11 +25,7 @@ const Login = () => (
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
-            </div>
+            <LocationBtn />
           </section>
         </div>
       </main>
