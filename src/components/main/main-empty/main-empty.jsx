@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../header/header';
+import Header from '../../header/header';
 import W3cInfo from '../../common/w3c-info';
 
 const mainEmpty = ({auth, userName}) => (
