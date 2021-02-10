@@ -5,9 +5,9 @@ export const reviews = [
     "id": 1,
     "rating": 4,
     "user": {
-      "avatar_url": `img/avatar-max.jpg`,
+      "avatarUrl": `img/avatar-max.jpg`,
       "id": 1,
-      "is_pro": false,
+      "isPro": false,
       "name": `Max`
     }
   },
@@ -17,9 +17,9 @@ export const reviews = [
     "id": 2,
     "rating": 3,
     "user": {
-      "avatar_url": `img/avatar-max.jpg`,
+      "avatarUrl": `img/avatar-max.jpg`,
       "id": 2,
-      "is_pro": false,
+      "isPro": false,
       "name": `Max`
     }
   },
@@ -29,9 +29,9 @@ export const reviews = [
     "id": 3,
     "rating": 2,
     "user": {
-      "avatar_url": `img/avatar-max.jpg`,
+      "avatarUrl": `img/avatar-max.jpg`,
       "id": 3,
-      "is_pro": false,
+      "isPro": false,
       "name": `Max`
     }
   },
@@ -41,9 +41,9 @@ export const reviews = [
     "id": 4,
     "rating": 1,
     "user": {
-      "avatar_url": `img/avatar-max.jpg`,
+      "avatarUrl": `img/avatar-max.jpg`,
       "id": 4,
-      "is_pro": false,
+      "isPro": false,
       "name": `Max`
     }
   },
