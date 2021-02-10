@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../../components/place-card/place-card';
+import PlaceCard from '../../components/main/place-card/place-card';
 import Header from '../../components/header/header';
+import {CITY_LIST} from '../../const';
 
 const Main = ({offersCount, places, auth, userName}) => (
   <>
@@ -12,36 +13,14 @@ const Main = ({offersCount, places, auth, userName}) => (
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {
+                CITY_LIST.map((city, i) =>
+                  <li key={city + i} className={`locations__item` /* tabs__item--active Этот класс отвечает за активную ссылку в меню. Его реализацию добавлю позже*/}>
+                    <a className="locations__item-link tabs__item" href="#">
+                      <span>{city}</span>
+                    </a>
+                  </li>)
+              }
             </ul>
           </section>
         </div>
