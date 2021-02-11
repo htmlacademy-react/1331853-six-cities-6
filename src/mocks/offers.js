@@ -29,7 +29,7 @@ export const offers = [
     "maxAdults": 4,
     "previewImage": `img/apartment-01.jpg`,
     "price": 120,
-    "rating": 4.8,
+    "rating": 1,
     "title": `Beautiful & luxurious studio at great location`,
     "type": `apartment`
   },
@@ -61,7 +61,7 @@ export const offers = [
       "zoom": 8
     },
     "maxAdults": 4,
-    "preview_image": `img/room.jpg`,
+    "previewImage": `img/room.jpg`,
     "price": 100,
     "rating": 3.8,
     "title": `Beautiful & luxurious studio at great location`,
@@ -95,9 +95,9 @@ export const offers = [
       "zoom": 8
     },
     "maxAdults": 4,
-    "preview_image": `img/studio-01.jpg`,
+    "previewImage": `img/studio-01.jpg`,
     "price": 150,
-    "rating": 5,
+    "rating": 2,
     "title": `Beautiful & luxurious studio at great location`,
     "type": `Studio`
   },
@@ -129,10 +129,10 @@ export const offers = [
       "zoom": 8
     },
     "maxAdults": 4,
-    "preview_image": `img/studio-01.jpg`,
+    "previewImage": `img/studio-01.jpg`,
     "price": 250,
-    "rating": 5,
-    "title": `Beautiful & luxurious studio at great location`,
+    "rating": 3,
+    "title": `Beautiful &amp; luxurious studio at great location`,
     "type": `Studio`
   },
 ]
