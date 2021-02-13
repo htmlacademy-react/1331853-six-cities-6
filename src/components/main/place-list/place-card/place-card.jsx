@@ -3,12 +3,12 @@ import {Link} from 'react-router-dom';
 import {PropTypes} from 'prop-types';
 
 import {offersPropValid} from '../../../../props-valid/props-valid';
-import {STAR_LIST} from './../../../../const';
+import {getRatingCount} from './../../../../utils';
 
 const PlaceCard = ({offer}) => {
-  const {id, previewImage, price, type, rating, isPremium, title} = offer;
+  const {id, previewImage, price, type, rating, isPremium, title, isFavorite} = offer;
   const isCardPremium = isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``;
-  const ratingCount = 100 / STAR_LIST.length * rating;
+  const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
   return (
     <article className="cities__place-card place-card">
       {isCardPremium}
@@ -23,7 +23,7 @@ const PlaceCard = ({offer}) => {
             <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={`place-card__bookmark-button button ${isCardFavorite}`} type="button">
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
@@ -32,7 +32,7 @@ const PlaceCard = ({offer}) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ratingCount}%`}} />
+            <span style={{width: `${getRatingCount(rating)}%`}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
