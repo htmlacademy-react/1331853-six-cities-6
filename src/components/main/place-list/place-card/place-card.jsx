@@ -3,17 +3,18 @@ import {Link} from 'react-router-dom';
 import {PropTypes} from 'prop-types';
 
 import {offersPropValid} from '../../../../props-valid/props-valid';
-import {getRatingCount} from './../../../../utils';
+import {getOfferPath, getRatingCount} from './../../../../utils';
 
 const PlaceCard = ({offer}) => {
   const {id, previewImage, price, type, rating, isPremium, title, isFavorite} = offer;
   const isCardPremium = isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
+
   return (
     <article className="cities__place-card place-card">
       {isCardPremium}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`offer:${id}`}>
+        <Link to={getOfferPath(id)}>
           <img className="place-card__image" src={previewImage} alt="Place image" width={260} height={200} />
         </Link>
       </div>
@@ -37,7 +38,7 @@ const PlaceCard = ({offer}) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`offer:${id}`}>{title}</Link>
+          <Link to={getOfferPath(id)}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
