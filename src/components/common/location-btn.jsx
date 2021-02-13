@@ -1,11 +1,16 @@
 import React from 'react';
+import {PropTypes} from 'prop-types';
 
-const LocationBtn = () => (
+const LocationBtn = ({city}) => (
   <div className="locations__item">
     <a className="locations__item-link" href="#">
-      <span>Amsterdam</span>
+      <span>{city}</span>
     </a>
   </div>
 );
+
+LocationBtn.propTypes = {
+  city: PropTypes.string.isRequired
+};
 
 export default LocationBtn;
