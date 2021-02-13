@@ -15,41 +15,50 @@ import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 
 const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
-const App = ({offers, auth, userName, reviews}) => (
-  <BrowserRouter>
-    <Switch>
+const App = ({offers, auth, userName, reviews}) => {
+  const favoriteOffers = offers.reduce((result, offer) => {
+    if (offer.isFavorite) {
+      result.push(offer);
+    }
+    return result;
+  }, []);
 
-      <Route exact path={pathMain}>
-        <Main auth={auth} userName={userName} offers={offers} />
-      </Route>
+  return (
+    <BrowserRouter>
+      <Switch>
 
-      <Route exact path={pathMainEmpty}>
-        <MainEmpty auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathMain}>
+          <Main auth={auth} userName={userName} offers={offers} />
+        </Route>
 
-      <Route exact path={pathOffer}>
-        <PlaceProperty auth={auth} userName={userName} offers={offers} reviews={reviews}/>
-      </Route>
+        <Route exact path={pathMainEmpty}>
+          <MainEmpty auth={auth} userName={userName} />
+        </Route>
 
-      <Route exact path={pathLogin}>
-        <Login />
-      </Route>
+        <Route exact path={pathOffer}>
+          <PlaceProperty auth={auth} userName={userName} offers={offers} reviews={reviews} />
+        </Route>
 
-      <Route exact path={pathFavor}>
-        <Favorites auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathLogin}>
+          <Login />
+        </Route>
 
-      <Route exact path={pathFavorEmpty}>
-        <FavoritesEmpty auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathFavor}>
+          <Favorites auth={auth} userName={userName} offers={favoriteOffers} />
+        </Route>
 
-      <Route>
-        <Page404 auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathFavorEmpty}>
+          <FavoritesEmpty auth={auth} userName={userName} />
+        </Route>
 
-    </Switch>
-  </BrowserRouter>
-);
+        <Route>
+          <Page404 auth={auth} userName={userName} />
+        </Route>
+
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 
 App.propTypes = {
