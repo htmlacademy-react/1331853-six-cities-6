@@ -53,8 +53,8 @@ export const offers = [
     },
     "id": 2,
     "images": [`img/room.jpg`],
-    "isFavorite": false,
-    "isPremium": false,
+    "isFavorite": true,
+    "isPremium": true,
     "location": {
       "latitude": 52.35514938496378,
       "longitude": 4.673877537499948,
@@ -121,8 +121,8 @@ export const offers = [
     },
     "id": 4,
     "images": [`img/studio-01.jpg`],
-    "isFavorite": false,
-    "isPremium": false,
+    "isFavorite": true,
+    "isPremium": true,
     "location": {
       "latitude": 52.35514938496378,
       "longitude": 4.673877537499948,
