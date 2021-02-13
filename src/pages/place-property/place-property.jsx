@@ -7,6 +7,10 @@ import UserReview from '../../components/place-property/user-review/user-review'
 import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 import {STAR_LIST} from './../../const';
 
+const sortDate = (a, b) => (
+  Date.parse(a.date) - Date.parse(b.date)
+);
+
 const getCurrentOffer = (id, offers) => {
   for (const offer of offers) {
     if (offer.id === Number(id)) {
@@ -23,7 +27,8 @@ const getCurrentReviews = (id, reviews) => {
       reviewList.push(review);
     }
   }
-  return reviewList;
+
+  return reviewList.sort(sortDate);
 };
 
 const PlaceProperty = ({auth, userName, offers, reviews}) => {
