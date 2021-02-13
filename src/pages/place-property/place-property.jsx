@@ -2,24 +2,37 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect, useHistory} from 'react-router-dom';
 import Header from '../../components/header/header';
-import Review from '../../components/place-property/review/review';
-import {offersPropValid} from '../../props-valid/props-valid';
+import Reviews from '../../components/place-property/reviews/reviews';
+import UserReview from '../../components/place-property/user-review/user-review';
+import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 import {STAR_LIST} from './../../const';
 
-const PlaceProperty = ({auth, userName, offers}) => {
+const getCurrentOffer = (id, offers) => {
+  for (const offer of offers) {
+    if (offer.id === Number(id)) {
+      return offer;
+    }
+  }
+  return ``;
+};
+
+const getCurrentReviews = (id, reviews) => {
+  const reviewList = [];
+  for (const review of reviews) {
+    if (review.id === Number(id)) {
+      reviewList.push(review);
+    }
+  }
+  return reviewList;
+};
+
+const PlaceProperty = ({auth, userName, offers, reviews}) => {
   const pathName = useHistory().location.pathname;
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
 
-  const getCurrentOffer = () => {
-    for (const offer of offers) {
-      if (offer.id === Number(offerId)) {
-        return offer;
-      }
-    }
-    return ``;
-  };
 
-  const offer = getCurrentOffer();
+  const offer = getCurrentOffer(offerId, offers);
+  const reviewsList = getCurrentReviews(offerId, reviews);
 
   if (offer.length === 0) {
     return <Redirect to="/404" />;
@@ -111,32 +124,13 @@ const PlaceProperty = ({auth, userName, offers}) => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsList.length}</span></h2>
                 <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" alt="Reviews avatar" width={54} height={54} />
-                      </div>
-                      <span className="reviews__user-name">
-                          Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: `80%`}} />
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                                 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
+                  {
+                    reviewsList.map((review, i) => <Reviews key={i} review={review}/>)
+                  }
                 </ul>
-                {auth ? <Review /> : ``}
+                {auth ? <UserReview /> : ``}
               </section>
             </div>
           </div>
@@ -251,7 +245,8 @@ const PlaceProperty = ({auth, userName, offers}) => {
 PlaceProperty.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
 };
 
 export default PlaceProperty;

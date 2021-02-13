@@ -1,8 +1,8 @@
 import React from 'react';
 import Star from './star/star';
-import {STAR_LIST} from './../../../const';
+import {STAR_LIST} from '../../../const';
 
-const Review = () => (
+const UserReview = () => (
   <form className="reviews__form form" action="#" method="post">
     <label className="reviews__label form__label" htmlFor="review">Your review</label>
     <div className="reviews__rating-form form__rating">
@@ -20,4 +20,4 @@ const Review = () => (
   </form>
 );
 
-export default Review;
+export default UserReview;
