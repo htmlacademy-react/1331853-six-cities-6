@@ -28,7 +28,7 @@ const App = ({offers, auth, userName}) => (
       </Route>
 
       <Route exact path={pathOffer}>
-        <PlaceProperty auth={auth} userName={userName} />
+        <PlaceProperty auth={auth} userName={userName} offers={offers}/>
       </Route>
 
       <Route exact path={pathLogin}>

@@ -7,13 +7,13 @@ import {STAR_LIST} from './../../../../const';
 
 const PlaceCard = ({offer}) => {
   const {id, previewImage, price, type, rating, isPremium, title} = offer;
-  const cardPremium = isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``;
+  const isCardPremium = isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``;
   const ratingCount = 100 / STAR_LIST.length * rating;
   return (
     <article className="cities__place-card place-card">
-      {cardPremium}
+      {isCardPremium}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`offer:${id}?`}>
+        <Link to={`offer:${id}`}>
           <img className="place-card__image" src={previewImage} alt="Place image" width={260} height={200} />
         </Link>
       </div>
@@ -37,7 +37,7 @@ const PlaceCard = ({offer}) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="offer:id?">{title}</Link>
+          <Link to={`offer:${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
