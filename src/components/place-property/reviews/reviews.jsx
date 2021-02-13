@@ -3,12 +3,11 @@ import {PropTypes} from 'prop-types';
 import dayjs from 'dayjs';
 
 import {reviewsPropValid} from '../../../props-valid/props-valid';
-import {STAR_LIST} from '../../../const';
+import {getRatingCount} from './../../../utils';
 
 
 const Reviews = ({review}) => {
   const {user: {avatarUrl, name}, rating, comment, date} = review;
-  const ratingCount = 100 / STAR_LIST.length * rating;
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -22,7 +21,7 @@ const Reviews = ({review}) => {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${ratingCount}%`}} />
+            <span style={{width: `${getRatingCount(rating)}%`}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

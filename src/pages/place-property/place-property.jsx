@@ -4,8 +4,9 @@ import {Redirect, useHistory} from 'react-router-dom';
 import Header from '../../components/header/header';
 import Reviews from '../../components/place-property/reviews/reviews';
 import UserReview from '../../components/place-property/user-review/user-review';
+
 import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
-import {STAR_LIST} from './../../const';
+import {getRatingCount} from '../../utils';
 
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
@@ -35,7 +36,6 @@ const PlaceProperty = ({auth, userName, offers, reviews}) => {
   const pathName = useHistory().location.pathname;
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
 
-
   const offer = getCurrentOffer(offerId, offers);
   const reviewsList = getCurrentReviews(offerId, reviews);
 
@@ -45,7 +45,6 @@ const PlaceProperty = ({auth, userName, offers, reviews}) => {
 
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = offer;
   const isOfferPremium = isPremium ? <div className="property__mark"><span>Premium</span></div> : ``;
-  const ratingCount = 100 / STAR_LIST.length * rating;
   const isUserPro = isPro ? <span className="property__user-status">Pro</span> : ``;
 
   return (
@@ -79,7 +78,7 @@ const PlaceProperty = ({auth, userName, offers, reviews}) => {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${ratingCount}%`}} />
+                  <span style={{width: `${getRatingCount(rating)}%`}} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
