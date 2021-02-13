@@ -23,7 +23,7 @@ const Login = () => (
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <LocationBtn />
+            <LocationBtn city={`Amsterdam`}/>
           </section>
         </div>
       </main>
