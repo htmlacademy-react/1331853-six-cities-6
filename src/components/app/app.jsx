@@ -11,11 +11,11 @@ import FavoritesEmpty from '../../pages/favorites/empty/empty';
 import Page404 from '../../pages/page-404/page-404';
 
 import {Routes} from './../../const';
-import {offersPropValid} from '../../props-valid/props-valid';
+import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 
 const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
-const App = ({offers, auth, userName}) => (
+const App = ({offers, auth, userName, reviews}) => (
   <BrowserRouter>
     <Switch>
 
@@ -28,7 +28,7 @@ const App = ({offers, auth, userName}) => (
       </Route>
 
       <Route exact path={pathOffer}>
-        <PlaceProperty auth={auth} userName={userName} offers={offers}/>
+        <PlaceProperty auth={auth} userName={userName} offers={offers} reviews={reviews}/>
       </Route>
 
       <Route exact path={pathLogin}>
@@ -55,7 +55,8 @@ const App = ({offers, auth, userName}) => (
 App.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
 };
 
 export default App;
