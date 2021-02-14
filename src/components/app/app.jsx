@@ -16,12 +16,7 @@ import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
 const App = ({offers, auth, userName, reviews}) => {
-  const favoriteOffers = offers.reduce((result, offer) => {
-    if (offer.isFavorite) {
-      result.push(offer);
-    }
-    return result;
-  }, []);
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
     <BrowserRouter>

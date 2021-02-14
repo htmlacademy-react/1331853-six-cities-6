@@ -56,7 +56,7 @@ const PlaceProperty = ({auth, userName, offers, reviews}) => {
             <div className="property__gallery">
               {
                 images.map((image, i) => (
-                  <div key={i} className="property__image-wrapper">
+                  <div key={i + image} className="property__image-wrapper">
                     <img className="property__image" src={image} alt="Photo studio" />
                   </div>))
               }
@@ -134,7 +134,7 @@ const PlaceProperty = ({auth, userName, offers, reviews}) => {
                     reviewsList.map((review, i) => <Reviews key={i} review={review}/>)
                   }
                 </ul>
-                {auth ? <UserReview /> : ``}
+                {auth && <UserReview />}
               </section>
             </div>
           </div>
