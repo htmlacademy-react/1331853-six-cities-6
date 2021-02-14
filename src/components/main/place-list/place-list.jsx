@@ -8,7 +8,7 @@ import {offersPropValid} from '../../../props-valid/props-valid';
 const PlaceList = ({offers}) => {
   return (
     <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer, i) => <PlaceCard key={i} offer={offer} />)}
+      {offers.map((offer) => <PlaceCard key={offer.id} {...offer} />)}
     </div>
   );
 };
