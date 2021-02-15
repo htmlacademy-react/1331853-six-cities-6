@@ -1,12 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {PropTypes} from 'prop-types';
 
 import {offersPropValid} from '../../../../props-valid/props-valid';
 import {getOfferPath, getRatingCount} from './../../../../utils';
 
-const PlaceCard = ({...offer}) => {
-  const {id, previewImage, price, type, rating, isPremium, title, isFavorite} = offer;
+const PlaceCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite}) => {
   const isCardPremium = isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
   return (
@@ -46,8 +44,7 @@ const PlaceCard = ({...offer}) => {
 };
 
 
-PlaceCard.propTypes = {
-  offer: PropTypes.shape(offersPropValid)
-};
+PlaceCard.propTypes = {...offersPropValid};
+
 
 export default PlaceCard;
