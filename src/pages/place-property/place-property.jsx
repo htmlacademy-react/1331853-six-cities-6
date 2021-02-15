@@ -1,44 +1,73 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Redirect, useHistory} from 'react-router-dom';
 import Header from '../../components/header/header';
-import Review from '../../components/place-property/review/review';
+import Reviews from '../../components/place-property/reviews/reviews';
+import UserReview from '../../components/place-property/user-review/user-review';
 
-const PlaceProperty = ({auth, userName}) => (
-  <>
+import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
+import {getRatingCount} from '../../utils';
+
+const sortDate = (a, b) => (
+  Date.parse(a.date) - Date.parse(b.date)
+);
+
+const getCurrentOffer = (id, offers) => {
+  for (const offer of offers) {
+    if (offer.id === Number(id)) {
+      return offer;
+    }
+  }
+  return ``;
+};
+
+const getCurrentReviews = (id, reviews) => {
+  const reviewList = [];
+  for (const review of reviews) {
+    if (review.id === Number(id)) {
+      reviewList.push(review);
+    }
+  }
+
+  return reviewList.sort(sortDate);
+};
+
+const PlaceProperty = ({auth, userName, offers, reviews}) => {
+  const pathName = useHistory().location.pathname;
+  const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
+
+  const offer = getCurrentOffer(offerId, offers);
+  const reviewsList = getCurrentReviews(offerId, reviews);
+
+  if (offer.length === 0) {
+    return <Redirect to="/404" />;
+  }
+
+  const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = offer;
+  const isOfferPremium = isPremium ? <div className="property__mark"><span>Premium</span></div> : ``;
+  const isUserPro = isPro ? <span className="property__user-status">Pro</span> : ``;
+
+  return (
     <div className="page">
-      <Header auth={auth} userName={userName}/>
+      <Header auth={auth} userName={userName} />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
+              {
+                images.map((image, i) => (
+                  <div key={i + image} className="property__image-wrapper">
+                    <img className="property__image" src={image} alt="Photo studio" />
+                  </div>))
+              }
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              {isOfferPremium}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                Beautiful &amp; luxurious studio at great location
+                  {title}
                 </h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width={31} height={33}>
@@ -49,107 +78,63 @@ const PlaceProperty = ({auth, userName}) => (
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `80%`}} />
+                  <span style={{width: `${getRatingCount(rating)}%`}} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                Apartment
+                  {type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                3 Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                Max 4 adults
+                    Max {maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">€120</b>
+                <b className="property__price-value">€{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                  Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                  Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                  Towels
-                  </li>
-                  <li className="property__inside-item">
-                  Heating
-                  </li>
-                  <li className="property__inside-item">
-                  Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                  Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                  Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                  Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                  Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                  Fridge
-                  </li>
+                  {
+                    goods.map((good, i) => (
+                      <li key={i} className="property__inside-item">
+                        {good}
+                      </li>
+                    ))
+                  }
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" alt="Host avatar" width={74} height={74} />
+                    <img className="property__avatar user__avatar" src={avatarUrl} alt="Host avatar" width={74} height={74} />
                   </div>
                   <span className="property__user-name">
-                  Angelina
+                    {name}
                   </span>
+                  {isUserPro}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                  A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                  An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    {description}
                   </p>
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsList.length}</span></h2>
                 <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" alt="Reviews avatar" width={54} height={54} />
-                      </div>
-                      <span className="reviews__user-name">
-                      Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: `80%`}} />
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                      A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
+                  {
+                    reviewsList.map((review, i) => <Reviews key={i} review={review}/>)
+                  }
                 </ul>
-                {auth ? <Review /> : ``}
+                {auth && <UserReview />}
               </section>
             </div>
           </div>
@@ -257,13 +242,15 @@ const PlaceProperty = ({auth, userName}) => (
         </div>
       </main>
     </div>
-  </>
 
-);
+  );
+};
 
 PlaceProperty.propTypes = {
   auth: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
 };
 
 export default PlaceProperty;

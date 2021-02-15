@@ -11,51 +11,56 @@ import FavoritesEmpty from '../../pages/favorites/empty/empty';
 import Page404 from '../../pages/page-404/page-404';
 
 import {Routes} from './../../const';
+import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 
 const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
-const App = ({offersCount, places, auth, userName}) => (
-  <BrowserRouter>
-    <Switch>
+const App = ({offers, auth, userName, reviews}) => {
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
-      <Route exact path={pathMain}>
-        <Main offersCount={offersCount} auth={auth} userName={userName} places={places} />
-      </Route>
+  return (
+    <BrowserRouter>
+      <Switch>
 
-      <Route exact path={pathMainEmpty}>
-        <MainEmpty auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathMain}>
+          <Main auth={auth} userName={userName} offers={offers} />
+        </Route>
 
-      <Route exact path={pathOffer}>
-        <PlaceProperty auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathMainEmpty}>
+          <MainEmpty auth={auth} userName={userName} />
+        </Route>
 
-      <Route exact path={pathLogin}>
-        <Login />
-      </Route>
+        <Route exact path={pathOffer}>
+          <PlaceProperty auth={auth} userName={userName} offers={offers} reviews={reviews} />
+        </Route>
 
-      <Route exact path={pathFavor}>
-        <Favorites auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathLogin}>
+          <Login />
+        </Route>
 
-      <Route exact path={pathFavorEmpty}>
-        <FavoritesEmpty auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathFavor}>
+          <Favorites auth={auth} userName={userName} offers={favoriteOffers} />
+        </Route>
 
-      <Route>
-        <Page404 auth={auth} userName={userName} />
-      </Route>
+        <Route exact path={pathFavorEmpty}>
+          <FavoritesEmpty auth={auth} userName={userName} />
+        </Route>
 
-    </Switch>
-  </BrowserRouter>
-);
+        <Route>
+          <Page404 auth={auth} userName={userName} />
+        </Route>
+
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 
 App.propTypes = {
-  offersCount: PropTypes.number.isRequired,
-  places: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   auth: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
 };
 
 export default App;
