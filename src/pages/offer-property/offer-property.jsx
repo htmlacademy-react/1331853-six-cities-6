@@ -44,8 +44,8 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
   }
 
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = offer;
-  const isOfferPremium = isPremium ? <div className="property__mark"><span>Premium</span></div> : ``;
-  const isUserPro = isPro ? <span className="property__user-status">Pro</span> : ``;
+  const isOfferPremium = isPremium && <div className="property__mark"><span>Premium</span></div>;
+  const isUserPro = isPro && <span className="property__user-status">Pro</span>;
 
   return (
     <div className="page">
