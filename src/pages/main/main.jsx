@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import Header from '../../components/header/header';
 import Locations from '../../components/main/locations/locations';
-import OfferList from '../../components/main/offer-list/offer-list';
+import OfferList from '../../components/offer-list/offer-list';
+
 import {offersPropValid} from '../../props-valid/props-valid';
+import {Routes} from '../../const';
 
 const Main = ({offers, auth, userName}) => (
   <>
     <div className="page page--gray page--main">
-      <Header auth={auth} userName={userName}/>
+      <Header auth={auth} userName={userName} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -23,7 +25,7 @@ const Main = ({offers, auth, userName}) => (
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
-                    Popular
+                                 Popular
                   <svg className="places__sorting-arrow" width={7} height={4}>
                     <use xlinkHref="#icon-arrow-select" />
                   </svg>
@@ -35,7 +37,9 @@ const Main = ({offers, auth, userName}) => (
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OfferList offers={offers}/>
+              <div className="cities__places-list places__list tabs__content">
+                <OfferList offers={offers} path={Routes.MAIN} />
+              </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
@@ -46,6 +50,7 @@ const Main = ({offers, auth, userName}) => (
     </div>
   </>
 );
+
 
 Main.propTypes = {
   auth: PropTypes.bool.isRequired,
