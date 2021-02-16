@@ -8,12 +8,7 @@ import {Routes} from '../../const';
 import {offersPropValid} from '../../props-valid/props-valid';
 
 const getCurrentOffers = (offers, city) => {
-  return offers.reduce((result, offer) => {
-    if (offer.city.name === city) {
-      result.push(offer);
-    }
-    return result;
-  }, []);
+  return offers.filter((offer)=> offer.city.name === city);
 };
 
 const Favorites = ({auth, userName, offers}) => {
