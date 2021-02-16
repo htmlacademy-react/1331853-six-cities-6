@@ -23,8 +23,8 @@ const Favorites = ({auth, userName, offers}) => {
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
                 {
-                  cityList.map((city, i) => (
-                    <li key={city + i} className="favorites__locations-items">
+                  cityList.map((city) => (
+                    <li key={city} className="favorites__locations-items">
 
                       <div className="favorites__locations locations locations--current">
                         <LocationBtn city={city}/>
