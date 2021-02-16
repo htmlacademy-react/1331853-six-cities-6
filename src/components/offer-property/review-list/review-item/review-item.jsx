@@ -2,11 +2,11 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 import dayjs from 'dayjs';
 
-import {reviewsPropValid} from '../../../props-valid/props-valid';
-import {getRatingCount} from './../../../utils';
+import {reviewsPropValid} from '../../../../props-valid/props-valid';
+import {getRatingCount} from '../../../../utils';
 
 
-const Reviews = ({review}) => {
+const ReviewItem = ({review}) => {
   const {user: {avatarUrl, name}, rating, comment, date} = review;
   return (
     <li className="reviews__item">
@@ -34,8 +34,8 @@ const Reviews = ({review}) => {
   );
 };
 
-Reviews.propTypes = {
+ReviewItem.propTypes = {
   review: PropTypes.shape(reviewsPropValid).isRequired
 };
 
-export default Reviews;
+export default ReviewItem;

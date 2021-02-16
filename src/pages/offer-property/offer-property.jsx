@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect, useHistory} from 'react-router-dom';
+
 import Header from '../../components/header/header';
-import Reviews from '../../components/offer-property/reviews/reviews';
 import UserReview from '../../components/offer-property/user-review/user-review';
+import Gallery from '../../components/offer-property/gallery/gallery';
+
 
 import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 import {getRatingCount} from '../../utils';
+import InsideList from '../../components/offer-property/inside-list/inside-list';
+import ReviewList from '../../components/offer-property/review-list/review-list';
 
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
@@ -37,7 +41,7 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
 
   const offer = getCurrentOffer(offerId, offers);
-  const reviewsList = getCurrentReviews(offerId, reviews);
+  const reviewList = getCurrentReviews(offerId, reviews);
 
   if (offer.length === 0) {
     return <Redirect to="/404" />;
@@ -53,14 +57,7 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {
-                images.map((image, i) => (
-                  <div key={i + image} className="property__image-wrapper">
-                    <img className="property__image" src={image} alt="Photo studio" />
-                  </div>))
-              }
-            </div>
+            <Gallery images={images}/>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
@@ -100,15 +97,7 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  {
-                    goods.map((good, i) => (
-                      <li key={i} className="property__inside-item">
-                        {good}
-                      </li>
-                    ))
-                  }
-                </ul>
+                <InsideList goods={goods}/>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
@@ -128,12 +117,8 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewsList.length}</span></h2>
-                <ul className="reviews__list">
-                  {
-                    reviewsList.map((review, i) => <Reviews key={i} review={review}/>)
-                  }
-                </ul>
+                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewList.length}</span></h2>
+                <ReviewList reviews={reviewList}/>
                 {auth && <UserReview />}
               </section>
             </div>
