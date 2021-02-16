@@ -2,9 +2,9 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import {offersPropValid} from '../../../../props-valid/props-valid';
-import {getOfferPath, getRatingCount} from './../../../../utils';
+import {getOfferPath, getRatingCount} from '../../../../utils';
 
-const PlaceCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite}) => {
+const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite}) => {
   const isCardPremium = isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
   return (
@@ -44,7 +44,7 @@ const PlaceCard = ({id, previewImage, price, type, rating, isPremium, title, isF
 };
 
 
-PlaceCard.propTypes = {...offersPropValid};
+OfferCard.propTypes = {...offersPropValid};
 
 
-export default PlaceCard;
+export default OfferCard;

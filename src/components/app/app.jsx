@@ -4,7 +4,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import Main from '../../pages/main/main';
 import MainEmpty from '../../pages/main/empty/empty';
-import PlaceProperty from '../../pages/place-property/place-property';
+import OfferProperty from '../../pages/offer-property/offer-property';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import FavoritesEmpty from '../../pages/favorites/empty/empty';
@@ -31,7 +31,7 @@ const App = ({offers, auth, userName, reviews}) => {
         </Route>
 
         <Route exact path={pathOffer}>
-          <PlaceProperty auth={auth} userName={userName} offers={offers} reviews={reviews} />
+          <OfferProperty auth={auth} userName={userName} offers={offers} reviews={reviews} />
         </Route>
 
         <Route exact path={pathLogin}>

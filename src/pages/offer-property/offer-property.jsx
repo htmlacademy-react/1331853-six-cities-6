@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect, useHistory} from 'react-router-dom';
 import Header from '../../components/header/header';
-import Reviews from '../../components/place-property/reviews/reviews';
-import UserReview from '../../components/place-property/user-review/user-review';
+import Reviews from '../../components/offer-property/reviews/reviews';
+import UserReview from '../../components/offer-property/user-review/user-review';
 
 import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 import {getRatingCount} from '../../utils';
@@ -32,7 +32,7 @@ const getCurrentReviews = (id, reviews) => {
   return reviewList.sort(sortDate);
 };
 
-const PlaceProperty = ({auth, userName, offers, reviews}) => {
+const OfferProperty = ({auth, userName, offers, reviews}) => {
   const pathName = useHistory().location.pathname;
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
 
@@ -246,11 +246,11 @@ const PlaceProperty = ({auth, userName, offers, reviews}) => {
   );
 };
 
-PlaceProperty.propTypes = {
+OfferProperty.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
 };
 
-export default PlaceProperty;
+export default OfferProperty;
