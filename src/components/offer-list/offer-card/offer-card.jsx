@@ -1,16 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import {offersPropValid} from '../../../../props-valid/props-valid';
-import {getOfferPath, getRatingCount} from '../../../../utils';
+import {offersPropValid} from '../../../props-valid/props-valid';
+import {getOfferPath, getRatingCount} from '../../../utils';
+import {PropTypes} from 'prop-types';
+import {CARD_CLASS_NAME} from '../../../const';
 
-const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite}) => {
+const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, path}) => {
   const isCardPremium = isPremium && <div className="place-card__mark"><span>Premium</span></div>;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
   return (
-    <article className="cities__place-card place-card">
+    <article className={`${CARD_CLASS_NAME[path].article} place-card`}>
       {isCardPremium}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${CARD_CLASS_NAME[path].image} place-card__image-wrapper`}>
         <Link to={getOfferPath(id)}>
           <img className="place-card__image" src={previewImage} alt="Place image" width={260} height={200} />
         </Link>
@@ -44,7 +46,10 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
 };
 
 
-OfferCard.propTypes = {...offersPropValid};
+OfferCard.propTypes = {
+  ...offersPropValid,
+  path: PropTypes.string.isRequired
+};
 
 
 export default OfferCard;
