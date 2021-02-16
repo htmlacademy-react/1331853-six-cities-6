@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import LocationBtn from '../../components/common/location-btn';
-import FavoriteCard from '../../components/favorite/favorite-card';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import OfferList from '../../components/offer-list/offer-list';
+import {Routes} from '../../const';
 import {offersPropValid} from '../../props-valid/props-valid';
 
 const getCurrentOffers = (offers, city) => {
@@ -28,15 +29,16 @@ const Favorites = ({auth, userName, offers}) => {
               <ul className="favorites__list">
                 {
                   cityList.map((city, i) => (
-                    <li key={ city + i} className="favorites__locations-items">
+                    <li key={city + i} className="favorites__locations-items">
+
                       <div className="favorites__locations locations locations--current">
                         <LocationBtn city={city}/>
                       </div>
+
                       <div className="favorites__places">
-                        {
-                          getCurrentOffers(offers, city).map((offer, j) => <FavoriteCard key={j} offer={offer} />)
-                        }
+                        <OfferList offers={getCurrentOffers(offers, city)} path={Routes.FAVOR}/>
                       </div>
+
                     </li>
                   ))
                 }

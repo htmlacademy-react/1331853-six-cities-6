@@ -17,7 +17,7 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
           <img className="place-card__image" src={previewImage} alt="Place image" width={260} height={200} />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={`${CARD_CLASS_NAME[path].info ? CARD_CLASS_NAME[path].info : ``} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">{price}</b>

@@ -16,6 +16,11 @@ export const CARD_CLASS_NAME = {
     article: `near-places__card`,
     image: `near-places__image-wrapper`
   },
+  [Routes.FAVOR]: {
+    article: `favorites__card`,
+    image: `favorites__image-wrapper`,
+    info: `favorites__card-info`
+  }
 };
 
 export const CITY_LIST = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
