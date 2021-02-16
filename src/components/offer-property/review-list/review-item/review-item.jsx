@@ -1,8 +1,9 @@
 import React from 'react';
-import {PropTypes} from 'prop-types';
 import dayjs from 'dayjs';
 
-import {reviewsPropValid} from '../../../../props-valid/props-valid';
+import {PropTypes} from 'prop-types';
+import {reviewsPropValid} from './review-item.prop';
+
 import {getRatingCount} from '../../../../utils';
 
 

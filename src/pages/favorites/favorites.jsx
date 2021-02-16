@@ -1,11 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import PropTypes from 'prop-types';
+import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
+
 import LocationBtn from '../../components/common/location-btn';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import OfferList from '../../components/offer-list/offer-list';
+
 import {Routes} from '../../const';
-import {offersPropValid} from '../../props-valid/props-valid';
 
 const getCurrentOffers = (offers, city) => {
   return offers.filter((offer)=> offer.city.name === city);

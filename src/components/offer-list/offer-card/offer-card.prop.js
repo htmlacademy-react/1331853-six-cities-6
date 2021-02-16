@@ -26,17 +26,3 @@ export const offersPropValid = {
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 };
-
-
-export const reviewsPropValid = {
-  comment: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
-  user: PropTypes.shape({
-    avatarUrl: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    isPro: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
-};

@@ -1,11 +1,12 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
+import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
 
 import Header from '../../components/header/header';
 import Locations from '../../components/main/locations/locations';
 import OfferList from '../../components/offer-list/offer-list';
 
-import {offersPropValid} from '../../props-valid/props-valid';
 import {Routes} from '../../const';
 
 const Main = ({offers, auth, userName}) => (

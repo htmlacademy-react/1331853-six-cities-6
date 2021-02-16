@@ -1,7 +1,8 @@
 import React from 'react';
-import {PropTypes} from 'prop-types';
 
-import {reviewsPropValid} from '../../../props-valid/props-valid';
+import {PropTypes} from 'prop-types';
+import {reviewsPropValid} from './review-item/review-item.prop';
+
 import ReviewItem from './review-item/review-item';
 
 

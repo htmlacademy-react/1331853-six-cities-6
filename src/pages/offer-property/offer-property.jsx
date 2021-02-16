@@ -1,6 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect, useHistory} from 'react-router-dom';
+
+import PropTypes from 'prop-types';
+import {reviewsPropValid} from '../../components/offer-property/review-list/review-item/review-item.prop';
+import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
 
 import Header from '../../components/header/header';
 import UserReview from '../../components/offer-property/user-review/user-review';
@@ -10,7 +13,6 @@ import ReviewList from '../../components/offer-property/review-list/review-list'
 import OfferList from '../../components/offer-list/offer-list';
 
 
-import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
 import {getRatingCount} from '../../utils';
 import {Routes} from '../../const';
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import {offersPropValid} from '../../../props-valid/props-valid';
-import {getOfferPath, getRatingCount} from '../../../utils';
 import {PropTypes} from 'prop-types';
+import {offersPropValid} from './offer-card.prop';
+
+import {getOfferPath, getRatingCount} from '../../../utils';
 import {CARD_CLASS_NAME} from '../../../const';
 
 const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, path}) => {

@@ -1,6 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+
+import PropTypes from 'prop-types';
+import {reviewsPropValid} from '../offer-property/review-list/review-item/review-item.prop';
+import {offersPropValid} from './../offer-list/offer-card/offer-card.prop';
 
 import Main from '../../pages/main/main';
 import MainEmpty from '../../pages/main/empty/empty';
@@ -11,7 +14,7 @@ import FavoritesEmpty from '../../pages/favorites/empty/empty';
 import Page404 from '../../pages/page-404/page-404';
 
 import {Routes} from './../../const';
-import {offersPropValid, reviewsPropValid} from '../../props-valid/props-valid';
+
 
 const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
