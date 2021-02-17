@@ -18,7 +18,7 @@ import {Routes} from './../../const';
 
 const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
-const App = ({offers, auth, userName, reviews}) => {
+const App = ({offers, auth, userName, reviews, city}) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
@@ -26,7 +26,7 @@ const App = ({offers, auth, userName, reviews}) => {
       <Switch>
 
         <Route exact path={pathMain}>
-          <Main auth={auth} userName={userName} offers={offers} />
+          <Main auth={auth} userName={userName} offers={offers} city={city} />
         </Route>
 
         <Route exact path={pathMainEmpty}>
@@ -64,6 +64,7 @@ App.propTypes = {
   userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
+  city: PropTypes.string.isRequired
 };
 
 export default App;
