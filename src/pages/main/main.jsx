@@ -7,7 +7,6 @@ import Header from '../../components/header/header';
 import Locations from '../../components/main/locations/locations';
 import OfferList from '../../components/offer-list/offer-list';
 
-import {Routes} from '../../const';
 import Map from '../../components/map/map';
 
 const Main = ({offers, auth, userName, city}) => {
@@ -42,7 +41,7 @@ const Main = ({offers, auth, userName, city}) => {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  <OfferList offers={currentOffers} path={Routes.MAIN} />
+                  <OfferList offers={currentOffers} mode="MAIN" />
                 </div>
               </section>
               <div className="cities__right-section">

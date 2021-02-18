@@ -14,7 +14,6 @@ import OfferList from '../../components/offer-list/offer-list';
 
 
 import {getRatingCount} from '../../utils';
-import {Routes} from '../../const';
 
 
 const sortDate = (a, b) => (
@@ -135,7 +134,7 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OfferList offers={nearPlaceList} path={Routes.OFFER}/>
+              <OfferList offers={nearPlaceList} mode="OFFER"/>
             </div>
           </section>
         </div>

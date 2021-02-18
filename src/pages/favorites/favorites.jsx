@@ -8,7 +8,6 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import OfferList from '../../components/offer-list/offer-list';
 
-import {Routes} from '../../const';
 
 const getCurrentOffers = (offers, city) => {
   return offers.filter((offer)=> offer.city.name === city);
@@ -34,7 +33,7 @@ const Favorites = ({auth, userName, offers}) => {
                       </div>
 
                       <div className="favorites__places">
-                        <OfferList offers={getCurrentOffers(offers, city)} path={Routes.FAVOR}/>
+                        <OfferList offers={getCurrentOffers(offers, city)} mode="FAVOR"/>
                       </div>
 
                     </li>

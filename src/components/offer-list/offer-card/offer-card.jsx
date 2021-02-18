@@ -7,18 +7,18 @@ import {offersPropValid} from './offer-card.prop';
 import {getOfferPath, getRatingCount} from '../../../utils';
 import {CARD_CLASS_NAME} from '../../../const';
 
-const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, path}) => {
+const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode}) => {
   const isCardPremium = isPremium && <div className="place-card__mark"><span>Premium</span></div>;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
   return (
-    <article className={`${CARD_CLASS_NAME[path].article} place-card`}>
+    <article className={`${CARD_CLASS_NAME[mode].article} place-card`}>
       {isCardPremium}
-      <div className={`${CARD_CLASS_NAME[path].image} place-card__image-wrapper`}>
+      <div className={`${CARD_CLASS_NAME[mode].image} place-card__image-wrapper`}>
         <Link to={getOfferPath(id)}>
           <img className="place-card__image" src={previewImage} alt="Place image" width={260} height={200} />
         </Link>
       </div>
-      <div className={`${CARD_CLASS_NAME[path].info ? CARD_CLASS_NAME[path].info : ``} place-card__info`}>
+      <div className={`${CARD_CLASS_NAME[mode].info ? CARD_CLASS_NAME[mode].info : ``} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">{price}</b>
@@ -49,7 +49,7 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
 
 OfferCard.propTypes = {
   ...offersPropValid,
-  path: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired
 };
 
 

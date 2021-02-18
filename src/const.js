@@ -8,15 +8,15 @@ export const Routes = {
 };
 
 export const CARD_CLASS_NAME = {
-  [Routes.MAIN]: {
+  MAIN: {
     article: `cities__place-card`,
     image: `cities__image-wrapper`
   },
-  [Routes.OFFER]: {
+  OFFER: {
     article: `near-places__card`,
     image: `near-places__image-wrapper`
   },
-  [Routes.FAVOR]: {
+  FAVOR: {
     article: `favorites__card`,
     image: `favorites__image-wrapper`,
     info: `favorites__card-info`
