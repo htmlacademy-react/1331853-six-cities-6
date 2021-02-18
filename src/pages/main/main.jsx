@@ -9,8 +9,7 @@ import OfferList from '../../components/offer-list/offer-list';
 
 import Map from '../../components/map/map';
 
-const Main = ({offers, auth, userName, city}) => {
-  const currentOffers = offers.filter((offer) => offer.city.name === city);
+const Main = ({offers, auth, userName}) => {
   return (
     <>
       <div className="page page--gray page--main">
@@ -24,7 +23,7 @@ const Main = ({offers, auth, userName, city}) => {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{currentOffers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -41,11 +40,11 @@ const Main = ({offers, auth, userName, city}) => {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  <OfferList offers={currentOffers} mode="MAIN" />
+                  <OfferList offers={offers} mode="MAIN" />
                 </div>
               </section>
               <div className="cities__right-section">
-                <Map offers={currentOffers} />
+                <Map offers={offers} />
               </div>
             </div>
           </div>
@@ -59,8 +58,7 @@ const Main = ({offers, auth, userName, city}) => {
 Main.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
-  city: PropTypes.string.isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired
 };
 
 export default Main;

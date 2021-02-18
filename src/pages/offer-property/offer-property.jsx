@@ -15,7 +15,6 @@ import OfferList from '../../components/offer-list/offer-list';
 
 import {getRatingCount} from '../../utils';
 
-
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
 );

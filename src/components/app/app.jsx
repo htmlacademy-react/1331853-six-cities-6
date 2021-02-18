@@ -20,13 +20,14 @@ const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathL
 
 const App = ({offers, auth, userName, reviews, city}) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const currentOffers = offers.filter((offer) => offer.city.name === city);
 
   return (
     <BrowserRouter>
       <Switch>
 
         <Route exact path={pathMain}>
-          <Main auth={auth} userName={userName} offers={offers} city={city} />
+          <Main auth={auth} userName={userName} offers={currentOffers} />
         </Route>
 
         <Route exact path={pathMainEmpty}>
@@ -34,7 +35,7 @@ const App = ({offers, auth, userName, reviews, city}) => {
         </Route>
 
         <Route exact path={pathOffer}>
-          <OfferProperty auth={auth} userName={userName} offers={offers} reviews={reviews} />
+          <OfferProperty auth={auth} userName={userName} offers={currentOffers} reviews={reviews} />
         </Route>
 
         <Route exact path={pathLogin}>
