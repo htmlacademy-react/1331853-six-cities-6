@@ -1,18 +1,16 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import PropTypes from 'prop-types';
+import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
+
 import LocationBtn from '../../components/common/location-btn';
-import FavoriteCard from '../../components/favorite/favorite-card';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import {offersPropValid} from '../../props-valid/props-valid';
+import OfferList from '../../components/offer-list/offer-list';
+
 
 const getCurrentOffers = (offers, city) => {
-  return offers.reduce((result, offer) => {
-    if (offer.city.name === city) {
-      result.push(offer);
-    }
-    return result;
-  }, []);
+  return offers.filter((offer)=> offer.city.name === city);
 };
 
 const Favorites = ({auth, userName, offers}) => {
@@ -27,16 +25,17 @@ const Favorites = ({auth, userName, offers}) => {
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
                 {
-                  cityList.map((city, i) => (
-                    <li key={ city + i} className="favorites__locations-items">
+                  cityList.map((city) => (
+                    <li key={city} className="favorites__locations-items">
+
                       <div className="favorites__locations locations locations--current">
                         <LocationBtn city={city}/>
                       </div>
+
                       <div className="favorites__places">
-                        {
-                          getCurrentOffers(offers, city).map((offer, j) => <FavoriteCard key={j} offer={offer} />)
-                        }
+                        <OfferList offers={getCurrentOffers(offers, city)} mode="FAVOR"/>
                       </div>
+
                     </li>
                   ))
                 }
