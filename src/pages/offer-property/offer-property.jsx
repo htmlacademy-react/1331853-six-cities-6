@@ -25,18 +25,7 @@ const getCurrentOffer = (id, offers) => {
       return offer;
     }
   }
-  return ``;
-};
-
-const getCurrentReviews = (id, reviews) => {
-  const reviewList = [];
-  for (const review of reviews) {
-    if (review.id === Number(id)) {
-      reviewList.push(review);
-    }
-  }
-
-  return reviewList.sort(sortDate);
+  return {};
 };
 
 const OfferProperty = ({auth, userName, offers, reviews}) => {
@@ -44,12 +33,12 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
   const offer = getCurrentOffer(offerId, offers);
 
-  if (offer.length === 0) {
+  if (!Object.keys(offer).length) {
     return <Redirect to="/404" />;
   }
 
-  const nearPlaceList = offers.filter((item)=> item.id !== offer.id);
-  const reviewList = getCurrentReviews(offerId, reviews);
+  const nearPlaceList = offers.filter((item) => item.id !== offer.id);
+  const reviewList = reviews.filter((review) => review.id === Number(offerId)).sort(sortDate);
 
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = offer;
   const isOfferPremium = isPremium && <div className="property__mark"><span>Premium</span></div>;
