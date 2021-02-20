@@ -23,6 +23,11 @@ export const CARD_CLASS_NAME = {
   }
 };
 
+export const MAP_CLASS_NAME = {
+  MAIN: `cities__map`,
+  OFFER: `property__map`
+};
+
 export const CITY_LIST = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
 export const STAR_LIST = [`perfect`, `good`, `not bad`, `badly`, `terribly`];
 

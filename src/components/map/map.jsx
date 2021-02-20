@@ -7,7 +7,7 @@ import leaflet from 'leaflet';
 import "leaflet/dist/leaflet.css";
 
 
-const Map = ({offers}) => {
+const Map = ({offers, mode}) => {
   const mapRef = useRef();
   const cityLocation = offers[0].city.location;
 
@@ -50,12 +50,13 @@ const Map = ({offers}) => {
 
 
   return (
-    <section id="map" className="cities__map map" ref={mapRef}/>
+    <section id="map" className={`${mode} map`} ref={mapRef}/>
   );
 };
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid))
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid)),
+  mode: PropTypes.string.isRequired
 };
 
 export default Map;
