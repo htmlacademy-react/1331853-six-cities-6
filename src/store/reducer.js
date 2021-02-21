@@ -1,14 +1,14 @@
 import {offers} from "../mocks/offers";
 import {ActionType} from "./action";
 
-const initialState = {
-  city: `Paris`,
-  offers
-};
-
 const getOffers = (city) => (
   offers.filter((offer) => offer.city.name === city)
 );
+
+const initialState = {
+  city: `Paris`,
+  offers: 
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -26,3 +26,5 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export {reducer};
