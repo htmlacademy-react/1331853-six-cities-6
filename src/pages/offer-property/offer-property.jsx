@@ -15,7 +15,6 @@ import OfferList from '../../components/offer-list/offer-list';
 
 import {getRatingCount} from '../../utils';
 import Map from '../../components/map/map';
-import {MAP_CLASS_NAME} from './../../const';
 
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
@@ -118,7 +117,7 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
               </section>
             </div>
           </div>
-          <Map offers={nearPlaceList} mode={MAP_CLASS_NAME.OFFER}/>
+          <Map offers={nearPlaceList} mode="OFFER"/>
         </section>
         <div className="container">
           <section className="near-places places">

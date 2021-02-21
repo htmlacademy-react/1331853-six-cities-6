@@ -5,6 +5,7 @@ import {offersPropValid} from '../offer-list/offer-card/offer-card.prop';
 
 import leaflet from 'leaflet';
 import "leaflet/dist/leaflet.css";
+import {MAP_CLASS_NAME} from '../../const';
 
 
 const Map = ({offers, mode}) => {
@@ -50,7 +51,7 @@ const Map = ({offers, mode}) => {
 
 
   return (
-    <section id="map" className={`${mode} map`} ref={mapRef}/>
+    <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} ref={mapRef}/>
   );
 };
 

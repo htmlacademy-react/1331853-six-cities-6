@@ -8,7 +8,6 @@ import Locations from '../../components/main/locations/locations';
 import OfferList from '../../components/offer-list/offer-list';
 
 import Map from '../../components/map/map';
-import {MAP_CLASS_NAME} from './../../const';
 
 const Main = ({offers, auth, userName}) => {
   return (
@@ -45,7 +44,7 @@ const Main = ({offers, auth, userName}) => {
                 </div>
               </section>
               <div className="cities__right-section">
-                <Map offers={offers} mode={MAP_CLASS_NAME.MAIN}/>
+                <Map offers={offers} mode="MAIN"/>
               </div>
             </div>
           </div>
