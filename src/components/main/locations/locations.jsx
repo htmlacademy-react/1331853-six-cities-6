@@ -5,7 +5,7 @@ import {PropTypes} from 'prop-types';
 import {ActionCreator} from '../../../store/action';
 import {CITY_LIST} from '../../../const';
 
-const Locations = ({changeCity, getOffers}) => {
+const Locations = ({changeCity, getOffers, city}) => {
   const locationList = useRef();
 
   const removeClass = () => {
@@ -33,9 +33,9 @@ const Locations = ({changeCity, getOffers}) => {
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list" onClick={(evt) => menuClickHandler(evt)} ref={locationList}>
-        {CITY_LIST.map((city) => <li key={city} className="locations__item">
-          <a className={`locations__item-link tabs__item ${city === `Paris` ? `tabs__item--active` : ``}`} href="#">
-            <span>{city}</span>
+        {CITY_LIST.map((item) => <li key={item} className="locations__item">
+          <a className={`locations__item-link tabs__item ${item === city ? `tabs__item--active` : ``}`} href="#">
+            <span>{item}</span>
           </a>
         </li>)}
       </ul>
@@ -52,10 +52,15 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
+const mapStateToProps = (state) => ({
+  city: state.city
+});
+
 Locations.propTypes = {
   changeCity: PropTypes.func.isRequired,
   getOffers: PropTypes.func.isRequired,
+  city: PropTypes.string.isRequired
 };
 
 export {Locations};
-export default connect(null, mapDispatchToProps)(Locations);
+export default connect(mapStateToProps, mapDispatchToProps)(Locations);
