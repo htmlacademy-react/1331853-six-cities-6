@@ -15,6 +15,7 @@ import OfferList from '../../components/offer-list/offer-list';
 
 import {getRatingCount} from '../../utils';
 import Map from '../../components/map/map';
+import {connect} from 'react-redux';
 
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
@@ -29,7 +30,7 @@ const getCurrentOffer = (id, offers) => {
   return {};
 };
 
-const OfferProperty = ({auth, userName, offers, reviews}) => {
+const OfferProperty = ({auth, userName, offers, reviews, city}) => {
   const pathName = useHistory().location.pathname;
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
   const offer = getCurrentOffer(offerId, offers);
@@ -117,16 +118,20 @@ const OfferProperty = ({auth, userName, offers, reviews}) => {
               </section>
             </div>
           </div>
-          <Map offers={nearPlaceList} mode="OFFER"/>
+          <Map offers={nearPlaceList} city={city} mode="OFFER"/>
         </section>
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              <OfferList offers={nearPlaceList} mode="OFFER"/>
-            </div>
-          </section>
-        </div>
+        {
+          nearPlaceList.length
+          &&
+          <div className="container">
+            <section className="near-places places">
+              <h2 className="near-places__title">Other places in the neighbourhood</h2>
+              <div className="near-places__list places__list">
+                <OfferList offers={nearPlaceList} mode="OFFER"/>
+              </div>
+            </section>
+          </div>
+        }
       </main>
     </div>
 
@@ -138,6 +143,13 @@ OfferProperty.propTypes = {
   userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
+  city: PropTypes.string.isRequired
 };
 
-export default OfferProperty;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  city: state.city
+});
+
+export {OfferProperty};
+export default connect(mapStateToProps, null)(OfferProperty);
