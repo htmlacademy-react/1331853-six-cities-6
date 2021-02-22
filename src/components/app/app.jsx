@@ -27,7 +27,7 @@ const App = ({offers, auth, userName, reviews, city}) => {
       <Switch>
 
         <Route exact path={pathMain}>
-          <Main auth={auth} userName={userName} offers={currentOffers} />
+          <Main auth={auth} userName={userName} />
         </Route>
 
         <Route exact path={pathMainEmpty}>

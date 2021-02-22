@@ -1,12 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {CITY_LIST} from '../../../const';
-import {ActionCreator} from '../../../store/action';
+import {PropTypes} from 'prop-types';
 
-const Locations = ({changeCity}) => {
+import {ActionCreator} from '../../../store/action';
+import {CITY_LIST} from '../../../const';
+
+const Locations = ({changeCity, getOffers}) => {
   const menuClickHandler = (evt) => {
     if (evt.target.tagName === `SPAN`) {
       changeCity(evt.target.textContent);
+      getOffers();
     }
   };
   return (
@@ -26,7 +29,15 @@ const mapDispatchToProps = (dispatch) => ({
   changeCity(city) {
     dispatch(ActionCreator.changeCity(city));
   },
+  getOffers() {
+    dispatch(ActionCreator.getOffers());
+  },
 });
+
+Locations.propTypes = {
+  changeCity: PropTypes.func.isRequired,
+  getOffers: PropTypes.func.isRequired,
+};
 
 export {Locations};
 export default connect(null, mapDispatchToProps)(Locations);

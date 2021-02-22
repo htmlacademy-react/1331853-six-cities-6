@@ -7,7 +7,7 @@ const getOffers = (city) => (
 
 const initialState = {
   city: `Paris`,
-  offers
+  offers: getOffers(`Paris`)
 };
 
 const reducer = (state = initialState, action) => {

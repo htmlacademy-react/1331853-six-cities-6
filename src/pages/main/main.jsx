@@ -8,8 +8,9 @@ import Locations from '../../components/main/locations/locations';
 import OfferList from '../../components/offer-list/offer-list';
 
 import Map from '../../components/map/map';
+import {connect} from 'react-redux';
 
-const Main = ({offers, auth, userName}) => {
+const Main = ({offers, auth, userName, city}) => {
   return (
     <>
       <div className="page page--gray page--main">
@@ -23,7 +24,7 @@ const Main = ({offers, auth, userName}) => {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{offers.length} places to stay in {city}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -58,7 +59,14 @@ const Main = ({offers, auth, userName}) => {
 Main.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
+  city: PropTypes.string.isRequired
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  city: state.city
+});
+
+export {Main};
+export default connect(mapStateToProps, null)(Main);
