@@ -6,7 +6,6 @@ import {reviewsPropValid} from '../offer-property/review-list/review-item/review
 import {offersPropValid} from './../offer-list/offer-card/offer-card.prop';
 
 import Main from '../../pages/main/main';
-import MainEmpty from '../../pages/main/empty/empty';
 import OfferProperty from '../../pages/offer-property/offer-property';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
@@ -16,11 +15,10 @@ import Page404 from '../../pages/page-404/page-404';
 import {Routes} from './../../const';
 
 
-const {MAIN: pathMain, MAIN_EMPTY: pathMainEmpty, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
+const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
-const App = ({offers, auth, userName, reviews, city}) => {
+const App = ({offers, auth, userName, reviews}) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const currentOffers = offers.filter((offer) => offer.city.name === city);
 
   return (
     <BrowserRouter>
@@ -30,12 +28,8 @@ const App = ({offers, auth, userName, reviews, city}) => {
           <Main auth={auth} userName={userName} />
         </Route>
 
-        <Route exact path={pathMainEmpty}>
-          <MainEmpty auth={auth} userName={userName} />
-        </Route>
-
         <Route exact path={pathOffer}>
-          <OfferProperty auth={auth} userName={userName} offers={currentOffers} reviews={reviews} />
+          <OfferProperty auth={auth} userName={userName} reviews={reviews} />
         </Route>
 
         <Route exact path={pathLogin}>
