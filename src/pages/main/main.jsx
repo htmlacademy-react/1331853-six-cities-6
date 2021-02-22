@@ -45,7 +45,7 @@ const Main = ({offers, auth, userName, city}) => {
                 </div>
               </section>
               <div className="cities__right-section">
-                <Map offers={offers} mode="MAIN"/>
+                <Map mode="MAIN"/>
               </div>
             </div>
           </div>

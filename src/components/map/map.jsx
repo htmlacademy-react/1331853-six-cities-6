@@ -6,9 +6,10 @@ import {offersPropValid} from '../offer-list/offer-card/offer-card.prop';
 import leaflet from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import {MAP_CLASS_NAME} from '../../const';
+import {connect} from 'react-redux';
 
 
-const Map = ({offers, mode}) => {
+const Map = ({offers, mode, city}) => {
   const mapRef = useRef();
   const cityLocation = offers[0].city.location;
 
@@ -43,12 +44,13 @@ const Map = ({offers, mode}) => {
         .addTo(mapRef.current)
         .bindPopup(point.title);
 
-      return () => {
-        mapRef.current.remove();
-      };
     });
-  }, []);
 
+    return () => {
+      mapRef.current.remove();
+    };
+
+  }, [city]);
 
   return (
     <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} ref={mapRef}/>
@@ -57,8 +59,15 @@ const Map = ({offers, mode}) => {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid)),
-  mode: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+  city: state.city
+});
+
+export {Map};
+export default connect(mapStateToProps, null)(Map);
 
