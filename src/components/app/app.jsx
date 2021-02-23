@@ -8,13 +8,12 @@ import Main from '../../pages/main/main';
 import OfferProperty from '../../pages/offer-property/offer-property';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
-import FavoritesEmpty from '../../pages/favorites/empty/empty';
 import Page404 from '../../pages/page-404/page-404';
 
 import {Routes} from './../../const';
 
 
-const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
+const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor} = Routes;
 
 const App = ({auth, userName, reviews}) => {
 
@@ -36,10 +35,6 @@ const App = ({auth, userName, reviews}) => {
 
         <Route exact path={pathFavor}>
           <Favorites auth={auth} userName={userName}/>
-        </Route>
-
-        <Route exact path={pathFavorEmpty}>
-          <FavoritesEmpty auth={auth} userName={userName} />
         </Route>
 
         <Route>
