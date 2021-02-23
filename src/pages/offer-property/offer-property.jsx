@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect, useHistory} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
 import {reviewsPropValid} from '../../components/offer-property/review-list/review-item/review-item.prop';
@@ -11,10 +12,9 @@ import Gallery from '../../components/offer-property/gallery/gallery';
 import InsideList from '../../components/offer-property/inside-list/inside-list';
 import ReviewList from '../../components/offer-property/review-list/review-list';
 import OfferList from '../../components/offer-list/offer-list';
+import Map from '../../components/map/map';
 
 import {getOffers, getRatingCount} from '../../utils';
-import Map from '../../components/map/map';
-import {connect} from 'react-redux';
 
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
