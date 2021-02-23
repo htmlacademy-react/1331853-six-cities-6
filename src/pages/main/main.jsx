@@ -8,46 +8,54 @@ import Locations from '../../components/main/locations/locations';
 import OfferList from '../../components/offer-list/offer-list';
 
 import Map from '../../components/map/map';
+import {connect} from 'react-redux';
+import MainEmpty from './empty/empty';
+import {getOffers} from '../../utils';
 
-const Main = ({offers, auth, userName}) => {
+const Main = ({offers, auth, userName, city}) => {
+  const currentOffers = getOffers(city, offers);
   return (
     <>
       <div className="page page--gray page--main">
         <Header auth={auth} userName={userName} />
-        <main className="page__main page__main--index">
+        <main className={`page__main page__main--index ${!currentOffers.length ? `page__main--index-empty` : ``}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <Locations />
           </div>
-          <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
-                <form className="places__sorting" action="#" method="get">
-                  <span className="places__sorting-caption">Sort by</span>
-                  <span className="places__sorting-type" tabIndex={0}>
+          {currentOffers.length ?
+            <div className="cities">
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{currentOffers.length} places to stay in {city}</b>
+                  <form className="places__sorting" action="#" method="get">
+                    <span className="places__sorting-caption">Sort by</span>
+                    <span className="places__sorting-type" tabIndex={0}>
                     Popular
-                    <svg className="places__sorting-arrow" width={7} height={4}>
-                      <use xlinkHref="#icon-arrow-select" />
-                    </svg>
-                  </span>
-                  <ul className="places__options places__options--custom places__options--opened">
-                    <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                    <li className="places__option" tabIndex={0}>Price: low to high</li>
-                    <li className="places__option" tabIndex={0}>Price: high to low</li>
-                    <li className="places__option" tabIndex={0}>Top rated first</li>
-                  </ul>
-                </form>
-                <div className="cities__places-list places__list tabs__content">
-                  <OfferList offers={offers} mode="MAIN" />
+                      <svg className="places__sorting-arrow" width={7} height={4}>
+                        <use xlinkHref="#icon-arrow-select" />
+                      </svg>
+                    </span>
+                    <ul className="places__options places__options--custom places__options--opened">
+                      <li className="places__option places__option--active" tabIndex={0}>Popular</li>
+                      <li className="places__option" tabIndex={0}>Price: low to high</li>
+                      <li className="places__option" tabIndex={0}>Price: high to low</li>
+                      <li className="places__option" tabIndex={0}>Top rated first</li>
+                    </ul>
+                  </form>
+                  <div className="cities__places-list places__list tabs__content">
+                    <OfferList offers={currentOffers} mode="MAIN" />
+                  </div>
+                </section>
+                <div className="cities__right-section">
+                  <Map offers={currentOffers} city={city} mode="MAIN"/>
                 </div>
-              </section>
-              <div className="cities__right-section">
-                <Map offers={offers} mode="MAIN"/>
               </div>
             </div>
-          </div>
+
+            : <MainEmpty auth={auth} userName={userName} city={city}/>
+          }
         </main>
       </div>
     </>
@@ -58,7 +66,14 @@ const Main = ({offers, auth, userName}) => {
 Main.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired
+  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
+  city: PropTypes.string.isRequired
 };
 
-export default Main;
+const mapStateToProps = ({city, offers}) => ({
+  offers,
+  city
+});
+
+export {Main};
+export default connect(mapStateToProps, null)(Main);

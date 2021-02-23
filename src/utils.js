@@ -6,4 +6,6 @@ export const getRatingCount = (rating) => (
 
 export const getOfferPath = (id) => Routes.OFFER.replace(/id/, id);
 
-
+export const getOffers = (city, offers) => (
+  offers.filter((offer) => offer.city.name === city)
+);
