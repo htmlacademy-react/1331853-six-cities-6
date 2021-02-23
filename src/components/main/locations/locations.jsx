@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {PropTypes} from 'prop-types';
 
@@ -6,36 +6,18 @@ import {ActionCreator} from '../../../store/action';
 import {CITY_LIST} from '../../../const';
 
 const Locations = ({changeCity, getOffers, city}) => {
-  const locationList = useRef();
 
-  const removeClass = () => {
-    const list = locationList.current.children;
-
-    for (const item of list) {
-      const link = item.lastChild;
-
-      if (link.classList.contains(`tabs__item--active`)) {
-        link.classList.remove(`tabs__item--active`);
-        return;
-      }
-    }
+  const menuClickHandler = (currentCity) => {
+    changeCity(currentCity);
+    getOffers();
   };
 
-  const menuClickHandler = (evt) => {
-    const currentEl = evt.target;
-    if (currentEl.tagName === `SPAN`) {
-      changeCity(evt.target.textContent);
-      getOffers();
-      removeClass();
-      currentEl.parentElement.classList.add(`tabs__item--active`);
-    }
-  };
   return (
     <section className="locations container">
-      <ul className="locations__list tabs__list" onClick={(evt) => menuClickHandler(evt)} ref={locationList}>
+      <ul className="locations__list tabs__list" >
         {CITY_LIST.map((item) => <li key={item} className="locations__item">
           <a className={`locations__item-link tabs__item ${item === city ? `tabs__item--active` : ``}`} href="#">
-            <span>{item}</span>
+            <span onClick={() => menuClickHandler(item)}>{item}</span>
           </a>
         </li>)}
       </ul>
@@ -52,8 +34,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-const mapStateToProps = (state) => ({
-  city: state.city
+const mapStateToProps = ({city}) => ({
+  city
 });
 
 Locations.propTypes = {
