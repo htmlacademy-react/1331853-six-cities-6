@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import {reviewsPropValid} from '../offer-property/review-list/review-item/review-item.prop';
-import {offersPropValid} from './../offer-list/offer-card/offer-card.prop';
 
 import Main from '../../pages/main/main';
 import OfferProperty from '../../pages/offer-property/offer-property';
@@ -17,8 +16,7 @@ import {Routes} from './../../const';
 
 const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor, FAVOR_EMPTY: pathFavorEmpty} = Routes;
 
-const App = ({offers, auth, userName, reviews}) => {
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+const App = ({auth, userName, reviews}) => {
 
   return (
     <BrowserRouter>
@@ -37,7 +35,7 @@ const App = ({offers, auth, userName, reviews}) => {
         </Route>
 
         <Route exact path={pathFavor}>
-          <Favorites auth={auth} userName={userName} offers={favoriteOffers} />
+          <Favorites auth={auth} userName={userName}/>
         </Route>
 
         <Route exact path={pathFavorEmpty}>
@@ -57,7 +55,6 @@ const App = ({offers, auth, userName, reviews}) => {
 App.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
   city: PropTypes.string.isRequired
 };

@@ -10,23 +10,25 @@ import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 import {connect} from 'react-redux';
 import MainEmpty from './empty/empty';
+import {getOffers} from '../../utils';
 
 const Main = ({offers, auth, userName, city}) => {
+  const currentOffers = getOffers(city, offers);
   return (
     <>
       <div className="page page--gray page--main">
         <Header auth={auth} userName={userName} />
-        <main className={`page__main page__main--index ${!offers.length ? `page__main--index-empty` : ``}`}>
+        <main className={`page__main page__main--index ${!currentOffers.length ? `page__main--index-empty` : ``}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <Locations />
           </div>
-          {offers.length ?
+          {currentOffers.length ?
             <div className="cities">
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{offers.length} places to stay in {city}</b>
+                  <b className="places__found">{currentOffers.length} places to stay in {city}</b>
                   <form className="places__sorting" action="#" method="get">
                     <span className="places__sorting-caption">Sort by</span>
                     <span className="places__sorting-type" tabIndex={0}>
@@ -43,11 +45,11 @@ const Main = ({offers, auth, userName, city}) => {
                     </ul>
                   </form>
                   <div className="cities__places-list places__list tabs__content">
-                    <OfferList offers={offers} mode="MAIN" />
+                    <OfferList offers={currentOffers} mode="MAIN" />
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <Map offers={offers} city={city} mode="MAIN"/>
+                  <Map offers={currentOffers} city={city} mode="MAIN"/>
                 </div>
               </div>
             </div>
@@ -68,9 +70,9 @@ Main.propTypes = {
   city: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.offers,
-  city: state.city
+const mapStateToProps = ({city, offers}) => ({
+  offers,
+  city
 });
 
 export {Main};

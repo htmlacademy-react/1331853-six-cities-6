@@ -12,8 +12,7 @@ import InsideList from '../../components/offer-property/inside-list/inside-list'
 import ReviewList from '../../components/offer-property/review-list/review-list';
 import OfferList from '../../components/offer-list/offer-list';
 
-
-import {getRatingCount} from '../../utils';
+import {getOffers, getRatingCount} from '../../utils';
 import Map from '../../components/map/map';
 import {connect} from 'react-redux';
 
@@ -33,13 +32,14 @@ const getCurrentOffer = (id, offers) => {
 const OfferProperty = ({auth, userName, offers, reviews, city}) => {
   const pathName = useHistory().location.pathname;
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
-  const offer = getCurrentOffer(offerId, offers);
+  const currentOffers = getOffers(city, offers);
+  const offer = getCurrentOffer(offerId, currentOffers);
 
   if (!Object.keys(offer).length) {
     return <Redirect to="/404" />;
   }
 
-  const nearPlaceList = offers.filter((item) => item.id !== offer.id);
+  const nearPlaceList = currentOffers.filter((item) => item.id !== offer.id);
   const reviewList = reviews.filter((review) => review.id === Number(offerId)).sort(sortDate);
 
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = offer;

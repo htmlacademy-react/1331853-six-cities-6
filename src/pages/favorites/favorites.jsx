@@ -7,6 +7,7 @@ import LocationBtn from '../../components/common/location-btn';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import OfferList from '../../components/offer-list/offer-list';
+import {connect} from 'react-redux';
 
 
 const getCurrentOffers = (offers, city) => {
@@ -15,6 +16,8 @@ const getCurrentOffers = (offers, city) => {
 
 const Favorites = ({auth, userName, offers}) => {
   const cityList = [...new Set(offers.map((offer) => offer.city.name))];
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+
   return (
     <>
       <div className="page">
@@ -33,7 +36,7 @@ const Favorites = ({auth, userName, offers}) => {
                       </div>
 
                       <div className="favorites__places">
-                        <OfferList offers={getCurrentOffers(offers, city)} mode="FAVOR"/>
+                        <OfferList offers={getCurrentOffers(favoriteOffers, city)} mode="FAVOR"/>
                       </div>
 
                     </li>
@@ -54,7 +57,11 @@ Favorites.propTypes = {
   auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
-
 };
 
-export default Favorites;
+const mapStateToProps = ({offers}) => ({
+  offers
+});
+
+export {Favorites};
+export default connect(mapStateToProps, null)(Favorites);

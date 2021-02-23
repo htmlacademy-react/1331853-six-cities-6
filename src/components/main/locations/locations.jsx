@@ -5,11 +5,10 @@ import {PropTypes} from 'prop-types';
 import {ActionCreator} from '../../../store/action';
 import {CITY_LIST} from '../../../const';
 
-const Locations = ({changeCity, getOffers, city}) => {
+const Locations = ({changeCity, city}) => {
 
   const menuClickHandler = (currentCity) => {
     changeCity(currentCity);
-    getOffers();
   };
 
   return (
@@ -28,10 +27,7 @@ const Locations = ({changeCity, getOffers, city}) => {
 const mapDispatchToProps = (dispatch) => ({
   changeCity(city) {
     dispatch(ActionCreator.changeCity(city));
-  },
-  getOffers() {
-    dispatch(ActionCreator.getOffers());
-  },
+  }
 });
 
 const mapStateToProps = ({city}) => ({
@@ -40,7 +36,6 @@ const mapStateToProps = ({city}) => ({
 
 Locations.propTypes = {
   changeCity: PropTypes.func.isRequired,
-  getOffers: PropTypes.func.isRequired,
   city: PropTypes.string.isRequired
 };
 

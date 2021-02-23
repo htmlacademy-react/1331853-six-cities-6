@@ -6,10 +6,12 @@ import {offersPropValid} from '../offer-list/offer-card/offer-card.prop';
 import leaflet from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import {MAP_CLASS_NAME} from '../../const';
+import {getOffers} from '../../utils';
 
 
 const Map = ({offers, mode, city}) => {
-  if (!offers.length) {
+  const cuurentOffers = getOffers(city, offers);
+  if (!cuurentOffers.length) {
     return ``;
   }
   const mapRef = useRef();

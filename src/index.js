@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
-import {offers} from './mocks/offers';
 import {reviews} from './mocks/reviews';
 import {reducer} from './store/reducer';
 
@@ -23,7 +22,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-      <App auth={auth} userName={userName} offers={offers} reviews={reviews} city={city} />
+      <App auth={auth} userName={userName} reviews={reviews} city={city} />
     </Provider>,
 
     document.querySelector(`#root`)
