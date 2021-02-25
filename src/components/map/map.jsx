@@ -6,14 +6,15 @@ import {offersPropValid} from '../offer-list/offer-card/offer-card.prop';
 import leaflet from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import {MAP_CLASS_NAME} from '../../const';
-import {getOffers} from '../../utils';
+import {connect} from 'react-redux';
 
 
-const Map = ({offers, mode, city}) => {
-  const cuurentOffers = getOffers(city, offers);
-  if (!cuurentOffers.length) {
+const Map = ({offers, mode, city, activeOffer}) => {
+
+  if (!offers.length) {
     return ``;
   }
+
   const mapRef = useRef();
   const cityLocation = offers[0].city.location;
 
@@ -34,27 +35,26 @@ const Map = ({offers, mode, city}) => {
 
     offers.forEach((point) => {
       const customIcon = leaflet.icon({
-        iconUrl: `./img/pin.svg`,
-        iconSize: [27, 39]
+        iconUrl: `${activeOffer !== point.id ? `./img/pin.svg` : `./img/pin-active.svg`}`,
+        iconSize: [27, 39],
       });
 
       leaflet.marker({
         lat: point.location.latitude,
-        lng: point.location.longitude
+        lng: point.location.longitude,
       },
       {
         icon: customIcon
       })
         .addTo(mapRef.current)
         .bindPopup(point.title);
-
     });
 
     return () => {
       mapRef.current.remove();
     };
 
-  }, [city]);
+  }, [city, activeOffer]);
 
   return (
     <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} style={{width: `${mode === `OFFER` && `1144px`}`, margin: `${mode === `OFFER` && `auto`}`}} ref={mapRef}/>
@@ -64,8 +64,13 @@ const Map = ({offers, mode, city}) => {
 Map.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid)),
   mode: PropTypes.string.isRequired,
-  city: PropTypes.string.isRequired
+  city: PropTypes.string.isRequired,
+  activeOffer: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired
 };
+const mapStateToProps = ({activeOffer}) => ({
+  activeOffer
+});
 
-export default Map;
+export {Map};
+export default connect(mapStateToProps, null)(Map);
 
