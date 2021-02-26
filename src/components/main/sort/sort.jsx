@@ -7,10 +7,14 @@ import {SORT_LIST} from '../../../const';
 
 const Sort = ({changeSort, currentSort}) => {
 
+  const sortClickHandler = (evt) => {
+    changeSort(evt.currentTarget.dataset.sortType);
+  };
   return (
     <ul className="places__options places__options--custom places__options--opened">
       {
-        SORT_LIST.map(({text, type}) => <li key={type} className={`places__option ${currentSort === type ? `places__option--active` : ``}`} data-sort-type={type} tabIndex={0}>{text}</li>)
+        SORT_LIST.map(({text, type}) => <li key={type} className={`places__option ${currentSort === type ? `places__option--active` : ``}`}
+          data-sort-type={type} tabIndex={0} onClick={(evt)=> sortClickHandler(evt)}>{text}</li>)
       }
     </ul>
   );

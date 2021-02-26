@@ -38,21 +38,28 @@ export const SORT_TYPES = {
   TOP_RATED: `top-rated`
 };
 
+export const SORT_TEXTS = {
+  [SORT_TYPES.POPULAR]: `Popular`,
+  [SORT_TYPES.LOW_PRICE]: `Price: low to high`,
+  [SORT_TYPES.HIGH_PRICE]: `Price: high to low`,
+  [SORT_TYPES.TOP_RATED]: `Top rated first`,
+};
+
 export const SORT_LIST = [
   {
-    text: `Popular`,
+    text: SORT_TEXTS[SORT_TYPES.POPULAR],
     type: SORT_TYPES.POPULAR
   },
   {
-    text: `Price: low to high`,
+    text: SORT_TEXTS[SORT_TYPES.LOW_PRICE],
     type: SORT_TYPES.LOW_PRICE
   },
   {
-    text: `Price: high to low`,
+    text: SORT_TEXTS[SORT_TYPES.HIGH_PRICE],
     type: SORT_TYPES.HIGH_PRICE
   },
   {
-    text: `Top rated first`,
+    text: SORT_TEXTS[SORT_TYPES.TOP_RATED],
     type: SORT_TYPES.TOP_RATED
   },
 ];
