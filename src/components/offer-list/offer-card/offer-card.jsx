@@ -6,12 +6,22 @@ import {offersPropValid} from './offer-card.prop';
 
 import {getOfferPath, getRatingCount} from '../../../utils';
 import {CARD_CLASS_NAME} from '../../../const';
+import {ActionCreator} from '../../../store/action';
+import {connect} from 'react-redux';
 
-const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode}) => {
+const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode, setActiveOffer, removeActiveOffer}) => {
   const isCardPremium = isPremium && <div className="place-card__mark"><span>Premium</span></div>;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
+
+  const cardMouseOverHandler = (cardId) => {
+    setActiveOffer(cardId);
+  };
+
+  const cardMouseLeave = () => {
+    removeActiveOffer();
+  };
   return (
-    <article className={`${CARD_CLASS_NAME[mode].article} place-card`}>
+    <article className={`${CARD_CLASS_NAME[mode].article} place-card`} onMouseOver={() => cardMouseOverHandler(id)} onMouseLeave={() => cardMouseLeave()}>
       {isCardPremium}
       <div className={`${CARD_CLASS_NAME[mode].image} place-card__image-wrapper`}>
         <Link to={getOfferPath(id)}>
@@ -49,8 +59,20 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
 
 OfferCard.propTypes = {
   ...offersPropValid,
-  mode: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired,
+  setActiveOffer: PropTypes.func.isRequired,
+  removeActiveOffer: PropTypes.func.isRequired,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  setActiveOffer(id) {
+    dispatch(ActionCreator.setActiveOffer(id));
+  },
+  removeActiveOffer() {
+    dispatch(ActionCreator.removeActiveOffer());
+  }
+});
 
-export default OfferCard;
+
+export {OfferCard};
+export default connect(null, mapDispatchToProps)(OfferCard);
