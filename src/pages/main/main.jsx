@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
 import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
@@ -6,9 +7,9 @@ import {offersPropValid} from '../../components/offer-list/offer-card/offer-card
 import Header from '../../components/header/header';
 import Locations from '../../components/main/locations/locations';
 import OfferList from '../../components/offer-list/offer-list';
-
+import {Sort} from '../../components/main/sort/sort';
 import Map from '../../components/map/map';
-import {connect} from 'react-redux';
+
 import MainEmpty from './empty/empty';
 import {getOffers} from '../../utils';
 
@@ -37,12 +38,7 @@ const Main = ({offers, auth, userName, city}) => {
                         <use xlinkHref="#icon-arrow-select" />
                       </svg>
                     </span>
-                    <ul className="places__options places__options--custom places__options--opened">
-                      <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                      <li className="places__option" tabIndex={0}>Price: low to high</li>
-                      <li className="places__option" tabIndex={0}>Price: high to low</li>
-                      <li className="places__option" tabIndex={0}>Top rated first</li>
-                    </ul>
+                    <Sort />
                   </form>
                   <div className="cities__places-list places__list tabs__content">
                     <OfferList offers={currentOffers} mode="MAIN" />

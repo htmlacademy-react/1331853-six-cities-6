@@ -1,7 +1,8 @@
 export const ActionType = {
   CHANGE_CITY: `changeCity`,
   SET_ACTIVE_OFFER: `setActiveOffer`,
-  REMOVE_ACTIVE_OFFER: `removeActiveOffer`
+  REMOVE_ACTIVE_OFFER: `removeActiveOffer`,
+  CHANGE_SORT: `changeSort`
 };
 
 export const ActionCreator = {
@@ -15,5 +16,9 @@ export const ActionCreator = {
   }),
   removeActiveOffer: () => ({
     type: ActionType.REMOVE_ACTIVE_OFFER
+  }),
+  changeSort: (currentSort) => ({
+    type: ActionType.CHANGE_SORT,
+    payload: currentSort
   })
 };
