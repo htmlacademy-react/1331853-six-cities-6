@@ -63,3 +63,9 @@ export const SORT_LIST = [
     type: SORT_TYPES.TOP_RATED
   },
 ];
+
+export const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`
+}
+;
