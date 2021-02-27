@@ -1,8 +1,8 @@
 export const ActionType = {
-  CHANGE_CITY: `changeCity`,
-  SET_ACTIVE_OFFER: `setActiveOffer`,
-  REMOVE_ACTIVE_OFFER: `removeActiveOffer`,
-  CHANGE_SORT: `changeSort`
+  CHANGE_CITY: `main/changeCity`,
+  SET_ACTIVE_OFFER: `main/setActiveOffer`,
+  REMOVE_ACTIVE_OFFER: `main/removeActiveOffer`,
+  CHANGE_SORT: `main/changeSort`
 };
 
 export const ActionCreator = {
