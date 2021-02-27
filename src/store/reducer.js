@@ -32,6 +32,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentSort: action.payload
       };
+    case ActionType.LOAD_OFFERS:
+      return {
+        ...state,
+        offers: action.payload
+      };
     default:
       return state;
   }
