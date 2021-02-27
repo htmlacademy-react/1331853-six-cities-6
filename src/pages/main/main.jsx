@@ -20,7 +20,7 @@ const Main = ({offers, auth, userName, city, currentSort}) => {
   return (
     <>
       <div className="page page--gray page--main">
-        <Header auth={auth} userName={userName} />
+        <Header userName={userName} />
         <main className={`page__main page__main--index ${!currentOffers.length ? `page__main--index-empty` : ``}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
@@ -52,7 +52,7 @@ const Main = ({offers, auth, userName, city, currentSort}) => {
               </div>
             </div>
 
-            : <MainEmpty auth={auth} userName={userName} city={city}/>
+            : <MainEmpty userName={userName} city={city}/>
           }
         </main>
       </div>
@@ -62,7 +62,6 @@ const Main = ({offers, auth, userName, city, currentSort}) => {
 
 
 Main.propTypes = {
-  auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   city: PropTypes.string.isRequired,

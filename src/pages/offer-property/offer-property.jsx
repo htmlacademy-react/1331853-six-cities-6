@@ -15,6 +15,7 @@ import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 
 import {getOffers, getRatingCount} from '../../utils';
+import {AuthorizationStatus} from '../../const';
 
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
@@ -29,7 +30,7 @@ const getCurrentOffer = (id, offers) => {
   return {};
 };
 
-const OfferProperty = ({auth, userName, offers, reviews, city}) => {
+const OfferProperty = ({authorizationStatus, userName, offers, reviews, city}) => {
   const pathName = useHistory().location.pathname;
   const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
   const currentOffers = getOffers(city, offers);
@@ -48,7 +49,7 @@ const OfferProperty = ({auth, userName, offers, reviews, city}) => {
 
   return (
     <div className="page">
-      <Header auth={auth} userName={userName} />
+      <Header userName={userName} />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -114,7 +115,7 @@ const OfferProperty = ({auth, userName, offers, reviews, city}) => {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewList.length}</span></h2>
                 <ReviewList reviews={reviewList}/>
-                {auth && <UserReview />}
+                {authorizationStatus === AuthorizationStatus.AUTH ? <UserReview /> : ``}
               </section>
             </div>
           </div>
@@ -139,16 +140,17 @@ const OfferProperty = ({auth, userName, offers, reviews, city}) => {
 };
 
 OfferProperty.propTypes = {
-  auth: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
   city: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.offers,
-  city: state.city
+const mapStateToProps = ({offers, city, authorizationStatus}) => ({
+  offers,
+  city,
+  authorizationStatus
 });
 
 export {OfferProperty};
