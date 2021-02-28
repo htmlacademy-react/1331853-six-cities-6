@@ -20,7 +20,6 @@ const Main = ({offers, userName, city, currentSort, isDataLoaded, onLoadData}) =
   const currentOffers = getOffers(city, offers);
   const sortedOffers = getSortedOffers(currentSort, currentOffers);
 
-  console.log(offers);
   useEffect(() => {
     if (!isDataLoaded) {
       onLoadData();
