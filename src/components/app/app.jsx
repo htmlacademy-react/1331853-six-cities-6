@@ -15,18 +15,18 @@ import {Routes} from './../../const';
 
 const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor} = Routes;
 
-const App = ({auth, userName, reviews}) => {
+const App = ({userName, reviews}) => {
 
   return (
     <BrowserRouter>
       <Switch>
 
         <Route exact path={pathMain}>
-          <Main auth={auth} userName={userName} />
+          <Main userName={userName} />
         </Route>
 
         <Route exact path={pathOffer}>
-          <OfferProperty auth={auth} userName={userName} reviews={reviews} />
+          <OfferProperty userName={userName} reviews={reviews} />
         </Route>
 
         <Route exact path={pathLogin}>
@@ -34,11 +34,11 @@ const App = ({auth, userName, reviews}) => {
         </Route>
 
         <Route exact path={pathFavor}>
-          <Favorites auth={auth} userName={userName}/>
+          <Favorites userName={userName}/>
         </Route>
 
         <Route>
-          <Page404 auth={auth} userName={userName} />
+          <Page404 userName={userName} />
         </Route>
 
       </Switch>
@@ -48,10 +48,8 @@ const App = ({auth, userName, reviews}) => {
 
 
 App.propTypes = {
-  auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
-  city: PropTypes.string.isRequired
 };
 
 export default App;
