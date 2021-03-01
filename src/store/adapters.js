@@ -1,4 +1,4 @@
-export const adaptToClient = (offer) => {
+export const adaptOfferToClient = (offer) => {
   const adaptedOffer = Object.assign(
       {},
       offer,
@@ -24,4 +24,22 @@ export const adaptToClient = (offer) => {
 
 
   return adaptedOffer;
+};
+
+export const adaptReviewsToClient = (review) => {
+  const adaptedReview = Object.assign(
+      {},
+      review,
+      {
+        user: {
+          isPro: review.user.is_pro,
+          avatarUrl: review.user.avatar_url
+        }
+      }
+  );
+
+  delete adaptedReview.user.is_pro;
+  delete adaptedReview.user.avatar_url;
+
+  return adaptedReview;
 };

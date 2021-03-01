@@ -6,6 +6,7 @@ export const ActionType = {
   LOAD_OFFERS: `data/loadOffers`,
   SET_OPEN_OFFER: `data/setOpenOffer`,
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
+  SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`
 };
 
@@ -42,6 +43,11 @@ export const ActionCreator = {
   setNearbyOffers: (nearbyOffers) => ({
     type: ActionType.SET_NEARBY_OFFERS,
     payload: nearbyOffers
+  }),
+
+  setCurrentReviews: (currentReviews) => ({
+    type: ActionType.SET_CURRENT_REVIEWS,
+    payload: currentReviews
   }),
 
   requiredAuthorization: (status) => ({

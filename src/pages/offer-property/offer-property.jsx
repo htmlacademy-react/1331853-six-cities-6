@@ -16,7 +16,7 @@ import Map from '../../components/map/map';
 
 import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
-import {fetchNearbyOffers, fetchOpenedOffer} from '../../store/api-actions';
+import {fetchCurrentReviews, fetchNearbyOffers, fetchOpenedOffer} from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
 
 
@@ -25,21 +25,23 @@ const sortDate = (a, b) => (
 );
 
 
-const OfferProperty = ({authorizationStatus, userName, reviews, city, openedOffer, setOpenOffer, nearbyOffers, setNearbyOffers}) => {
+const OfferProperty = ({authorizationStatus, userName, currentReviews, city, openedOffer, setOpenOffer, nearbyOffers, setNearbyOffers, setCurrentReview}) => {
 
   const match = useRouteMatch();
   const pathId = match.params.id.slice(1);
 
   if (String(openedOffer.id) !== pathId) {
-    setOpenOffer(pathId);
     setNearbyOffers(pathId);
+    setCurrentReview(pathId);
+    setOpenOffer(pathId);
     return (
       <Loading />
     );
   }
 
+  console.log(currentReviews);
 
-  const reviewList = reviews.filter((review) => review.id === Number(`1`)).sort(sortDate);
+  const reviewList = currentReviews;
 
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
   const isOfferPremium = isPremium && <div className="property__mark"><span>Premium</span></div>;
@@ -112,7 +114,13 @@ const OfferProperty = ({authorizationStatus, userName, reviews, city, openedOffe
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewList.length}</span></h2>
-                <ReviewList reviews={reviewList}/>
+                {
+                  reviewList ?
+                    <ReviewList reviews={reviewList} />
+                    :
+                    <Loading />
+                }
+
                 {authorizationStatus === AuthorizationStatus.AUTH ? <UserReview /> : ``}
               </section>
             </div>
@@ -144,18 +152,20 @@ OfferProperty.propTypes = {
   userName: PropTypes.string.isRequired,
   openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.bool]).isRequired,
   nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
+  currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.bool]).isRequired,
   city: PropTypes.string.isRequired,
   setOpenOffer: PropTypes.func.isRequired,
   setNearbyOffers: PropTypes.func.isRequired,
+  setCurrentReview: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers}) => ({
+const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers, currentReviews}) => ({
   offers,
   city,
   authorizationStatus,
   openedOffer,
-  nearbyOffers
+  nearbyOffers,
+  currentReviews
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -164,6 +174,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setNearbyOffers(id) {
     dispatch(fetchNearbyOffers(id));
+  },
+  setCurrentReview(id) {
+    dispatch(fetchCurrentReviews(id));
   }
 });
 

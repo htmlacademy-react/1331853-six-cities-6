@@ -10,7 +10,8 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   isDataLoaded: false,
   openedOffer: false,
-  nearbyOffers: false
+  nearbyOffers: false,
+  currentReviews: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -56,6 +57,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         nearbyOffers: action.payload,
+      };
+
+    case ActionType.SET_CURRENT_REVIEWS:
+      return {
+        ...state,
+        currentReviews: action.payload,
       };
 
     case ActionType.REQUIRED_AUTHORIZATION:
