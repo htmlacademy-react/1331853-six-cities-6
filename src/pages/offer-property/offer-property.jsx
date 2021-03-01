@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect, useHistory} from 'react-router-dom';
+import {useRouteMatch} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -14,36 +14,34 @@ import ReviewList from '../../components/offer-property/review-list/review-list'
 import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 
-import {getOffers, getRatingCount} from '../../utils';
+import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
+import {fetchOpenedOffer} from '../../store/api-actions';
+import Loading from '../../components/loading/loading';
+
 
 const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
 );
 
-const getCurrentOffer = (id, offers) => {
-  for (const offer of offers) {
-    if (offer.id === Number(id)) {
-      return offer;
-    }
-  }
-  return {};
-};
 
-const OfferProperty = ({authorizationStatus, userName, offers, reviews, city}) => {
-  const pathName = useHistory().location.pathname;
-  const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
-  const currentOffers = getOffers(city, offers);
-  const offer = getCurrentOffer(offerId, currentOffers);
+const OfferProperty = ({authorizationStatus, userName, reviews, city, openedOffer, setOpenOffer}) => {
 
-  if (!Object.keys(offer).length) {
-    return <Redirect to="/404" />;
+  const match = useRouteMatch();
+  const pathId = match.params.id.slice(1);
+
+  if (String(openedOffer.id) !== pathId) {
+    setOpenOffer(pathId);
+    return (
+      <Loading />
+    );
   }
 
-  const nearPlaceList = currentOffers.filter((item) => item.id !== offer.id);
-  const reviewList = reviews.filter((review) => review.id === Number(offerId)).sort(sortDate);
 
-  const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = offer;
+  const nearPlaceList = [];
+  const reviewList = reviews.filter((review) => review.id === Number(`1`)).sort(sortDate);
+
+  const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
   const isOfferPremium = isPremium && <div className="property__mark"><span>Premium</span></div>;
   const isUserPro = isPro && <span className="property__user-status">Pro</span>;
 
@@ -142,16 +140,25 @@ const OfferProperty = ({authorizationStatus, userName, offers, reviews, city}) =
 OfferProperty.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
+  openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.bool]).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
-  city: PropTypes.string.isRequired
+  city: PropTypes.string.isRequired,
+  setOpenOffer: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({offers, city, authorizationStatus}) => ({
+const mapStateToProps = ({offers, city, authorizationStatus, openedOffer}) => ({
   offers,
   city,
-  authorizationStatus
+  authorizationStatus,
+  openedOffer,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  setOpenOffer(id) {
+    dispatch(fetchOpenedOffer(id));
+  }
+});
+
+
 export {OfferProperty};
-export default connect(mapStateToProps, null)(OfferProperty);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferProperty);

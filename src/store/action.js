@@ -4,6 +4,7 @@ export const ActionType = {
   REMOVE_ACTIVE_OFFER: `main/removeActiveOffer`,
   CHANGE_SORT: `main/changeSort`,
   LOAD_OFFERS: `data/loadOffers`,
+  SET_OPEN_OFFER: `data/setOpenOffer`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`
 };
 
@@ -30,6 +31,11 @@ export const ActionCreator = {
   loadOffers: (offers) => ({
     type: ActionType.LOAD_OFFERS,
     payload: offers
+  }),
+
+  setOpenOffer: (offer) => ({
+    type: ActionType.SET_OPEN_OFFER,
+    payload: offer
   }),
 
   requiredAuthorization: (status) => ({

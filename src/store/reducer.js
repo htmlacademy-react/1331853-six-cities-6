@@ -8,7 +8,8 @@ const initialState = {
   activeOffer: false,
   currentSort: SORT_TYPES.POPULAR,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
-  isDataLoaded: false
+  isDataLoaded: false,
+  openedOffer: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,32 +19,44 @@ const reducer = (state = initialState, action) => {
         ...state,
         city: action.payload
       };
+
     case ActionType.SET_ACTIVE_OFFER:
       return {
         ...state,
         activeOffer: action.payload
       };
+
     case ActionType.REMOVE_ACTIVE_OFFER:
       return {
         ...state,
         activeOffer: false
       };
+
     case ActionType.CHANGE_SORT:
       return {
         ...state,
         currentSort: action.payload
       };
+
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
         offers: action.payload,
         isDataLoaded: true
       };
+
+    case ActionType.SET_OPEN_OFFER:
+      return {
+        ...state,
+        openedOffer: action.payload,
+      };
+
     case ActionType.REQUIRED_AUTHORIZATION:
       return {
         ...state,
         authorizationStatus: action.payload
       };
+
     default:
       return state;
   }
