@@ -5,6 +5,7 @@ export const ActionType = {
   CHANGE_SORT: `main/changeSort`,
   LOAD_OFFERS: `data/loadOffers`,
   SET_OPEN_OFFER: `data/setOpenOffer`,
+  SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`
 };
 
@@ -36,6 +37,11 @@ export const ActionCreator = {
   setOpenOffer: (offer) => ({
     type: ActionType.SET_OPEN_OFFER,
     payload: offer
+  }),
+
+  setNearbyOffers: (nearbyOffers) => ({
+    type: ActionType.SET_NEARBY_OFFERS,
+    payload: nearbyOffers
   }),
 
   requiredAuthorization: (status) => ({

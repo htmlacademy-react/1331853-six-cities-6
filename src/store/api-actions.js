@@ -8,8 +8,13 @@ export const fetchOfferList = () => (dispatch, _getState, api) => (
 );
 
 export const fetchOpenedOffer = (id) => (dispatch, _getState, api) => (
-  api.get(`/hotels/` + id)
+  api.get(`/hotels/${id}`)
     .then(({data}) => dispatch(ActionCreator.setOpenOffer(adaptToClient(data))))
+);
+
+export const fetchNearbyOffers = (id) => (dispatch, _getState, api) => (
+  api.get(`/hotels/${id}/nearby`)
+    .then(({data}) => dispatch(ActionCreator.setNearbyOffers(data.map((offer) => adaptToClient(offer)))))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (

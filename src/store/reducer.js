@@ -10,6 +10,7 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   isDataLoaded: false,
   openedOffer: false,
+  nearbyOffers: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -49,6 +50,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         openedOffer: action.payload,
+      };
+
+    case ActionType.SET_NEARBY_OFFERS:
+      return {
+        ...state,
+        nearbyOffers: action.payload,
       };
 
     case ActionType.REQUIRED_AUTHORIZATION:

@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 
 const Map = ({offers, mode, city, activeOffer}) => {
 
-  if (!offers.length) {
+  if (!offers) {
     return ``;
   }
 
@@ -62,7 +62,7 @@ const Map = ({offers, mode, city, activeOffer}) => {
 };
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid)),
+  offers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
   mode: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
   activeOffer: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired

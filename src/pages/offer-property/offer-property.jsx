@@ -16,7 +16,7 @@ import Map from '../../components/map/map';
 
 import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
-import {fetchOpenedOffer} from '../../store/api-actions';
+import {fetchNearbyOffers, fetchOpenedOffer} from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
 
 
@@ -25,20 +25,20 @@ const sortDate = (a, b) => (
 );
 
 
-const OfferProperty = ({authorizationStatus, userName, reviews, city, openedOffer, setOpenOffer}) => {
+const OfferProperty = ({authorizationStatus, userName, reviews, city, openedOffer, setOpenOffer, nearbyOffers, setNearbyOffers}) => {
 
   const match = useRouteMatch();
   const pathId = match.params.id.slice(1);
 
   if (String(openedOffer.id) !== pathId) {
     setOpenOffer(pathId);
+    setNearbyOffers(pathId);
     return (
       <Loading />
     );
   }
 
 
-  const nearPlaceList = [];
   const reviewList = reviews.filter((review) => review.id === Number(`1`)).sort(sortDate);
 
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
@@ -117,19 +117,21 @@ const OfferProperty = ({authorizationStatus, userName, reviews, city, openedOffe
               </section>
             </div>
           </div>
-          <Map offers={nearPlaceList} city={city} mode="OFFER"/>
+          <Map offers={nearbyOffers} city={city} mode="OFFER"/>
         </section>
         {
-          nearPlaceList.length
-          &&
-          <div className="container">
-            <section className="near-places places">
-              <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              <div className="near-places__list places__list">
-                <OfferList offers={nearPlaceList} mode="OFFER"/>
-              </div>
-            </section>
-          </div>
+          nearbyOffers
+            ?
+            <div className="container">
+              <section className="near-places places">
+                <h2 className="near-places__title">Other places in the neighbourhood</h2>
+                <div className="near-places__list places__list">
+                  <OfferList offers={nearbyOffers} mode="OFFER"/>
+                </div>
+              </section>
+            </div>
+            :
+            <Loading />
         }
       </main>
     </div>
@@ -141,21 +143,27 @@ OfferProperty.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.bool]).isRequired,
+  nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
   city: PropTypes.string.isRequired,
-  setOpenOffer: PropTypes.func.isRequired
+  setOpenOffer: PropTypes.func.isRequired,
+  setNearbyOffers: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({offers, city, authorizationStatus, openedOffer}) => ({
+const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers}) => ({
   offers,
   city,
   authorizationStatus,
   openedOffer,
+  nearbyOffers
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setOpenOffer(id) {
     dispatch(fetchOpenedOffer(id));
+  },
+  setNearbyOffers(id) {
+    dispatch(fetchNearbyOffers(id));
   }
 });
 
