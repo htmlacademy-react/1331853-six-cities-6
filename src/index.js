@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import App from './components/app/app';
-import {reviews} from './mocks/reviews';
 import {reducer} from './store/reducer';
 import {createApi} from './services/api';
 import {ActionCreator} from './store/action';
@@ -34,7 +33,7 @@ store.dispatch(checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App userName={userName} reviews={reviews}/>
+      <App userName={userName}/>
     </Provider>,
 
     document.querySelector(`#root`)
