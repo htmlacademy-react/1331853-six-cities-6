@@ -2,7 +2,6 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import {reviewsPropValid} from '../offer-property/review-list/review-item/review-item.prop';
 
 import Main from '../../pages/main/main';
 import OfferProperty from '../../pages/offer-property/offer-property';
@@ -15,7 +14,7 @@ import {Routes} from './../../const';
 
 const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor} = Routes;
 
-const App = ({userName, reviews}) => {
+const App = ({userName}) => {
 
   return (
     <BrowserRouter>
@@ -26,7 +25,7 @@ const App = ({userName, reviews}) => {
         </Route>
 
         <Route exact path={pathOffer}>
-          <OfferProperty userName={userName} reviews={reviews} />
+          <OfferProperty userName={userName}/>
         </Route>
 
         <Route exact path={pathLogin}>
@@ -49,7 +48,6 @@ const App = ({userName, reviews}) => {
 
 App.propTypes = {
   userName: PropTypes.string.isRequired,
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
 };
 
 export default App;
