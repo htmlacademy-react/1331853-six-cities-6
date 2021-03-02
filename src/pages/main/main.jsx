@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -13,14 +13,28 @@ import MainEmpty from './empty/empty';
 
 import {getOffers, getSortedOffers} from '../../utils';
 import {SORT_TEXTS} from '../../const';
+import {fetchOfferList} from '../../store/api-actions';
+import Loading from '../../components/loading/loading';
 
-const Main = ({offers, auth, userName, city, currentSort}) => {
+const Main = ({offers, userName, city, currentSort, isDataLoaded, onLoadData}) => {
   const currentOffers = getOffers(city, offers);
   const sortedOffers = getSortedOffers(currentSort, currentOffers);
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return (
+      <Loading />
+    );
+  }
   return (
     <>
       <div className="page page--gray page--main">
-        <Header auth={auth} userName={userName} />
+        <Header userName={userName} />
         <main className={`page__main page__main--index ${!currentOffers.length ? `page__main--index-empty` : ``}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
@@ -52,7 +66,7 @@ const Main = ({offers, auth, userName, city, currentSort}) => {
               </div>
             </div>
 
-            : <MainEmpty auth={auth} userName={userName} city={city}/>
+            : <MainEmpty userName={userName} city={city}/>
           }
         </main>
       </div>
@@ -62,18 +76,26 @@ const Main = ({offers, auth, userName, city, currentSort}) => {
 
 
 Main.propTypes = {
-  auth: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   city: PropTypes.string.isRequired,
-  currentSort: PropTypes.string.isRequired
+  currentSort: PropTypes.string.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({city, offers, currentSort}) => ({
+const mapStateToProps = ({city, offers, currentSort, isDataLoaded}) => ({
   offers,
   city,
-  currentSort
+  currentSort,
+  isDataLoaded
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchOfferList());
+  }
 });
 
 export {Main};
-export default connect(mapStateToProps, null)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

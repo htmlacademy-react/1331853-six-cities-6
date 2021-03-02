@@ -17,11 +17,12 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
     setActiveOffer(cardId);
   };
 
-  const cardMouseLeave = () => {
+  const cardMouseLeaveHandler = () => {
     removeActiveOffer();
   };
+
   return (
-    <article className={`${CARD_CLASS_NAME[mode].article} place-card`} onMouseOver={() => cardMouseOverHandler(id)} onMouseLeave={() => cardMouseLeave()}>
+    <article className={`${CARD_CLASS_NAME[mode].article} place-card`} onMouseOver={() => cardMouseOverHandler(id)} onMouseLeave={() => cardMouseLeaveHandler()}>
       {isCardPremium}
       <div className={`${CARD_CLASS_NAME[mode].image} place-card__image-wrapper`}>
         <Link to={getOfferPath(id)}>

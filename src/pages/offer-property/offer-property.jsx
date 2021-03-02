@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect, useHistory} from 'react-router-dom';
+import {useRouteMatch} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -14,41 +14,34 @@ import ReviewList from '../../components/offer-property/review-list/review-list'
 import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
 
-import {getOffers, getRatingCount} from '../../utils';
+import {getRatingCount} from '../../utils';
+import {AuthorizationStatus} from '../../const';
+import {fetchOpenedOfferData} from '../../store/api-actions';
+import Loading from '../../components/loading/loading';
 
-const sortDate = (a, b) => (
-  Date.parse(a.date) - Date.parse(b.date)
-);
 
-const getCurrentOffer = (id, offers) => {
-  for (const offer of offers) {
-    if (offer.id === Number(id)) {
-      return offer;
-    }
-  }
-  return {};
-};
+const OfferProperty = ({authorizationStatus, userName, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews}) => {
 
-const OfferProperty = ({auth, userName, offers, reviews, city}) => {
-  const pathName = useHistory().location.pathname;
-  const offerId = pathName.slice(pathName.indexOf(`:`) + 1);
-  const currentOffers = getOffers(city, offers);
-  const offer = getCurrentOffer(offerId, currentOffers);
+  const match = useRouteMatch();
+  const pathId = match.params.id.slice(1);
 
-  if (!Object.keys(offer).length) {
-    return <Redirect to="/404" />;
+  if (String(openedOffer.id) !== pathId) {
+
+    setOpenedOfferData(pathId);
+    return (
+      <Loading />
+    );
   }
 
-  const nearPlaceList = currentOffers.filter((item) => item.id !== offer.id);
-  const reviewList = reviews.filter((review) => review.id === Number(offerId)).sort(sortDate);
+  const reviewList = currentReviews;
 
-  const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = offer;
+  const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
   const isOfferPremium = isPremium && <div className="property__mark"><span>Premium</span></div>;
   const isUserPro = isPro && <span className="property__user-status">Pro</span>;
 
   return (
     <div className="page">
-      <Header auth={auth} userName={userName} />
+      <Header userName={userName} />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -113,24 +106,32 @@ const OfferProperty = ({auth, userName, offers, reviews, city}) => {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewList.length}</span></h2>
-                <ReviewList reviews={reviewList}/>
-                {auth && <UserReview />}
+                {
+                  reviewList.length ?
+                    <ReviewList reviews={reviewList} />
+                    :
+                    <Loading />
+                }
+
+                {authorizationStatus === AuthorizationStatus.AUTH ? <UserReview /> : ``}
               </section>
             </div>
           </div>
-          <Map offers={nearPlaceList} city={city} mode="OFFER"/>
+          <Map offers={nearbyOffers} city={city} mode="OFFER"/>
         </section>
         {
-          nearPlaceList.length
-          &&
-          <div className="container">
-            <section className="near-places places">
-              <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              <div className="near-places__list places__list">
-                <OfferList offers={nearPlaceList} mode="OFFER"/>
-              </div>
-            </section>
-          </div>
+          nearbyOffers.length
+            ?
+            <div className="container">
+              <section className="near-places places">
+                <h2 className="near-places__title">Other places in the neighbourhood</h2>
+                <div className="near-places__list places__list">
+                  <OfferList offers={nearbyOffers} mode="OFFER"/>
+                </div>
+              </section>
+            </div>
+            :
+            <Loading />
         }
       </main>
     </div>
@@ -139,17 +140,30 @@ const OfferProperty = ({auth, userName, offers, reviews, city}) => {
 };
 
 OfferProperty.propTypes = {
-  auth: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropValid).isRequired).isRequired,
-  city: PropTypes.string.isRequired
+  openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.object]).isRequired,
+  nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
+  currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.array]).isRequired,
+  city: PropTypes.string.isRequired,
+  setOpenedOfferData: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.offers,
-  city: state.city
+const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers, currentReviews}) => ({
+  offers,
+  city,
+  authorizationStatus,
+  openedOffer,
+  nearbyOffers,
+  currentReviews
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  setOpenedOfferData(id) {
+    dispatch(fetchOpenedOfferData(id));
+  },
+});
+
+
 export {OfferProperty};
-export default connect(mapStateToProps, null)(OfferProperty);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferProperty);

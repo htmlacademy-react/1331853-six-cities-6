@@ -4,9 +4,9 @@ import React from 'react';
 import Footer from '../../../components/footer/footer';
 import Header from '../../../components/header/header';
 
-const FavoritesEmpty = ({auth, userName}) => (
+const FavoritesEmpty = ({userName}) => (
   <div className="page page--favorites-empty">
-    <Header auth={auth} userName={userName} />
+    <Header userName={userName} />
     <main className="page__main page__main--favorites page__main--favorites-empty">
       <div className="page__favorites-container container">
         <section className="favorites favorites--empty">

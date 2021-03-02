@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import {AuthorizationStatus, Routes} from './../../../const';
 
-const IsLogined = ({auth = false, userName = ``}) => {
-  return auth ?
-    <Link className="header__nav-link header__nav-link--profile" to="/favorites">
+const IsLogined = ({authorizationStatus, userName = ``}) => {
+  return authorizationStatus === AuthorizationStatus.AUTH ?
+    <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVOR}>
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
       <span className="header__user-name user__name">{userName}</span>
     </Link> :
-    <Link className="header__nav-link header__nav-link--profile" to="/login">
+    <Link className="header__nav-link header__nav-link--profile" to={Routes.LOGIN}>
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
       <span className="header__user-name user__name">Sign in</span>
@@ -18,8 +20,13 @@ const IsLogined = ({auth = false, userName = ``}) => {
 };
 
 IsLogined.propTypes = {
-  auth: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired
 };
 
-export default IsLogined;
+const mapStateToProps = ({authorizationStatus}) => ({
+  authorizationStatus
+});
+
+export {IsLogined};
+export default connect(mapStateToProps, null)(IsLogined);

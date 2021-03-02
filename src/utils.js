@@ -4,6 +4,10 @@ export const getRatingCount = (rating) => (
   100 / STAR_LIST.length * rating
 );
 
+export const sortDate = (a, b) => (
+  Date.parse(a.date) - Date.parse(b.date)
+);
+
 export const getOfferPath = (id) => Routes.OFFER.replace(/id/, id);
 
 export const getOffers = (city, offers) => (

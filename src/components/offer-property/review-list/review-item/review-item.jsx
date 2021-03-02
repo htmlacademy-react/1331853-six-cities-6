@@ -8,7 +8,7 @@ import {getRatingCount} from '../../../../utils';
 
 
 const ReviewItem = ({review}) => {
-  const {user: {avatarUrl, name}, rating, comment, date} = review;
+  const {user: {avatarUrl}, rating, comment, date} = review;
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -16,7 +16,6 @@ const ReviewItem = ({review}) => {
           <img className="reviews__avatar user__avatar" src={avatarUrl} alt="Reviews avatar" width={54} height={54} />
         </div>
         <span className="reviews__user-name">
-          {name}
         </span>
       </div>
       <div className="reviews__info">
