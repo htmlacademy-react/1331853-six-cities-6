@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 
 const Map = ({offers, mode, city, activeOffer}) => {
 
-  if (!offers) {
+  if (!offers.length) {
     return ``;
   }
 
