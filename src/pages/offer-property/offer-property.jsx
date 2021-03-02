@@ -16,30 +16,22 @@ import Map from '../../components/map/map';
 
 import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
-import {fetchCurrentReviews, fetchNearbyOffers, fetchOpenedOffer} from '../../store/api-actions';
+import {fetchOpenedOfferData} from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
 
 
-const sortDate = (a, b) => (
-  Date.parse(a.date) - Date.parse(b.date)
-);
-
-
-const OfferProperty = ({authorizationStatus, userName, currentReviews, city, openedOffer, setOpenOffer, nearbyOffers, setNearbyOffers, setCurrentReview}) => {
+const OfferProperty = ({authorizationStatus, userName, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews}) => {
 
   const match = useRouteMatch();
   const pathId = match.params.id.slice(1);
 
   if (String(openedOffer.id) !== pathId) {
-    setNearbyOffers(pathId);
-    setCurrentReview(pathId);
-    setOpenOffer(pathId);
+
+    setOpenedOfferData(pathId);
     return (
       <Loading />
     );
   }
-
-  console.log(currentReviews);
 
   const reviewList = currentReviews;
 
@@ -115,7 +107,7 @@ const OfferProperty = ({authorizationStatus, userName, currentReviews, city, ope
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewList.length}</span></h2>
                 {
-                  reviewList ?
+                  reviewList.length ?
                     <ReviewList reviews={reviewList} />
                     :
                     <Loading />
@@ -128,7 +120,7 @@ const OfferProperty = ({authorizationStatus, userName, currentReviews, city, ope
           <Map offers={nearbyOffers} city={city} mode="OFFER"/>
         </section>
         {
-          nearbyOffers
+          nearbyOffers.length
             ?
             <div className="container">
               <section className="near-places places">
@@ -150,13 +142,11 @@ const OfferProperty = ({authorizationStatus, userName, currentReviews, city, ope
 OfferProperty.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
-  openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.bool]).isRequired,
-  nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
-  currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.bool]).isRequired,
+  openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.object]).isRequired,
+  nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
+  currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.array]).isRequired,
   city: PropTypes.string.isRequired,
-  setOpenOffer: PropTypes.func.isRequired,
-  setNearbyOffers: PropTypes.func.isRequired,
-  setCurrentReview: PropTypes.func.isRequired,
+  setOpenedOfferData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers, currentReviews}) => ({
@@ -169,15 +159,9 @@ const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearby
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setOpenOffer(id) {
-    dispatch(fetchOpenedOffer(id));
+  setOpenedOfferData(id) {
+    dispatch(fetchOpenedOfferData(id));
   },
-  setNearbyOffers(id) {
-    dispatch(fetchNearbyOffers(id));
-  },
-  setCurrentReview(id) {
-    dispatch(fetchCurrentReviews(id));
-  }
 });
 
 
