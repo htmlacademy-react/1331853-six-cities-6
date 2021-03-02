@@ -9,9 +9,9 @@ const initialState = {
   currentSort: SORT_TYPES.POPULAR,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   isDataLoaded: false,
-  openedOffer: false,
-  nearbyOffers: false,
-  currentReviews: false
+  openedOffer: {},
+  nearbyOffers: [],
+  currentReviews: []
 };
 
 const reducer = (state = initialState, action) => {
