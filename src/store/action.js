@@ -8,7 +8,8 @@ export const ActionType = {
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
-  CHANGE_USER_NAME: `user/changeUserName`
+  CHANGE_USER_NAME: `user/changeUserName`,
+  REDIRECT_TO_ROUTE: `login/redirectToRoute`
 };
 
 export const ActionCreator = {
@@ -59,5 +60,10 @@ export const ActionCreator = {
   changeUserName: (userName) => ({
     type: ActionType.CHANGE_USER_NAME,
     payload: userName
+  }),
+
+  redirectToRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url
   })
 };
