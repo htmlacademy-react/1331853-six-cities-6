@@ -8,6 +8,7 @@ import OfferProperty from '../../pages/offer-property/offer-property';
 import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import Page404 from '../../pages/page-404/page-404';
+import {PrivateRoute} from '../private-route/private-route';
 
 import {Routes} from './../../const';
 
@@ -32,9 +33,12 @@ const App = () => {
           <Login />
         </Route>
 
-        <Route exact path={pathFavor}>
-          <Favorites/>
-        </Route>
+        <PrivateRoute
+          exact
+          path={pathFavor}
+          render={()=> <Favorites/>}
+        >
+        </PrivateRoute>
 
         <Route>
           <Page404 />
