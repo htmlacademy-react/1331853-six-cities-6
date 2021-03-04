@@ -20,7 +20,7 @@ import {fetchOpenedOfferData} from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
 
 
-const OfferProperty = ({authorizationStatus, userName, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews}) => {
+const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews}) => {
 
   const match = useRouteMatch();
   const pathId = match.params.id.slice(1);
@@ -41,7 +41,7 @@ const OfferProperty = ({authorizationStatus, userName, city, openedOffer, setOpe
 
   return (
     <div className="page">
-      <Header userName={userName} />
+      <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -141,7 +141,6 @@ const OfferProperty = ({authorizationStatus, userName, city, openedOffer, setOpe
 
 OfferProperty.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired,
   openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.object]).isRequired,
   nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
   currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.array]).isRequired,

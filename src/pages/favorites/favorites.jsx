@@ -13,7 +13,7 @@ import {getOffers} from '../../utils';
 import {ActionCreator} from '../../store/action';
 
 
-const Favorites = ({userName, offers, changeCity}) => {
+const Favorites = ({offers, changeCity}) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const cityList = [...new Set(favoriteOffers.map((offer) => offer.city.name))];
 
@@ -25,7 +25,7 @@ const Favorites = ({userName, offers, changeCity}) => {
       {
         favoriteOffers ?
           <div className="page">
-            <Header userName={userName} />
+            <Header />
             <main className="page__main page__main--favorites">
               <div className="page__favorites-container container">
                 <section className="favorites">
@@ -53,7 +53,7 @@ const Favorites = ({userName, offers, changeCity}) => {
             <Footer />
           </div>
 
-          : <FavoritesEmpty userName={userName}/>
+          : <FavoritesEmpty />
       }
 
     </>
@@ -62,8 +62,6 @@ const Favorites = ({userName, offers, changeCity}) => {
 };
 
 Favorites.propTypes = {
-  auth: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   changeCity: PropTypes.func.isRequired
 };

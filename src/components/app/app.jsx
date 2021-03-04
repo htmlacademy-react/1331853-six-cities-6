@@ -1,8 +1,6 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
-import PropTypes from 'prop-types';
-
 import Main from '../../pages/main/main';
 import OfferProperty from '../../pages/offer-property/offer-property';
 import Login from '../../pages/login/login';
@@ -33,12 +31,10 @@ const App = () => {
           <Login />
         </Route>
 
-        <PrivateRoute
-          exact
-          path={pathFavor}
-          render={()=> <Favorites/>}
-        >
+        <PrivateRoute exact path={pathFavor} render={()=> <Favorites />}>
+
         </PrivateRoute>
+
 
         <Route>
           <Page404 />
@@ -49,9 +45,5 @@ const App = () => {
   );
 };
 
-
-App.propTypes = {
-  userName: PropTypes.string.isRequired,
-};
 
 export default App;
