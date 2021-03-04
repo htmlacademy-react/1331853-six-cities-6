@@ -1,10 +1,16 @@
 export const Routes = {
   MAIN: `/`,
-  MAIN_EMPTY: `/dev-main-empty`,
   OFFER: `/offer/:id`,
   LOGIN: `/login`,
   FAVOR: `/favorites`,
-  FAVOR_EMPTY: `/dev-favorites-empty`
+};
+
+export const APIRoute = {
+  HOTELS: `/hotels`,
+  FAVOR: `/favorite`,
+  COMMENTS: `/comments`,
+  LOGIN: `/login`,
+  LOGOUT: `/logout`
 };
 
 export const CARD_CLASS_NAME = {
