@@ -1,18 +1,18 @@
 import {ActionCreator} from "./action";
-import {AuthorizationStatus} from './../const';
+import {APIRoute, AuthorizationStatus, Routes} from './../const';
 import {adaptOfferToClient, adaptReviewsToClient} from "./adapters";
 import {sortDate} from "../utils";
 
 export const fetchOfferList = () => (dispatch, _getState, api) => (
-  api.get(`/hotels`)
+  api.get(APIRoute.HOTELS)
   .then(({data}) => dispatch(ActionCreator.loadOffers(data.map((offer)=> adaptOfferToClient(offer)))))
 );
 
 export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
   Promise.all([
-    api.get(`/hotels/${id}`),
-    api.get(`/hotels/${id}/nearby`),
-    api.get(`/comments/${id}`)
+    api.get(`${APIRoute.HOTELS}/${id}`),
+    api.get(`${APIRoute.HOTELS}/${id}/nearby`),
+    api.get(`${APIRoute.COMMENTS }/${id}`)
   ])
     .then(([offer, nearby, comments]) => {
       const sortedComments = comments.data.sort(sortDate);
@@ -23,7 +23,7 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
-  api.get(`/login`)
+  api.get(APIRoute.LOGIN)
     .then(() =>
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH))
     )
@@ -31,15 +31,16 @@ export const checkAuth = () => (dispatch, _getState, api) => (
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
-  api.post(`/login`, {email, password})
+  api.post(APIRoute.LOGIN, {email, password})
     .then(() => {
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
       dispatch(ActionCreator.changeUserName(email));
     })
+  .then(()=> dispatch(ActionCreator.redirectToRoute(Routes.MAIN)))
 );
 
 export const logout = () => (dispatch, _getState, api) => (
-  api.get(`/logout`)
+  api.get(APIRoute.LOGOUT)
     .then(() => {
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.NO_AUTH));
     })
