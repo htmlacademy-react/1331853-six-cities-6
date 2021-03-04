@@ -72,6 +72,12 @@ const reducer = (state = initialState, action) => {
         authorizationStatus: action.payload
       };
 
+    case ActionType.CHANGE_USER_NAME:
+      return {
+        ...state,
+        userName: action.payload
+      };
+
     default:
       return state;
   }
