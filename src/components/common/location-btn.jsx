@@ -1,11 +1,13 @@
 import React from 'react';
 import {PropTypes} from 'prop-types';
+import {Link} from 'react-router-dom';
+import {Routes} from '../../const';
 
 const LocationBtn = ({city}) => (
   <div className="locations__item">
-    <a className="locations__item-link" href="#">
+    <Link className="locations__item-link" to={Routes.MAIN}>
       <span>{city}</span>
-    </a>
+    </Link>
   </div>
 );
 
