@@ -5,7 +5,7 @@ import Header from '../../components/header/header';
 import {login} from '../../store/api-actions';
 import {PropTypes} from 'prop-types';
 
-const Login = ({formSubmit}) => {
+const Login = ({formSubmit, city}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
@@ -39,7 +39,7 @@ const Login = ({formSubmit}) => {
               </form>
             </section>
             <section className="locations locations--login locations--current">
-              <LocationBtn city={`Amsterdam`}/>
+              <LocationBtn city={city}/>
             </section>
           </div>
         </main>
@@ -49,9 +49,13 @@ const Login = ({formSubmit}) => {
 };
 
 Login.propTypes = {
-  formSubmit: PropTypes.func.isRequired
+  formSubmit: PropTypes.func.isRequired,
+  city: PropTypes.string.isRequired
 };
 
+const mapStateToProps = ({city}) => ({
+  city
+});
 
 const mapDispatchToProps = (dispatch) => ({
   formSubmit(authData) {
@@ -60,4 +64,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {Login};
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
