@@ -10,6 +10,7 @@ import {ActionCreator} from './store/action';
 import {AuthorizationStatus} from './const';
 import thunk from 'redux-thunk';
 import {checkAuth} from './store/api-actions';
+import {redirect} from './store/middlewares/redirect';
 
 const api = createApi(
     () =>
@@ -20,7 +21,8 @@ const api = createApi(
 const store = createStore(
     reducer,
     composeWithDevTools(
-        applyMiddleware(thunk.withExtraArgument(api))
+        applyMiddleware(thunk.withExtraArgument(api)),
+        applyMiddleware(redirect)
     )
 );
 
