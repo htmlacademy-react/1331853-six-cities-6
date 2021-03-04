@@ -11,7 +11,8 @@ const initialState = {
   isDataLoaded: false,
   openedOffer: {},
   nearbyOffers: [],
-  currentReviews: []
+  currentReviews: [],
+  userName: ``
 };
 
 const reducer = (state = initialState, action) => {

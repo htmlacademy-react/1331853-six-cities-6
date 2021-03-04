@@ -32,7 +32,15 @@ export const checkAuth = () => (dispatch, _getState, api) => (
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
-    .then(() =>
-      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH))
-    )
+    .then(() => {
+      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
+      dispatch(ActionCreator.changeUserName(email));
+    })
+);
+
+export const logout = () => (dispatch, _getState, api) => (
+  api.get(`/logout`)
+    .then(() => {
+      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.NO_AUTH));
+    })
 );
