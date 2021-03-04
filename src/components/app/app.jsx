@@ -1,12 +1,12 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Route, Switch, Router as BrowserRouter} from 'react-router-dom';
 
 import Main from '../../pages/main/main';
 import OfferProperty from '../../pages/offer-property/offer-property';
-import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import Page404 from '../../pages/page-404/page-404';
-import {PrivateRoute} from '../private-route/private-route';
+import PrivateRoute from '../private-route/private-route';
+import browserHistory from '../../browser-history';
 
 import {Routes} from './../../const';
 
@@ -16,7 +16,7 @@ const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor} = R
 const App = () => {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
 
         <Route exact path={pathMain}>
@@ -27,14 +27,15 @@ const App = () => {
           <OfferProperty/>
         </Route>
 
-        <Route exact path={pathLogin}>
-          <Login />
-        </Route>
-
-        <PrivateRoute exact path={pathFavor} render={()=> <Favorites />}>
-
+        <PrivateRoute exact
+          path={pathLogin}
+          render={()=> <Main />}>
         </PrivateRoute>
 
+        <PrivateRoute exact
+          path={pathFavor}
+          render={() => <Favorites />}>
+        </PrivateRoute>
 
         <Route>
           <Page404 />
