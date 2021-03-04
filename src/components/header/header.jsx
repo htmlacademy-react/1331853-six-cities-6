@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import IsLogined from './is-logined/is-logined';
 
-const Header = ({userName = ``}) => {
+const Header = () => {
   return (
     <header className="header">
       <div className="container">
@@ -16,7 +15,7 @@ const Header = ({userName = ``}) => {
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
-                <IsLogined userName={userName}/>
+                <IsLogined />
               </li>
             </ul>
           </nav>
@@ -24,9 +23,6 @@ const Header = ({userName = ``}) => {
       </div>
     </header>
   );
-};
-Header.propTypes = {
-  userName: PropTypes.string.isRequired
 };
 
 export default Header;

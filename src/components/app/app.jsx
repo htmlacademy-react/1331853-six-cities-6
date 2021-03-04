@@ -14,18 +14,18 @@ import {Routes} from './../../const';
 
 const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor} = Routes;
 
-const App = ({userName}) => {
+const App = () => {
 
   return (
     <BrowserRouter>
       <Switch>
 
         <Route exact path={pathMain}>
-          <Main userName={userName} />
+          <Main />
         </Route>
 
         <Route exact path={pathOffer}>
-          <OfferProperty userName={userName}/>
+          <OfferProperty/>
         </Route>
 
         <Route exact path={pathLogin}>
@@ -33,11 +33,11 @@ const App = ({userName}) => {
         </Route>
 
         <Route exact path={pathFavor}>
-          <Favorites userName={userName}/>
+          <Favorites/>
         </Route>
 
         <Route>
-          <Page404 userName={userName} />
+          <Page404 />
         </Route>
 
       </Switch>
