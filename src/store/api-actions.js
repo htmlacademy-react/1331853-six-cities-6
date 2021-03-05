@@ -1,7 +1,15 @@
 import {ActionCreator} from "./action";
-import {APIRoute, AuthorizationStatus, Routes} from './../const';
+import {APIRoute, AuthorizationStatus, LOCAL_STORE_KEYS, Routes} from './../const';
 import {adaptOfferToClient, adaptReviewsToClient} from "./adapters";
 import {sortDate} from "../utils";
+import Store from "./local-store";
+
+const STORE_AUTH_PREFIX = `sixcities-auth-localstorage`;
+const STORE_VER = `v1`;
+const STORE_AUTH_NAME = `${STORE_AUTH_PREFIX}-${STORE_VER}`;
+
+const localStore = new Store(STORE_AUTH_NAME, window.localStorage);
+
 
 export const fetchOfferList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.HOTELS)
@@ -28,15 +36,24 @@ export const fetchFavoriteList = () => (dispatch, _getState, api) => (
 );
 
 
-export const checkAuth = () => (dispatch, _getState, api) => (
+export const checkAuth = () => (dispatch, _getState, api) => {
+  const {authorizationStatus, email, avatarUrl} = localStore.getItems();
+
+  if (authorizationStatus === AuthorizationStatus.AUTH) {
+    dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
+    dispatch(ActionCreator.changeUserName(email));
+    dispatch(ActionCreator.changeUserAvatar(avatarUrl));
+    return;
+  }
+
   api.get(APIRoute.LOGIN)
     .then(({data}) => {
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
       dispatch(ActionCreator.changeUserName(data.email));
       dispatch(ActionCreator.changeUserAvatar(data[`avatar_url`]));
     })
-  .catch(()=> {})
-);
+    .catch(() => { });
+};
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})
@@ -44,6 +61,10 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
       dispatch(ActionCreator.changeUserName(email));
       dispatch(ActionCreator.changeUserAvatar(data[`avatar_url`]));
+
+      localStore.setItem(LOCAL_STORE_KEYS.AUTH, AuthorizationStatus.AUTH);
+      localStore.setItem(LOCAL_STORE_KEYS.EMAIL, email);
+      localStore.setItem(LOCAL_STORE_KEYS.AVATAR_URL, data[`avatar_url`]);
     })
   .then(()=> dispatch(ActionCreator.redirectToRoute(Routes.MAIN)))
 );
@@ -52,5 +73,9 @@ export const logout = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGOUT)
     .then(() => {
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.NO_AUTH));
+
+      localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
+      localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
+      localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
     })
 );

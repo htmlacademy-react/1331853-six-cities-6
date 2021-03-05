@@ -73,5 +73,10 @@ export const SORT_LIST = [
 export const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`
-}
-;
+};
+
+export const LOCAL_STORE_KEYS = {
+  AUTH: `authorizationStatus`,
+  EMAIL: `email`,
+  AVATAR_URL: `avatarUrl`
+};
