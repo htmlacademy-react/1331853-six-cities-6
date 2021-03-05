@@ -7,6 +7,7 @@ export const ActionType = {
   SET_OPEN_OFFER: `data/setOpenOffer`,
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
+  SET_FAVORITE_LIST: `data/setFavoriteList`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   CHANGE_USER_NAME: `user/changeUserName`,
   CHANGE_USER_AVATAR: `user/changeUserAvatar`,
@@ -51,6 +52,11 @@ export const ActionCreator = {
   setCurrentReviews: (currentReviews) => ({
     type: ActionType.SET_CURRENT_REVIEWS,
     payload: currentReviews
+  }),
+
+  setFavoriteList: (favoriteList) => ({
+    type: ActionType.SET_FAVORITE_LIST,
+    payload: favoriteList
   }),
 
   requiredAuthorization: (status) => ({

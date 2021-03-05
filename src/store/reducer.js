@@ -12,6 +12,7 @@ const initialState = {
   openedOffer: {},
   nearbyOffers: [],
   currentReviews: [],
+  favoriteList: false,
   userName: ``,
   avatarUrl: `../img/avatar.svg`
 };
@@ -65,6 +66,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentReviews: action.payload,
+      };
+
+    case ActionType.SET_FAVORITE_LIST:
+      return {
+        ...state,
+        favoriteList: action.payload,
       };
 
     case ActionType.REQUIRED_AUTHORIZATION:

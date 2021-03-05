@@ -22,6 +22,12 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
     })
 );
 
+export const fetchFavoriteList = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FAVOR)
+  .then(({data}) => dispatch(ActionCreator.setFavoriteList(data)))
+);
+
+
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(({data}) => {
