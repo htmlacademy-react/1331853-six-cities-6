@@ -24,18 +24,20 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
-    .then(({data: {email}}) => {
+    .then(({data}) => {
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
-      dispatch(ActionCreator.changeUserName(email));
+      dispatch(ActionCreator.changeUserName(data.email));
+      dispatch(ActionCreator.changeUserAvatar(data[`avatar_url`]));
     })
   .catch(()=> {})
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})
-    .then(() => {
+    .then(({data}) => {
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
       dispatch(ActionCreator.changeUserName(email));
+      dispatch(ActionCreator.changeUserAvatar(data[`avatar_url`]));
     })
   .then(()=> dispatch(ActionCreator.redirectToRoute(Routes.MAIN)))
 );

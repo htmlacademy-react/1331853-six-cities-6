@@ -9,6 +9,7 @@ export const ActionType = {
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   CHANGE_USER_NAME: `user/changeUserName`,
+  CHANGE_USER_AVATAR: `user/changeUserAvatar`,
   REDIRECT_TO_ROUTE: `login/redirectToRoute`
 };
 
@@ -60,6 +61,12 @@ export const ActionCreator = {
   changeUserName: (userName) => ({
     type: ActionType.CHANGE_USER_NAME,
     payload: userName
+  }),
+
+
+  changeUserAvatar: (avatarUrl) => ({
+    type: ActionType.CHANGE_USER_AVATAR,
+    payload: avatarUrl
   }),
 
   redirectToRoute: (url) => ({

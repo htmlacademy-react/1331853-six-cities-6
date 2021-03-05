@@ -12,7 +12,8 @@ const initialState = {
   openedOffer: {},
   nearbyOffers: [],
   currentReviews: [],
-  userName: ``
+  userName: ``,
+  avatarUrl: `../img/avatar.svg`
 };
 
 const reducer = (state = initialState, action) => {
@@ -76,6 +77,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userName: action.payload
+      };
+
+    case ActionType.CHANGE_USER_AVATAR:
+      return {
+        ...state,
+        avatarUrl: action.payload
       };
 
     default:
