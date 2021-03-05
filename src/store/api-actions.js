@@ -1,5 +1,5 @@
 import {ActionCreator} from "./action";
-import {APIRoute, AuthorizationStatus, LOCAL_STORE_KEYS, Routes} from './../const';
+import {APIRoute, AuthorizationStatus, HTTP_CODE, LOCAL_STORE_KEYS, Routes} from './../const';
 import {adaptOfferToClient, adaptReviewsToClient} from "./adapters";
 import {sortDate} from "../utils";
 import Store from "./local-store";
@@ -27,6 +27,17 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
       dispatch(ActionCreator.setOpenOffer(adaptOfferToClient(offer.data)));
       dispatch(ActionCreator.setNearbyOffers(nearby.data.map((nearbyOffer) => adaptOfferToClient(nearbyOffer))));
       dispatch(ActionCreator.setCurrentReviews(sortedComments.map((comment) => adaptReviewsToClient(comment))));
+    })
+    .catch((err) => {
+      const {response} = err;
+      switch (response.status) {
+        case HTTP_CODE.NOT_FOUND:
+          dispatch(ActionCreator.redirectToRoute(Routes.NOT_FOUND));
+          break;
+
+        default:
+          throw err;
+      }
     })
 );
 
