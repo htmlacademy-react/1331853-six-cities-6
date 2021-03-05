@@ -3,6 +3,7 @@ export const Routes = {
   OFFER: `/offer/:id`,
   LOGIN: `/login`,
   FAVOR: `/favorites`,
+  NOT_FOUND: `/404`
 };
 
 export const APIRoute = {
@@ -79,4 +80,9 @@ export const LOCAL_STORE_KEYS = {
   AUTH: `authorizationStatus`,
   EMAIL: `email`,
   AVATAR_URL: `avatarUrl`
+};
+
+export const HTTP_CODE = {
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404
 };
