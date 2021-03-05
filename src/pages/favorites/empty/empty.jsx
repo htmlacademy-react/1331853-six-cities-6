@@ -1,12 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import Footer from '../../../components/footer/footer';
 import Header from '../../../components/header/header';
 
-const FavoritesEmpty = ({userName}) => (
+const FavoritesEmpty = () => (
   <div className="page page--favorites-empty">
-    <Header userName={userName} />
+    <Header />
     <main className="page__main page__main--favorites page__main--favorites-empty">
       <div className="page__favorites-container container">
         <section className="favorites favorites--empty">
@@ -21,10 +20,5 @@ const FavoritesEmpty = ({userName}) => (
     <Footer />
   </div>
 );
-
-FavoritesEmpty.propTypes = {
-  auth: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired
-};
 
 export default FavoritesEmpty;

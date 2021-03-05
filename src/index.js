@@ -10,22 +10,19 @@ import {ActionCreator} from './store/action';
 import {AuthorizationStatus} from './const';
 import thunk from 'redux-thunk';
 import {checkAuth} from './store/api-actions';
+import {redirect} from './store/middlewares/redirect';
 
 const api = createApi(
     () =>
       store.dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.NO_AUTH))
 );
 
-const Settings = {
-  USER_NAME: `Oliver.conner@gmail.com`,
-};
-
-const {USER_NAME: userName} = Settings;
 
 const store = createStore(
     reducer,
     composeWithDevTools(
-        applyMiddleware(thunk.withExtraArgument(api))
+        applyMiddleware(thunk.withExtraArgument(api)),
+        applyMiddleware(redirect)
     )
 );
 
@@ -33,7 +30,7 @@ store.dispatch(checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App userName={userName}/>
+      <App />
     </Provider>,
 
     document.querySelector(`#root`)

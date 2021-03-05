@@ -7,7 +7,9 @@ export const ActionType = {
   SET_OPEN_OFFER: `data/setOpenOffer`,
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
-  REQUIRED_AUTHORIZATION: `user/requiredAuthorization`
+  REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
+  CHANGE_USER_NAME: `user/changeUserName`,
+  REDIRECT_TO_ROUTE: `login/redirectToRoute`
 };
 
 export const ActionCreator = {
@@ -53,5 +55,15 @@ export const ActionCreator = {
   requiredAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status
+  }),
+
+  changeUserName: (userName) => ({
+    type: ActionType.CHANGE_USER_NAME,
+    payload: userName
+  }),
+
+  redirectToRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url
   })
 };

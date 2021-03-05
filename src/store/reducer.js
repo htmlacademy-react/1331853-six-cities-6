@@ -11,7 +11,8 @@ const initialState = {
   isDataLoaded: false,
   openedOffer: {},
   nearbyOffers: [],
-  currentReviews: []
+  currentReviews: [],
+  userName: ``
 };
 
 const reducer = (state = initialState, action) => {
@@ -69,6 +70,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload
+      };
+
+    case ActionType.CHANGE_USER_NAME:
+      return {
+        ...state,
+        userName: action.payload
       };
 
     default:

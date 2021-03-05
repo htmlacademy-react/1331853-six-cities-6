@@ -1,20 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 import Header from '../../components/header/header';
+import {Routes} from '../../const';
 
-const Page404 = ({userName}) => (
+const Page404 = () => (
   <div className="container" style={{height: `100vh`}}>
-    <Header userName={userName}/>
+    <Header />
     <h1>Error 40<span style={{transform: `scale(-1, 1)`, display: `inline-block`}}>4</span>  <br/><small>Page not Found</small></h1>
-    <Link to="/">Return to the main page</Link>
+    <Link to={Routes.MAIN}>Return to the main page</Link>
   </div>
 
 );
-
-Page404.propTypes = {
-  userName: PropTypes.string.isRequired
-};
 
 export default Page404;

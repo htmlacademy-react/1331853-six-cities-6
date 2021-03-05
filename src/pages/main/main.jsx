@@ -16,7 +16,7 @@ import {SORT_TEXTS} from '../../const';
 import {fetchOfferList} from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
 
-const Main = ({offers, userName, city, currentSort, isDataLoaded, onLoadData}) => {
+const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
   const currentOffers = getOffers(city, offers);
   const sortedOffers = getSortedOffers(currentSort, currentOffers);
 
@@ -34,7 +34,7 @@ const Main = ({offers, userName, city, currentSort, isDataLoaded, onLoadData}) =
   return (
     <>
       <div className="page page--gray page--main">
-        <Header userName={userName} />
+        <Header />
         <main className={`page__main page__main--index ${!currentOffers.length ? `page__main--index-empty` : ``}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
@@ -66,7 +66,7 @@ const Main = ({offers, userName, city, currentSort, isDataLoaded, onLoadData}) =
               </div>
             </div>
 
-            : <MainEmpty userName={userName} city={city}/>
+            : <MainEmpty city={city}/>
           }
         </main>
       </div>
@@ -76,7 +76,6 @@ const Main = ({offers, userName, city, currentSort, isDataLoaded, onLoadData}) =
 
 
 Main.propTypes = {
-  userName: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
   city: PropTypes.string.isRequired,
   currentSort: PropTypes.string.isRequired,

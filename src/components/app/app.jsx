@@ -1,43 +1,44 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
-
-import PropTypes from 'prop-types';
+import {Route, Switch, Router as BrowserRouter} from 'react-router-dom';
 
 import Main from '../../pages/main/main';
 import OfferProperty from '../../pages/offer-property/offer-property';
-import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import Page404 from '../../pages/page-404/page-404';
+import PrivateRoute from '../private-route/private-route';
+import browserHistory from '../../browser-history';
 
 import {Routes} from './../../const';
 
 
 const {MAIN: pathMain, OFFER: pathOffer, LOGIN: pathLogin, FAVOR: pathFavor} = Routes;
 
-const App = ({userName}) => {
+const App = () => {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
 
         <Route exact path={pathMain}>
-          <Main userName={userName} />
+          <Main />
         </Route>
 
         <Route exact path={pathOffer}>
-          <OfferProperty userName={userName}/>
+          <OfferProperty/>
         </Route>
 
-        <Route exact path={pathLogin}>
-          <Login />
-        </Route>
+        <PrivateRoute exact
+          path={pathLogin}
+          render={()=> <Main />}>
+        </PrivateRoute>
 
-        <Route exact path={pathFavor}>
-          <Favorites userName={userName}/>
-        </Route>
+        <PrivateRoute exact
+          path={pathFavor}
+          render={() => <Favorites />}>
+        </PrivateRoute>
 
         <Route>
-          <Page404 userName={userName} />
+          <Page404 />
         </Route>
 
       </Switch>
@@ -45,9 +46,5 @@ const App = ({userName}) => {
   );
 };
 
-
-App.propTypes = {
-  userName: PropTypes.string.isRequired,
-};
 
 export default App;
