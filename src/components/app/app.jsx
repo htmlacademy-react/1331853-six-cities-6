@@ -5,7 +5,9 @@ import Main from '../../pages/main/main';
 import OfferProperty from '../../pages/offer-property/offer-property';
 import Favorites from '../../pages/favorites/favorites';
 import Page404 from '../../pages/page-404/page-404';
+import Login from '../../pages/login/login';
 import PrivateRoute from '../private-route/private-route';
+
 import browserHistory from '../../browser-history';
 
 import {Routes} from './../../const';
@@ -29,7 +31,7 @@ const App = () => {
 
         <PrivateRoute exact
           path={pathLogin}
-          render={()=> <Main />}>
+          render={()=> <Login />}>
         </PrivateRoute>
 
         <PrivateRoute exact
