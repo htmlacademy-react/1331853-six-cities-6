@@ -24,7 +24,7 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
 
 export const fetchFavoriteList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FAVOR)
-  .then(({data}) => dispatch(ActionCreator.setFavoriteList(data)))
+  .then(({data}) => dispatch(ActionCreator.setFavoriteList(data.map((offer)=> adaptOfferToClient(offer)))))
 );
 
 
