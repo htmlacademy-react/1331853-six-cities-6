@@ -24,9 +24,10 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
-    .then(() =>
-      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH))
-    )
+    .then(({data: {email}}) => {
+      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
+      dispatch(ActionCreator.changeUserName(email));
+    })
   .catch(()=> {})
 );
 
