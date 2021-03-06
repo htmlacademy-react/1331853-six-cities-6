@@ -8,8 +8,9 @@ import {getOfferPath, getRatingCount} from '../../../utils';
 import {CARD_CLASS_NAME} from '../../../const';
 import {ActionCreator} from '../../../store/action';
 import {connect} from 'react-redux';
+import {toggleFavorOnServer} from '../../../store/api-actions';
 
-const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode, setActiveOffer, removeActiveOffer}) => {
+const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode, setActiveOffer, removeActiveOffer, toggleFavorOnClick}) => {
   const isCardPremium = isPremium && <div className="place-card__mark"><span>Premium</span></div>;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
 
@@ -19,6 +20,12 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
 
   const cardMouseLeaveHandler = () => {
     removeActiveOffer();
+  };
+
+  const cardFavorClickHandler = (cardId, status) => {
+    const newStatus = status ? 0 : 1;
+    toggleFavorOnClick(cardId, newStatus);
+
   };
 
   return (
@@ -35,7 +42,7 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
             <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isCardFavorite}`} type="button">
+          <button className={`place-card__bookmark-button button ${isCardFavorite}`} type="button" onClick={()=> cardFavorClickHandler(id, isCardFavorite)}>
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
@@ -63,14 +70,20 @@ OfferCard.propTypes = {
   mode: PropTypes.string.isRequired,
   setActiveOffer: PropTypes.func.isRequired,
   removeActiveOffer: PropTypes.func.isRequired,
+  toggleFavorOnClick: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
   setActiveOffer(id) {
     dispatch(ActionCreator.setActiveOffer(id));
   },
+
   removeActiveOffer() {
     dispatch(ActionCreator.removeActiveOffer());
+  },
+
+  toggleFavorOnClick(id, status) {
+    dispatch(toggleFavorOnServer(id, status));
   }
 });
 
