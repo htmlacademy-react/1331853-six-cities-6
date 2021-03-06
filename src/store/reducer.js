@@ -1,10 +1,20 @@
 import {ActionType} from "./action";
-import {AuthorizationStatus, SORT_TYPES} from "../const";
+import {AuthorizationStatus, avatarPlaceholder, SORT_TYPES} from "../const";
 
+
+const toggleCardFavor = (id, state) => {
+  const currentOffers = state.offers;
+  for (const offer of currentOffers) {
+    if (offer.id === id) {
+      offer.isFavorite = !offer.isFavorite;
+    }
+  }
+};
 
 const initialState = {
   city: `Paris`,
   offers: [],
+  offerInteractedWith: false,
   activeOffer: false,
   currentSort: SORT_TYPES.POPULAR,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
@@ -14,7 +24,7 @@ const initialState = {
   currentReviews: [],
   favoriteList: false,
   userName: ``,
-  avatarUrl: `../img/avatar.svg`
+  avatarUrl: avatarPlaceholder
 };
 
 const reducer = (state = initialState, action) => {
@@ -48,6 +58,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true
+      };
+
+    case ActionType.TOGGLE_FAVOR:
+      toggleCardFavor(action.payload, state);
+      return {
+        ...state,
+        offerInteractedWith: true
+      };
+
+    case ActionType.REMOVE_INTERACTED_OFFER:
+      return {
+        ...state,
+        offerInteractedWith: false
       };
 
     case ActionType.SET_OPEN_OFFER:

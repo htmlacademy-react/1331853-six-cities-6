@@ -1,5 +1,5 @@
 import {ActionCreator} from "./action";
-import {APIRoute, AuthorizationStatus, HTTP_CODE, LOCAL_STORE_KEYS, Routes} from './../const';
+import {APIRoute, AuthorizationStatus, avatarPlaceholder, HTTP_CODE, LOCAL_STORE_KEYS, Routes} from './../const';
 import {adaptOfferToClient, adaptReviewsToClient} from "./adapters";
 import {sortDate} from "../utils";
 import Store from "./local-store";
@@ -46,6 +46,25 @@ export const fetchFavoriteList = () => (dispatch, _getState, api) => (
   .then(({data}) => dispatch(ActionCreator.setFavoriteList(data.map((offer)=> adaptOfferToClient(offer)))))
 );
 
+export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.FAVOR}/${id}/${status}`)
+    .then(({data}) => dispatch(ActionCreator.toggleFavor(data.id)))
+    .catch((err) => {
+      const {response} = err;
+      switch (response.status) {
+        case HTTP_CODE.UNAUTHORIZED:
+          dispatch(ActionCreator.redirectToRoute(Routes.LOGIN));
+          dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
+          localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
+          localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
+          localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
+          break;
+
+        default:
+          throw err;
+      }
+    })
+);
 
 export const checkAuth = () => (dispatch, _getState, api) => {
   const {authorizationStatus, email, avatarUrl} = localStore.getItems();
@@ -84,6 +103,7 @@ export const logout = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGOUT)
     .then(() => {
       dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.NO_AUTH));
+      dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
 
       localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
       localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);

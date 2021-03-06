@@ -2,12 +2,15 @@ export const ActionType = {
   CHANGE_CITY: `main/changeCity`,
   SET_ACTIVE_OFFER: `main/setActiveOffer`,
   REMOVE_ACTIVE_OFFER: `main/removeActiveOffer`,
+  REMOVE_INTERACTED_OFFER: `main/removeInteractedOffer`,
   CHANGE_SORT: `main/changeSort`,
   LOAD_OFFERS: `data/loadOffers`,
+  TOGGLE_FAVOR: `data/toggleFavor`,
   SET_OPEN_OFFER: `data/setOpenOffer`,
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
   SET_FAVORITE_LIST: `data/setFavoriteList`,
+  CHANGE_FAVORITE_LIST: `data/changeFavoriteList`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   CHANGE_USER_NAME: `user/changeUserName`,
   CHANGE_USER_AVATAR: `user/changeUserAvatar`,
@@ -29,6 +32,10 @@ export const ActionCreator = {
     type: ActionType.REMOVE_ACTIVE_OFFER
   }),
 
+  removeInteractedOffer: () => ({
+    type: ActionType.REMOVE_INTERACTED_OFFER
+  }),
+
   changeSort: (currentSort) => ({
     type: ActionType.CHANGE_SORT,
     payload: currentSort
@@ -37,6 +44,11 @@ export const ActionCreator = {
   loadOffers: (offers) => ({
     type: ActionType.LOAD_OFFERS,
     payload: offers
+  }),
+
+  toggleFavor: (offerId) => ({
+    type: ActionType.TOGGLE_FAVOR,
+    payload: offerId
   }),
 
   setOpenOffer: (offer) => ({
@@ -57,6 +69,11 @@ export const ActionCreator = {
   setFavoriteList: (favoriteList) => ({
     type: ActionType.SET_FAVORITE_LIST,
     payload: favoriteList
+  }),
+
+  changeFavoriteList: (changedFavoriteList) => ({
+    type: ActionType.CHANGE_FAVORITE_LIST,
+    payload: changedFavoriteList
   }),
 
   requiredAuthorization: (status) => ({
