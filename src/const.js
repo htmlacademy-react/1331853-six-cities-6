@@ -1,3 +1,5 @@
+export const avatarPlaceholder = `../img/avatar.svg`;
+
 export const Routes = {
   MAIN: `/`,
   OFFER: `/offer/:id`,
