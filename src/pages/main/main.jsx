@@ -15,8 +15,9 @@ import {getOffers, getSortedOffers} from '../../utils';
 import {SORT_TEXTS} from '../../const';
 import {fetchOfferList} from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
+import {ActionCreator} from '../../store/action';
 
-const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
+const Main = ({offers, city, currentSort, isDataLoaded, onLoadData, offerInteractedWith, removeInteractedOffer}) => {
   const currentOffers = getOffers(city, offers);
   const sortedOffers = getSortedOffers(currentSort, currentOffers);
 
@@ -24,13 +25,18 @@ const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
     if (!isDataLoaded) {
       onLoadData();
     }
-  }, [isDataLoaded]);
+    if (offerInteractedWith) {
+      removeInteractedOffer();
+    }
+  }, [isDataLoaded, offerInteractedWith]);
 
   if (!isDataLoaded) {
     return (
       <Loading />
     );
   }
+
+
   return (
     <>
       <div className="page page--gray page--main">
@@ -80,20 +86,26 @@ Main.propTypes = {
   city: PropTypes.string.isRequired,
   currentSort: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired
+  offerInteractedWith: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
+  removeInteractedOffer: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({city, offers, currentSort, isDataLoaded}) => ({
+const mapStateToProps = ({city, offers, currentSort, isDataLoaded, offerInteractedWith}) => ({
   offers,
   city,
   currentSort,
-  isDataLoaded
+  isDataLoaded,
+  offerInteractedWith
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
     dispatch(fetchOfferList());
-  }
+  },
+  removeInteractedOffer() {
+    dispatch(ActionCreator.removeInteractedOffer());
+  },
 });
 
 export {Main};
