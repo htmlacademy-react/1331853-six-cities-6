@@ -25,7 +25,6 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
   const cardFavorClickHandler = (cardId, status) => {
     const newStatus = Number(!status);
     toggleFavorOnClick(cardId, newStatus);
-
   };
 
   return (

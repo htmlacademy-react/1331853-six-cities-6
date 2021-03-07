@@ -2,10 +2,15 @@ import {ActionType} from "./action";
 import {AuthorizationStatus, avatarPlaceholder, SORT_TYPES} from "../const";
 
 
-const toggleCardFavor = (offer, {offers, idToIndexMap}) => {
-  const currentOfferIndex = idToIndexMap[offer.id];
+const getItemIndex = (list, id) => {
+  const idList = list.map((item) => item.id);
+  return idList.indexOf(id);
+};
+
+const toggleCardFavor = (offer, currentOfferList) => {
+  const cardIndex = getItemIndex(currentOfferList, offer.id);
   return (
-    [...offers.slice(0, currentOfferIndex), offer, ...offers.slice((currentOfferIndex + 1), offers.length)]
+    [...currentOfferList.slice(0, cardIndex), offer, ...currentOfferList.slice((cardIndex + 1), currentOfferList.length)]
   );
 };
 
@@ -15,29 +20,15 @@ const addCardToFavoriteList = (newFavoriteOffer, currentFavoriteList) => {
 
 
 const removeCardFromFavoriteList = (offerId, currentFavoriteList) => {
-  const offerIdList = currentFavoriteList.map((offer)=> offer.id);
-  const cardIndex = offerIdList.indexOf(offerId);
-
+  const cardIndex = getItemIndex(currentFavoriteList, offerId);
   return (
     [...currentFavoriteList.slice(0, cardIndex), ...currentFavoriteList.slice((cardIndex + 1), currentFavoriteList.length)]
   );
 };
 
-const createOffersMap = (offers) => {
-  const offersMap = {};
-
-  for (let i = 0; i < offers.length; i++) {
-
-    const offerId = offers[i].id;
-    offersMap[offerId] = i;
-  }
-  return offersMap;
-};
-
 const initialState = {
   city: `Paris`,
   offers: [],
-  idToIndexMap: {},
   activeOffer: false,
   currentSort: SORT_TYPES.POPULAR,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
@@ -82,13 +73,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
-        idToIndexMap: createOffersMap(action.payload),
       };
 
     case ActionType.TOGGLE_FAVOR:
       return {
         ...state,
-        offers: toggleCardFavor(action.payload, state),
+        offers: toggleCardFavor(action.payload, state.offers),
       };
 
     case ActionType.TOGGLE_OPENED_CARD_FAVOR:
