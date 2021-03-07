@@ -23,7 +23,7 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
   };
 
   const cardFavorClickHandler = (cardId, status) => {
-    const newStatus = status ? 0 : 1;
+    const newStatus = Number(!status);
     toggleFavorOnClick(cardId, newStatus);
 
   };
@@ -42,7 +42,7 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
             <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isCardFavorite}`} type="button" onClick={()=> cardFavorClickHandler(id, isCardFavorite)}>
+          <button className={`place-card__bookmark-button button ${isCardFavorite}`} type="button" onClick={()=> cardFavorClickHandler(id, isFavorite)}>
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
