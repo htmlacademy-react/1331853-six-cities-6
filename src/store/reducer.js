@@ -3,10 +3,23 @@ import {AuthorizationStatus, avatarPlaceholder, SORT_TYPES} from "../const";
 
 
 const toggleCardFavor = (offer, {offers, idToIndexMap}) => {
-  const currentOfferId = idToIndexMap[offer.id];
-  const firstRange = currentOfferId ? currentOfferId - 1 : currentOfferId;
+  const currentOfferIndex = idToIndexMap[offer.id];
   return (
-    [...offers.slice(0, firstRange), offer, ...offers.slice((currentOfferId + 1), offers.length)]
+    [...offers.slice(0, currentOfferIndex), offer, ...offers.slice((currentOfferIndex + 1), offers.length)]
+  );
+};
+
+const addCardToFavoriteList = (newFavoriteOffer, currentFavoriteList) => {
+  return [...currentFavoriteList, newFavoriteOffer];
+};
+
+
+const removeCardFromFavoriteList = (offerId, currentFavoriteList) => {
+  const offerIdList = currentFavoriteList.map((offer)=> offer.id);
+  const cardIndex = offerIdList.indexOf(offerId);
+
+  return (
+    [...currentFavoriteList.slice(0, cardIndex), ...currentFavoriteList.slice((cardIndex + 1), currentFavoriteList.length)]
   );
 };
 
@@ -114,6 +127,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         favoriteList: action.payload,
         isFavoriteListLoaded: true
+      };
+
+    case ActionType.ADD_CARD_TO_FAVORITE_LIST:
+      return {
+        ...state,
+        favoriteList: addCardToFavoriteList(action.payload, state.favoriteList),
+      };
+
+    case ActionType.REMOVE_CARD_FROM_FAVORITE_LIST:
+      return {
+        ...state,
+        favoriteList: removeCardFromFavoriteList(action.payload, state.favoriteList),
       };
 
     case ActionType.REQUIRED_AUTHORIZATION:

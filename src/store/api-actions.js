@@ -48,7 +48,17 @@ export const fetchFavoriteList = () => (dispatch, _getState, api) => (
 
 export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVOR}/${id}/${status}`)
-    .then(({data}) => dispatch(ActionCreator.toggleFavor(adaptOfferToClient(data))))
+    .then(({data}) => {
+      const adaptedOffer = adaptOfferToClient(data);
+      dispatch(ActionCreator.toggleFavor(adaptedOffer));
+
+      if (status) {
+        dispatch(ActionCreator.addCardToFavoriteList(adaptedOffer));
+      } else {
+        dispatch(ActionCreator.removeCardFromFavoriteList(adaptedOffer.id));
+      }
+
+    })
     .catch((err) => {
       const {response} = err;
       switch (response.status) {

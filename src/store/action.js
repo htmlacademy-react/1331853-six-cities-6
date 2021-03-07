@@ -10,7 +10,8 @@ export const ActionType = {
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
   SET_FAVORITE_LIST: `data/setFavoriteList`,
-  CHANGE_FAVORITE_LIST: `data/changeFavoriteList`,
+  ADD_CARD_TO_FAVORITE_LIST: `data/addCardToFavoriteList`,
+  REMOVE_CARD_FROM_FAVORITE_LIST: `data/removeCardFromFavoriteList`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   CHANGE_USER_NAME: `user/changeUserName`,
   CHANGE_USER_AVATAR: `user/changeUserAvatar`,
@@ -71,10 +72,16 @@ export const ActionCreator = {
     payload: favoriteList
   }),
 
-  changeFavoriteList: (changedFavoriteList) => ({
-    type: ActionType.CHANGE_FAVORITE_LIST,
-    payload: changedFavoriteList
+  addCardToFavoriteList: (newFavoriteOffer) => ({
+    type: ActionType.ADD_CARD_TO_FAVORITE_LIST,
+    payload: newFavoriteOffer
   }),
+
+  removeCardFromFavoriteList: (id) => ({
+    type: ActionType.REMOVE_CARD_FROM_FAVORITE_LIST,
+    payload: id
+  }),
+
 
   requiredAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
