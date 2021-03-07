@@ -76,6 +76,29 @@ export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) =>
     })
 );
 
+export const submitComment = (id, {review: comment, rating}) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.COMMENTS}/${id}`, {comment, rating})
+    .then(({data}) => {
+      const sortedComments = data.sort(sortDate);
+      dispatch(ActionCreator.setCurrentReviews(sortedComments.map((item) => adaptReviewsToClient(item))));
+    })
+    .catch((err) => {
+      const {response} = err;
+      switch (response.status) {
+        case HTTP_CODE.UNAUTHORIZED:
+          dispatch(ActionCreator.redirectToRoute(Routes.LOGIN));
+          dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
+          localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
+          localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
+          localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
+          break;
+
+        default:
+          throw err;
+      }
+    })
+);
+
 export const checkAuth = () => (dispatch, _getState, api) => {
   const {authorizationStatus, email, avatarUrl} = localStore.getItems();
 
