@@ -77,6 +77,13 @@ const reducer = (state = initialState, action) => {
         offers: toggleCardFavor(action.payload, state),
       };
 
+    case ActionType.TOGGLE_OPENED_CARD_FAVOR:
+      return {
+        ...state,
+        openedOffer: Object.assign({}, state.openedOffer, {isFavorite: !state.openedOffer.isFavorite})
+      };
+
+
     case ActionType.REMOVE_INTERACTED_OFFER:
       return {
         ...state,

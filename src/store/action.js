@@ -5,6 +5,7 @@ export const ActionType = {
   CHANGE_SORT: `main/changeSort`,
   LOAD_OFFERS: `data/loadOffers`,
   TOGGLE_FAVOR: `data/toggleFavor`,
+  TOGGLE_OPENED_CARD_FAVOR: `data/toggleOpenedCardFavor`,
   SET_OPEN_OFFER: `data/setOpenOffer`,
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
@@ -44,6 +45,10 @@ export const ActionCreator = {
   toggleFavor: (offerId) => ({
     type: ActionType.TOGGLE_FAVOR,
     payload: offerId
+  }),
+
+  toggleOpenedCardFavor: () => ({
+    type: ActionType.TOGGLE_OPENED_CARD_FAVOR
   }),
 
   setOpenOffer: (offer) => ({
