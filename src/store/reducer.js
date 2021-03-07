@@ -32,7 +32,8 @@ const initialState = {
   openedOffer: {},
   nearbyOffers: [],
   currentReviews: [],
-  favoriteList: false,
+  favoriteList: [],
+  isFavoriteListLoaded: false,
   userName: ``,
   avatarUrl: avatarPlaceholder
 };
@@ -112,6 +113,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         favoriteList: action.payload,
+        isFavoriteListLoaded: true
       };
 
     case ActionType.REQUIRED_AUTHORIZATION:

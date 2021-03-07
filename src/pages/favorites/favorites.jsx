@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import PropTypes from 'prop-types';
 import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
@@ -15,13 +15,20 @@ import {fetchFavoriteList} from './../../store/api-actions';
 import Loading from '../../components/loading/loading';
 
 
-const Favorites = ({favoriteList, changeCity, setFavoriteList}) => {
-  if (!favoriteList) {
-    setFavoriteList();
+const Favorites = ({favoriteList, changeCity, setFavoriteList, isFavoriteListLoaded}) => {
+
+  useEffect(() => {
+    if (!isFavoriteListLoaded) {
+      setFavoriteList();
+    }
+  }, [isFavoriteListLoaded]);
+
+  if (!isFavoriteListLoaded) {
     return (
       <Loading />
     );
   }
+
   const cityList = [...new Set(favoriteList.map((offer) => offer.city.name))];
 
   const cardClickHandler = (city) => {
@@ -70,13 +77,15 @@ const Favorites = ({favoriteList, changeCity, setFavoriteList}) => {
 };
 
 Favorites.propTypes = {
-  favoriteList: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
+  favoriteList: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
+  isFavoriteListLoaded: PropTypes.bool.isRequired,
   changeCity: PropTypes.func.isRequired,
   setFavoriteList: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({favoriteList}) => ({
-  favoriteList
+const mapStateToProps = ({favoriteList, isFavoriteListLoaded}) => ({
+  favoriteList,
+  isFavoriteListLoaded
 });
 
 const mapDispatchToProps = (dispatch) => ({
