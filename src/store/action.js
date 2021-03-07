@@ -2,7 +2,6 @@ export const ActionType = {
   CHANGE_CITY: `main/changeCity`,
   SET_ACTIVE_OFFER: `main/setActiveOffer`,
   REMOVE_ACTIVE_OFFER: `main/removeActiveOffer`,
-  REMOVE_INTERACTED_OFFER: `main/removeInteractedOffer`,
   CHANGE_SORT: `main/changeSort`,
   LOAD_OFFERS: `data/loadOffers`,
   TOGGLE_FAVOR: `data/toggleFavor`,
@@ -30,10 +29,6 @@ export const ActionCreator = {
 
   removeActiveOffer: () => ({
     type: ActionType.REMOVE_ACTIVE_OFFER
-  }),
-
-  removeInteractedOffer: () => ({
-    type: ActionType.REMOVE_INTERACTED_OFFER
   }),
 
   changeSort: (currentSort) => ({

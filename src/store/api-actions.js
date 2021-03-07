@@ -48,7 +48,7 @@ export const fetchFavoriteList = () => (dispatch, _getState, api) => (
 
 export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVOR}/${id}/${status}`)
-    .then(({data}) => dispatch(ActionCreator.toggleFavor(data.id)))
+    .then(({data}) => dispatch(ActionCreator.toggleFavor(adaptOfferToClient(data))))
     .catch((err) => {
       const {response} = err;
       switch (response.status) {

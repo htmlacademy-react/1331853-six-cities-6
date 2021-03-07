@@ -2,19 +2,29 @@ import {ActionType} from "./action";
 import {AuthorizationStatus, avatarPlaceholder, SORT_TYPES} from "../const";
 
 
-const toggleCardFavor = (id, state) => {
-  const currentOffers = state.offers;
-  for (const offer of currentOffers) {
-    if (offer.id === id) {
-      offer.isFavorite = !offer.isFavorite;
-    }
+const toggleCardFavor = (offer, {offers, idToIndexMap}) => {
+  const currentOfferId = idToIndexMap[offer.id];
+  const firstRange = currentOfferId ? currentOfferId - 1 : currentOfferId;
+  return (
+    [...offers.slice(0, firstRange), offer, ...offers.slice((currentOfferId + 1), offers.length)]
+  );
+};
+
+const createOffersMap = (offers) => {
+  const offersMap = {};
+
+  for (let i = 0; i < offers.length; i++) {
+
+    const offerId = offers[i].id;
+    offersMap[offerId] = i;
   }
+  return offersMap;
 };
 
 const initialState = {
   city: `Paris`,
   offers: [],
-  offerInteractedWith: false,
+  idToIndexMap: {},
   activeOffer: false,
   currentSort: SORT_TYPES.POPULAR,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
@@ -57,14 +67,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offers: action.payload,
-        isDataLoaded: true
+        isDataLoaded: true,
+        idToIndexMap: createOffersMap(action.payload),
       };
 
     case ActionType.TOGGLE_FAVOR:
-      toggleCardFavor(action.payload, state);
       return {
         ...state,
-        offerInteractedWith: true
+        offers: toggleCardFavor(action.payload, state),
       };
 
     case ActionType.REMOVE_INTERACTED_OFFER:
