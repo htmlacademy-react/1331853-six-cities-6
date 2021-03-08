@@ -31,6 +31,7 @@ const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
       <Loading />
     );
   }
+
   return (
     <>
       <div className="page page--gray page--main">
@@ -80,14 +81,14 @@ Main.propTypes = {
   city: PropTypes.string.isRequired,
   currentSort: PropTypes.string.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired
+  onLoadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({city, offers, currentSort, isDataLoaded}) => ({
   offers,
   city,
   currentSort,
-  isDataLoaded
+  isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,37 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Star from './star/star';
 import {STAR_LIST} from '../../../const';
+import {connect} from 'react-redux';
+import {submitComment} from '../../../store/api-actions';
+import {PropTypes} from 'prop-types';
+import {offersPropValid} from './../../offer-list/offer-card/offer-card.prop';
 
-const UserReview = () => {
-  const [review, setReview] = useState({
-    "comment": ``,
-    "date": ``,
-    "id": ``,
-    "rating": ``,
-    "user": {
-      "avatarUrl": ``,
-      "id": ``,
-      "isPro": false,
-      "name": ``
-    }
-  });
+const UserReview = ({openedOffer, submitCommentOnServer}) => {
 
   const formSubmitHandler = (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     const reviewComment = formData.get(`review`);
     const currentRating = formData.get(`rating`);
-
-    setReview({
-      ...review,
-      comment: reviewComment,
-      date: new Date(),
-      rating: currentRating
-    });
+    submitCommentOnServer(openedOffer.id, {review: reviewComment, rating: currentRating});
   };
 
   return (
-    <form onSubmit={(evt)=> formSubmitHandler(evt)} className="reviews__form form" action="#" method="post">
+    <form onSubmit={(evt) => formSubmitHandler(evt)} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
@@ -49,4 +35,20 @@ const UserReview = () => {
   );
 };
 
-export default UserReview;
+UserReview.propTypes = {
+  openedOffer: PropTypes.shape(offersPropValid).isRequired,
+  submitCommentOnServer: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  submitCommentOnServer(id, review) {
+    dispatch(submitComment(id, review));
+  }
+});
+
+const mapStateToProps = ({openedOffer}) => ({
+  openedOffer
+});
+
+export {UserReview};
+export default connect(mapStateToProps, mapDispatchToProps)(UserReview);

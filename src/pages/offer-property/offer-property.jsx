@@ -16,11 +16,12 @@ import Map from '../../components/map/map';
 
 import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
-import {fetchOpenedOfferData} from '../../store/api-actions';
+import {fetchOpenedOfferData, toggleFavorOnServer} from '../../store/api-actions';
 import Loading from '../../components/loading/loading';
+import {ActionCreator} from '../../store/action';
 
 
-const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews}) => {
+const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews, toggleFavorOnClick, toggleOpenedCardFavor}) => {
 
   const match = useRouteMatch();
   const pathId = match.params.id.slice(1);
@@ -33,11 +34,19 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
     );
   }
 
+
   const reviewList = currentReviews;
 
-  const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
+  const {id, images, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
   const isOfferPremium = isPremium && <div className="property__mark"><span>Premium</span></div>;
   const isUserPro = isPro && <span className="property__user-status">Pro</span>;
+  const isCardFavorite = isFavorite ? `property__bookmark-button--active` : ``;
+
+  const cardFavorClickHandler = (cardId, status) => {
+    const newStatus = status ? 0 : 1;
+    toggleFavorOnClick(cardId, newStatus);
+    toggleOpenedCardFavor();
+  };
 
   return (
     <div className="page">
@@ -54,7 +63,7 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={`property__bookmark-button ${isCardFavorite} button`} type="button" onClick={()=> cardFavorClickHandler(id, isFavorite)}>
                   <svg className="property__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
                   </svg>
@@ -146,6 +155,8 @@ OfferProperty.propTypes = {
   currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.array]).isRequired,
   city: PropTypes.string.isRequired,
   setOpenedOfferData: PropTypes.func.isRequired,
+  toggleFavorOnClick: PropTypes.func.isRequired,
+  toggleOpenedCardFavor: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers, currentReviews}) => ({
@@ -154,13 +165,19 @@ const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearby
   authorizationStatus,
   openedOffer,
   nearbyOffers,
-  currentReviews
+  currentReviews,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setOpenedOfferData(id) {
     dispatch(fetchOpenedOfferData(id));
   },
+  toggleFavorOnClick(id, status) {
+    dispatch(toggleFavorOnServer(id, status));
+  },
+  toggleOpenedCardFavor() {
+    dispatch(ActionCreator.toggleOpenedCardFavor());
+  }
 });
 
 

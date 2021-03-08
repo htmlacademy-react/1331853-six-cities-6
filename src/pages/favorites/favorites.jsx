@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import PropTypes from 'prop-types';
 import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
@@ -11,19 +11,34 @@ import {connect} from 'react-redux';
 import FavoritesEmpty from './empty/empty';
 import {getOffers} from '../../utils';
 import {ActionCreator} from '../../store/action';
+import {fetchFavoriteList} from './../../store/api-actions';
+import Loading from '../../components/loading/loading';
 
 
-const Favorites = ({offers, changeCity}) => {
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const cityList = [...new Set(favoriteOffers.map((offer) => offer.city.name))];
+const Favorites = ({favoriteList, changeCity, setFavoriteList, isFavoriteListLoaded}) => {
+
+  useEffect(() => {
+    if (!isFavoriteListLoaded) {
+      setFavoriteList();
+    }
+  }, [isFavoriteListLoaded]);
+
+  if (!isFavoriteListLoaded) {
+    return (
+      <Loading />
+    );
+  }
+
+  const cityList = [...new Set(favoriteList.map((offer) => offer.city.name))];
 
   const cardClickHandler = (city) => {
     changeCity(city);
   };
+
   return (
     <>
       {
-        favoriteOffers ?
+        favoriteList.length ?
           <div className="page">
             <Header />
             <main className="page__main page__main--favorites">
@@ -40,7 +55,7 @@ const Favorites = ({offers, changeCity}) => {
                           </div>
 
                           <div className="favorites__places">
-                            <OfferList offers={getOffers(city, favoriteOffers)} mode="FAVOR"/>
+                            <OfferList offers={getOffers(city, favoriteList)} mode="FAVOR"/>
                           </div>
 
                         </li>
@@ -62,17 +77,23 @@ const Favorites = ({offers, changeCity}) => {
 };
 
 Favorites.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
-  changeCity: PropTypes.func.isRequired
+  favoriteList: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
+  isFavoriteListLoaded: PropTypes.bool.isRequired,
+  changeCity: PropTypes.func.isRequired,
+  setFavoriteList: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({offers}) => ({
-  offers
+const mapStateToProps = ({favoriteList, isFavoriteListLoaded}) => ({
+  favoriteList,
+  isFavoriteListLoaded
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeCity(city) {
     dispatch(ActionCreator.changeCity(city));
+  },
+  setFavoriteList() {
+    dispatch(fetchFavoriteList());
   }
 });
 

@@ -12,6 +12,7 @@ import thunk from 'redux-thunk';
 import {checkAuth} from './store/api-actions';
 import {redirect} from './store/middlewares/redirect';
 
+
 const api = createApi(
     () =>
       store.dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.NO_AUTH))

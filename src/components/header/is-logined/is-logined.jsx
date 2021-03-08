@@ -4,10 +4,10 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {AuthorizationStatus, Routes} from './../../../const';
 
-const IsLogined = ({authorizationStatus, userName}) => {
+const IsLogined = ({authorizationStatus, userName, avatarUrl}) => {
   return (
     <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVOR}>
-      <div className="header__avatar-wrapper user__avatar-wrapper">
+      <div className="header__avatar-wrapper user__avatar-wrapper" style={{backgroundImage: `url(${avatarUrl})`}}>
       </div>
       <span className="header__user-name user__name">{authorizationStatus === AuthorizationStatus.AUTH ? userName : `Sign in`}</span>
     </Link>
@@ -16,12 +16,14 @@ const IsLogined = ({authorizationStatus, userName}) => {
 
 IsLogined.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({authorizationStatus, userName}) => ({
+const mapStateToProps = ({authorizationStatus, userName, avatarUrl}) => ({
   authorizationStatus,
-  userName
+  userName,
+  avatarUrl
 });
 
 export {IsLogined};
