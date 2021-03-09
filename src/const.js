@@ -84,7 +84,7 @@ export const LOCAL_STORE_KEYS = {
   AVATAR_URL: `avatarUrl`
 };
 
-export const HTTP_CODE = {
+export const HttpCode = {
   UNAUTHORIZED: 401,
   NOT_FOUND: 404
 };
