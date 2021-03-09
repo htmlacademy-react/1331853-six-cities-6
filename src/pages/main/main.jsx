@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -11,21 +11,29 @@ import Sort from '../../components/main/sort/sort';
 import Map from '../../components/map/map';
 import MainEmpty from './empty/empty';
 import Toast from '../../components/toast/toast';
+import Loading from '../../components/loading/loading';
 
 import {getOffers, getSortedOffers} from '../../utils';
-import {SORT_TEXTS} from '../../const';
+
 import {fetchOfferList} from '../../store/api-actions';
-import Loading from '../../components/loading/loading';
 
 const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
   const currentOffers = getOffers(city, offers);
   const sortedOffers = getSortedOffers(currentSort, currentOffers);
+
+  const cardSectionRef = useRef();
 
   useEffect(() => {
     if (!isDataLoaded) {
       onLoadData();
     }
   }, [isDataLoaded]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      cardSectionRef.current.scrollTop = 0;
+    }
+  }, [city]);
 
   if (!isDataLoaded) {
     return (
@@ -46,19 +54,10 @@ const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
           {currentOffers.length ?
             <div className="cities">
               <div className="cities__places-container container">
-                <section className="cities__places places">
+                <section className="cities__places places" ref={cardSectionRef}>
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{currentOffers.length} places to stay in {city}</b>
-                  <form className="places__sorting" action="#" method="get">
-                    <span className="places__sorting-caption">Sort by </span>
-                    <span className="places__sorting-type" tabIndex={0}>
-                      {SORT_TEXTS[currentSort]}
-                      <svg className="places__sorting-arrow" width={7} height={4}>
-                        <use xlinkHref="#icon-arrow-select" />
-                      </svg>
-                    </span>
-                    <Sort />
-                  </form>
+                  <Sort />
                   <div className="cities__places-list places__list tabs__content">
                     <OfferList offers={sortedOffers} mode="MAIN" />
                   </div>
