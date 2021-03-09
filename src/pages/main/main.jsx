@@ -10,6 +10,7 @@ import OfferList from '../../components/offer-list/offer-list';
 import Sort from '../../components/main/sort/sort';
 import Map from '../../components/map/map';
 import MainEmpty from './empty/empty';
+import Toast from '../../components/toast/toast';
 
 import {getOffers, getSortedOffers} from '../../utils';
 import {SORT_TEXTS} from '../../const';
@@ -35,6 +36,7 @@ const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
   return (
     <>
       <div className="page page--gray page--main">
+        <Toast />
         <Header />
         <main className={`page__main page__main--index ${!currentOffers.length ? `page__main--index-empty` : ``}`}>
           <h1 className="visually-hidden">Cities</h1>

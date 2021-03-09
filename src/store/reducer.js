@@ -39,7 +39,8 @@ const initialState = {
   favoriteList: [],
   isFavoriteListLoaded: false,
   userName: ``,
-  avatarUrl: avatarPlaceholder
+  avatarUrl: avatarPlaceholder,
+  errorMessage: ``
 };
 
 const reducer = (state = initialState, action) => {
@@ -147,6 +148,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         avatarUrl: action.payload
+      };
+
+    case ActionType.SET_ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMessage: String(action.payload)
       };
 
     default:

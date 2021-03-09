@@ -7,12 +7,14 @@ import LocationBtn from '../../components/common/location-btn';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import OfferList from '../../components/offer-list/offer-list';
-import {connect} from 'react-redux';
+import Loading from '../../components/loading/loading';
+import Toast from '../../components/toast/toast';
 import FavoritesEmpty from './empty/empty';
+
+import {connect} from 'react-redux';
 import {getOffers} from '../../utils';
 import {ActionCreator} from '../../store/action';
 import {fetchFavoriteList} from './../../store/api-actions';
-import Loading from '../../components/loading/loading';
 
 
 const Favorites = ({favoriteList, changeCity, setFavoriteList, isFavoriteListLoaded}) => {
@@ -40,6 +42,7 @@ const Favorites = ({favoriteList, changeCity, setFavoriteList, isFavoriteListLoa
       {
         favoriteList.length ?
           <div className="page">
+            <Toast />
             <Header />
             <main className="page__main page__main--favorites">
               <div className="page__favorites-container container">

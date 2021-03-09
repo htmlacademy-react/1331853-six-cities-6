@@ -1,5 +1,5 @@
 import {ActionCreator} from "./action";
-import {APIRoute, AuthorizationStatus, avatarPlaceholder, HTTP_CODE, LOCAL_STORE_KEYS, Routes} from './../const';
+import {APIRoute, AuthorizationStatus, avatarPlaceholder, HttpCode, LOCAL_STORE_KEYS, Routes} from './../const';
 import {adaptOfferToClient, adaptReviewsToClient} from "./adapters";
 import {sortDate} from "../utils";
 import Store from "./local-store";
@@ -31,12 +31,13 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
     .catch((err) => {
       const {response} = err;
       switch (response.status) {
-        case HTTP_CODE.NOT_FOUND:
+        case HttpCode.NOT_FOUND:
           dispatch(ActionCreator.redirectToRoute(Routes.NOT_FOUND));
           break;
 
         default:
-          throw err;
+          dispatch(ActionCreator.setErrorMessage(response.status));
+          break;
       }
     })
 );
@@ -62,7 +63,7 @@ export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) =>
     .catch((err) => {
       const {response} = err;
       switch (response.status) {
-        case HTTP_CODE.UNAUTHORIZED:
+        case HttpCode.UNAUTHORIZED:
           dispatch(ActionCreator.redirectToRoute(Routes.LOGIN));
           dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
           localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
@@ -71,7 +72,8 @@ export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) =>
           break;
 
         default:
-          throw err;
+          dispatch(ActionCreator.setErrorMessage(response.status));
+          break;
       }
     })
 );
@@ -85,7 +87,7 @@ export const submitComment = (id, {review: comment, rating}) => (dispatch, _getS
     .catch((err) => {
       const {response} = err;
       switch (response.status) {
-        case HTTP_CODE.UNAUTHORIZED:
+        case HttpCode.UNAUTHORIZED:
           dispatch(ActionCreator.redirectToRoute(Routes.LOGIN));
           dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
           localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
@@ -94,7 +96,8 @@ export const submitComment = (id, {review: comment, rating}) => (dispatch, _getS
           break;
 
         default:
-          throw err;
+          dispatch(ActionCreator.setErrorMessage(response.status));
+          break;
       }
     })
 );
@@ -115,7 +118,7 @@ export const checkAuth = () => (dispatch, _getState, api) => {
       dispatch(ActionCreator.changeUserName(data.email));
       dispatch(ActionCreator.changeUserAvatar(data[`avatar_url`]));
     })
-    .catch(() => { });
+    .catch(()=> {});
 };
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
@@ -129,7 +132,10 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
       localStore.setItem(LOCAL_STORE_KEYS.EMAIL, email);
       localStore.setItem(LOCAL_STORE_KEYS.AVATAR_URL, data[`avatar_url`]);
     })
-  .then(()=> dispatch(ActionCreator.redirectToRoute(Routes.MAIN)))
+    .then(() => dispatch(ActionCreator.redirectToRoute(Routes.MAIN)))
+    .catch(({response}) => {
+      dispatch(ActionCreator.setErrorMessage(response.status));
+    })
 );
 
 export const logout = () => (dispatch, _getState, api) => (
@@ -141,5 +147,8 @@ export const logout = () => (dispatch, _getState, api) => (
       localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
       localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
       localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
+    })
+    .catch(({response}) => {
+      dispatch(ActionCreator.setErrorMessage(response.status));
     })
 );

@@ -13,11 +13,12 @@ import InsideList from '../../components/offer-property/inside-list/inside-list'
 import ReviewList from '../../components/offer-property/review-list/review-list';
 import OfferList from '../../components/offer-list/offer-list';
 import Map from '../../components/map/map';
+import Toast from '../../components/toast/toast';
+import Loading from '../../components/loading/loading';
 
 import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
 import {fetchOpenedOfferData, toggleFavorOnServer} from '../../store/api-actions';
-import Loading from '../../components/loading/loading';
 import {ActionCreator} from '../../store/action';
 
 
@@ -47,6 +48,7 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
 
   return (
     <div className="page">
+      <Toast />
       <Header />
       <main className="page__main page__main--property">
         <section className="property">

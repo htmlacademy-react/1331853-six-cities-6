@@ -15,7 +15,8 @@ export const ActionType = {
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   CHANGE_USER_NAME: `user/changeUserName`,
   CHANGE_USER_AVATAR: `user/changeUserAvatar`,
-  REDIRECT_TO_ROUTE: `login/redirectToRoute`
+  REDIRECT_TO_ROUTE: `login/redirectToRoute`,
+  SET_ERROR_MESSAGE: `error/setErrorMessage`
 };
 
 export const ActionCreator = {
@@ -102,5 +103,10 @@ export const ActionCreator = {
   redirectToRoute: (url) => ({
     type: ActionType.REDIRECT_TO_ROUTE,
     payload: url
+  }),
+
+  setErrorMessage: (message) => ({
+    type: ActionType.SET_ERROR_MESSAGE,
+    payload: message
   })
 };
