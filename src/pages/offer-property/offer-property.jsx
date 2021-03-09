@@ -33,7 +33,9 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
       <Loading />
     );
   }
-  const reviewList = currentReviews;
+
+  const MAX_REVIEWS_VISIBLE = 10;
+  const reviewList = currentReviews.length > 10 ? currentReviews.slice(0, MAX_REVIEWS_VISIBLE) : currentReviews;
 
   const {id, images, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
   const isOfferPremium = isPremium && <div className="property__mark"><span>Premium</span></div>;
