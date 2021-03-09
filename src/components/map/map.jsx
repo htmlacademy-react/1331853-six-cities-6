@@ -57,7 +57,7 @@ const Map = ({offers, mode, city, activeOffer}) => {
   }, [city, activeOffer]);
 
   return (
-    <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} style={{width: `${mode === `OFFER` && `1144px`}`, margin: `${mode === `OFFER` && `auto`}`}} ref={mapRef}/>
+    <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} style={mode === `OFFER` && {width: `1144px`, margin: `auto auto 50px auto`}} ref={mapRef}/>
   );
 };
 
