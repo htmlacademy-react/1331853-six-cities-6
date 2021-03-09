@@ -88,3 +88,8 @@ export const HTTP_CODE = {
   UNAUTHORIZED: 401,
   NOT_FOUND: 404
 };
+
+export const ReviewValid = {
+  MAX_LENGTH: 300,
+  MIN_LENGTH: 50
+};
