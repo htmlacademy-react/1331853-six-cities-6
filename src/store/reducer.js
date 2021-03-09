@@ -36,6 +36,7 @@ const initialState = {
   openedOffer: {},
   nearbyOffers: false,
   currentReviews: false,
+  reviewLoadingStatus: ``,
   favoriteList: [],
   isFavoriteListLoaded: false,
   userName: ``,
@@ -111,6 +112,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentReviews: action.payload,
+      };
+
+    case ActionType.SET_LOADING_REVIEW_STATUS:
+      return {
+        ...state,
+        reviewLoadingStatus: action.payload,
       };
 
     case ActionType.SET_FAVORITE_LIST:

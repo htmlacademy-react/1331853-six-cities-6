@@ -1,5 +1,5 @@
 import {ActionCreator} from "./action";
-import {APIRoute, AuthorizationStatus, avatarPlaceholder, HttpCode, LOCAL_STORE_KEYS, Routes} from './../const';
+import {APIRoute, AuthorizationStatus, avatarPlaceholder, HttpCode, LOCAL_STORE_KEYS, Routes, ReviewLoadingStatus} from './../const';
 import {adaptOfferToClient, adaptReviewsToClient} from "./adapters";
 import {sortDate} from "../utils";
 import Store from "./local-store";
@@ -83,6 +83,7 @@ export const submitComment = (id, {review: comment, rating}) => (dispatch, _getS
     .then(({data}) => {
       const sortedComments = data.sort(sortDate);
       dispatch(ActionCreator.setCurrentReviews(sortedComments.map((item) => adaptReviewsToClient(item))));
+      dispatch(ActionCreator.setLoadingReviewStatus(ReviewLoadingStatus.LOADED));
     })
     .catch((err) => {
       const {response} = err;
@@ -97,6 +98,7 @@ export const submitComment = (id, {review: comment, rating}) => (dispatch, _getS
 
         default:
           dispatch(ActionCreator.setErrorMessage(response.status));
+          dispatch(ActionCreator.setLoadingReviewStatus(ReviewLoadingStatus.LOADING_FAILED));
           break;
       }
     })

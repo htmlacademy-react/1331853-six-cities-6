@@ -9,6 +9,7 @@ export const ActionType = {
   SET_OPEN_OFFER: `data/setOpenOffer`,
   SET_NEARBY_OFFERS: `data/setNearbyOffers`,
   SET_CURRENT_REVIEWS: `data/setCurrentReviews`,
+  SET_LOADING_REVIEW_STATUS: `data/setLoadingReviewStatus`,
   SET_FAVORITE_LIST: `data/setFavoriteList`,
   ADD_CARD_TO_FAVORITE_LIST: `data/addCardToFavoriteList`,
   REMOVE_CARD_FROM_FAVORITE_LIST: `data/removeCardFromFavoriteList`,
@@ -66,6 +67,11 @@ export const ActionCreator = {
   setCurrentReviews: (currentReviews) => ({
     type: ActionType.SET_CURRENT_REVIEWS,
     payload: currentReviews
+  }),
+
+  setLoadingReviewStatus: (status) => ({
+    type: ActionType.SET_LOADING_REVIEW_STATUS,
+    payload: status
   }),
 
   setFavoriteList: (favoriteList) => ({
