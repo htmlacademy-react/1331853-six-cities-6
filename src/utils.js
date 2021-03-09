@@ -1,9 +1,9 @@
 import {Routes, SORT_TYPES, STAR_LIST} from "./const";
 
-export const getRatingCount = (rating) => (
-  100 / STAR_LIST.length * rating
-);
-
+export const getRatingCount = (rating) => {
+  const roundedRating = Math.round(rating);
+  return 100 / STAR_LIST.length * roundedRating;
+};
 export const sortDate = (a, b) => (
   Date.parse(a.date) - Date.parse(b.date)
 );
