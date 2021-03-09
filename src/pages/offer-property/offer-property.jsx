@@ -117,9 +117,7 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewList.length}</span></h2>
                 {
-                  reviewList
-                    ? <ReviewList reviews={reviewList} />
-                    : <Loading />
+                  reviewList && <ReviewList reviews={reviewList} />
                 }
 
                 {authorizationStatus === AuthorizationStatus.AUTH ? <UserReview /> : ``}
@@ -129,8 +127,7 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
           <Map offers={nearbyOffers} city={city} mode="OFFER"/>
         </section>
         {
-          nearbyOffers
-            ?
+          nearbyOffers &&
             <div className="container">
               <section className="near-places places">
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>
@@ -139,8 +136,6 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
                 </div>
               </section>
             </div>
-            :
-            <Loading />
         }
       </main>
     </div>
