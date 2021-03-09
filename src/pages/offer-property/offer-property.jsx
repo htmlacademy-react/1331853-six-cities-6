@@ -27,14 +27,11 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
   const pathId = match.params.id.slice(1);
 
   if (String(openedOffer.id) !== pathId) {
-
     setOpenedOfferData(pathId);
     return (
       <Loading />
     );
   }
-
-
   const reviewList = currentReviews;
 
   const {id, images, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host: {avatarUrl, name, isPro}, description} = openedOffer;
@@ -116,10 +113,9 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewList.length}</span></h2>
                 {
-                  reviewList.length ?
-                    <ReviewList reviews={reviewList} />
-                    :
-                    <Loading />
+                  reviewList
+                    ? <ReviewList reviews={reviewList} />
+                    : <Loading />
                 }
 
                 {authorizationStatus === AuthorizationStatus.AUTH ? <UserReview /> : ``}
@@ -129,7 +125,7 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
           <Map offers={nearbyOffers} city={city} mode="OFFER"/>
         </section>
         {
-          nearbyOffers.length
+          nearbyOffers
             ?
             <div className="container">
               <section className="near-places places">
@@ -151,12 +147,13 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
 OfferProperty.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.object]).isRequired,
-  nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
-  currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.array]).isRequired,
+  nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
+  currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.bool]).isRequired,
   city: PropTypes.string.isRequired,
   setOpenedOfferData: PropTypes.func.isRequired,
   toggleFavorOnClick: PropTypes.func.isRequired,
-  toggleOpenedCardFavor: PropTypes.func.isRequired
+  toggleOpenedCardFavor: PropTypes.func.isRequired,
+
 };
 
 const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers, currentReviews}) => ({
@@ -177,7 +174,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   toggleOpenedCardFavor() {
     dispatch(ActionCreator.toggleOpenedCardFavor());
-  }
+  },
 });
 
 
