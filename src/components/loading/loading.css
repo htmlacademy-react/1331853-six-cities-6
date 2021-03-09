@@ -10,20 +10,19 @@
 
 .text::before {
   content: "Loading";
-  font-family: "rubik, arial, sans-serif";
+  font-family: rubik, arial, sans-serif;
   color: white;
   vertical-align: -50%;
+  letter-spacing: 1;
   font-size: 40px;
   font-weight: 300;
-  letter-spacing: 1px;
   padding: 11px 23px 11px 23px;
   transform: skew(-15deg);
   background: #4481c3;
   border-radius: 3px;
-
-  -moz-animation: fade 5s ease-in-out infinite;
-  -webkit-animation: fade 5s ease-in-out infinite;
-  animation: fade 5s ease-in-out infinite;
+  -moz-animation: fade 3s ease-in-out infinite;
+  -webkit-animation: fade 3s ease-in-out infinite;
+  animation: fade 3s ease-in-out infinite;
 
 }
 
@@ -32,7 +31,6 @@
   0%,
   100% {
     text-shadow: 0px 0px 0px white;
-    letter-spacing: 4px;
     color: white;
   }
 
