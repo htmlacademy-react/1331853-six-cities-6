@@ -1,3 +1,5 @@
+import {createAction} from '@reduxjs/toolkit';
+
 export const ActionType = {
   CHANGE_CITY: `main/changeCity`,
   SET_ACTIVE_OFFER: `main/setActiveOffer`,
@@ -20,97 +22,110 @@ export const ActionType = {
   SET_ERROR_MESSAGE: `user/setErrorMessage`
 };
 
-export const changeCity = (city) => ({
-  type: ActionType.CHANGE_CITY,
-  payload: city
+export const changeCity = createAction(ActionType.CHANGE_CITY, (city) => {
+  return {
+    payload: city
+  };
 });
 
-export const setActiveOffer = (id) => ({
-  type: ActionType.SET_ACTIVE_OFFER,
-  payload: id
+export const setActiveOffer = createAction(ActionType.SET_ACTIVE_OFFER, (id) => {
+  return {
+    payload: id
+  };
 });
 
-export const removeActiveOffer = () => ({
-  type: ActionType.REMOVE_ACTIVE_OFFER
+export const removeActiveOffer = createAction(ActionType.REMOVE_ACTIVE_OFFER);
+
+export const changeSort = createAction(ActionType.CHANGE_SORT, (currentSort) => {
+  return {
+    payload: currentSort
+  };
 });
 
-export const changeSort = (currentSort) => ({
-  type: ActionType.CHANGE_SORT,
-  payload: currentSort
+export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => {
+  return {
+    payload: offers
+  };
 });
 
-export const loadOffers = (offers) => ({
-  type: ActionType.LOAD_OFFERS,
-  payload: offers
+export const toggleFavor = createAction(ActionType.TOGGLE_FAVOR, (offerId) => {
+  return {
+    payload: offerId
+  };
 });
 
-export const toggleFavor = (offerId) => ({
-  type: ActionType.TOGGLE_FAVOR,
-  payload: offerId
+export const toggleOpenedCardFavor = createAction(ActionType.TOGGLE_OPENED_CARD_FAVOR);
+
+export const setOpenOffer = createAction(ActionType.SET_OPEN_OFFER, (offer) => {
+  return {
+    payload: offer
+  };
 });
 
-export const toggleOpenedCardFavor = () => ({
-  type: ActionType.TOGGLE_OPENED_CARD_FAVOR
+export const setNearbyOffers = createAction(ActionType.SET_NEARBY_OFFERS, (nearbyOffers) => {
+  return {
+    payload: nearbyOffers
+  };
 });
 
-export const setOpenOffer = (offer) => ({
-  type: ActionType.SET_OPEN_OFFER,
-  payload: offer
+export const setCurrentReviews = createAction(ActionType.SET_CURRENT_REVIEWS, (currentReviews) => {
+  return {
+    payload: currentReviews
+  };
 });
 
-export const setNearbyOffers = (nearbyOffers) => ({
-  type: ActionType.SET_NEARBY_OFFERS,
-  payload: nearbyOffers
+export const setLoadingReviewStatus = createAction(ActionType.SET_LOADING_REVIEW_STATUS, (status) => {
+  return {
+    payload: status
+  };
 });
 
-export const setCurrentReviews = (currentReviews) => ({
-  type: ActionType.SET_CURRENT_REVIEWS,
-  payload: currentReviews
+export const setFavoriteList = createAction(ActionType.SET_FAVORITE_LIST, (favoriteList) => {
+  return {
+    payload: favoriteList
+  };
 });
 
-export const setLoadingReviewStatus = (status) => ({
-  type: ActionType.SET_LOADING_REVIEW_STATUS,
-  payload: status
+export const addCardToFavoriteList = createAction(ActionType.ADD_CARD_TO_FAVORITE_LIST, (newFavoriteOffer) => {
+  return {
+    payload: newFavoriteOffer
+  };
 });
 
-export const setFavoriteList = (favoriteList) => ({
-  type: ActionType.SET_FAVORITE_LIST,
-  payload: favoriteList
+export const removeCardFromFavoriteList = createAction(ActionType.REMOVE_CARD_FROM_FAVORITE_LIST, (id) => {
+  return {
+    payload: id
+  };
 });
 
-export const addCardToFavoriteList = (newFavoriteOffer) => ({
-  type: ActionType.ADD_CARD_TO_FAVORITE_LIST,
-  payload: newFavoriteOffer
+export const requiredAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => {
+  return {
+    payload: status
+  };
 });
 
-export const removeCardFromFavoriteList = (id) => ({
-  type: ActionType.REMOVE_CARD_FROM_FAVORITE_LIST,
-  payload: id
+export const changeUserName = createAction(ActionType.CHANGE_USER_NAME, (userName) => {
+  return {
+    payload: userName
+  };
+});
+
+export const changeUserAvatar = createAction(ActionType.CHANGE_USER_AVATAR, (avatarUrl) => {
+  return {
+    payload: avatarUrl
+  };
+});
+
+export const redirectToRoute = createAction(ActionType.REDIRECT_TO_ROUTE, (url) => {
+  return {
+    payload: url
+  };
+});
+
+export const setErrorMessage = createAction(ActionType.SET_ERROR_MESSAGE, (message) => {
+  return {
+    payload: message
+  };
 });
 
 
-export const requiredAuthorization = (status) => ({
-  type: ActionType.REQUIRED_AUTHORIZATION,
-  payload: status
-});
-
-export const changeUserName = (userName) => ({
-  type: ActionType.CHANGE_USER_NAME,
-  payload: userName
-});
-
-
-export const changeUserAvatar = (avatarUrl) => ({
-  type: ActionType.CHANGE_USER_AVATAR,
-  payload: avatarUrl
-});
-
-export const redirectToRoute = (url) => ({
-  type: ActionType.REDIRECT_TO_ROUTE,
-  payload: url
-});
-
-export const setErrorMessage = (message) => ({
-  type: ActionType.SET_ERROR_MESSAGE,
-  payload: message
-});
