@@ -4,6 +4,7 @@ import {PropTypes} from 'prop-types';
 
 import {changeCity} from '../../../store/action';
 import {CITY_LIST} from '../../../const';
+import {getCity} from './../../../store/main/selectors';
 
 const Locations = ({onChangeCity, city}) => {
 
@@ -29,8 +30,8 @@ Locations.propTypes = {
   city: PropTypes.string.isRequired
 };
 
-const mapStateToProps = ({MAIN}) => ({
-  city: MAIN.city
+const mapStateToProps = (state) => ({
+  city: getCity(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

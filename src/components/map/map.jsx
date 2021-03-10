@@ -7,6 +7,7 @@ import leaflet from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import {MAP_CLASS_NAME} from '../../const';
 import {connect} from 'react-redux';
+import {getActiveOffer} from '../../store/main/selectors';
 
 
 const Map = ({offers, mode, city, activeOffer}) => {
@@ -67,8 +68,8 @@ Map.propTypes = {
   city: PropTypes.string.isRequired,
   activeOffer: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired
 };
-const mapStateToProps = ({MAIN}) => ({
-  activeOffer: MAIN.activeOffer
+const mapStateToProps = (state) => ({
+  activeOffer: getActiveOffer(state)
 });
 
 export {Map};

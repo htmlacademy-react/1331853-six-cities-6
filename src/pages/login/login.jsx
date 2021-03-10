@@ -4,6 +4,7 @@ import LocationBtn from '../../components/common/location-btn';
 import Header from '../../components/header/header';
 import {login} from '../../store/api-actions';
 import {PropTypes} from 'prop-types';
+import {getCity} from '../../store/main/selectors';
 
 const Login = ({formSubmit, city}) => {
   const loginRef = useRef();
@@ -53,8 +54,8 @@ Login.propTypes = {
   city: PropTypes.string.isRequired
 };
 
-const mapStateToProps = ({MAIN}) => ({
-  city: MAIN.city
+const mapStateToProps = (state) => ({
+  city: getCity(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

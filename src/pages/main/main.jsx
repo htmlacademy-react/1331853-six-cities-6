@@ -13,12 +13,14 @@ import MainEmpty from './empty/empty';
 import Toast from '../../components/toast/toast';
 import Loading from '../../components/loading/loading';
 
-import {getOffers, getSortedOffers} from '../../utils';
+import {getCurrentOffers, getSortedOffers} from '../../utils';
 
 import {fetchOfferList} from '../../store/api-actions';
+import {getLoadedDataStatus, getOffers} from './../../store/data/selectors';
+import {getCity, getCurrentSort} from '../../store/main/selectors';
 
 const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
-  const currentOffers = getOffers(city, offers);
+  const currentOffers = getCurrentOffers(city, offers);
   const sortedOffers = getSortedOffers(currentSort, currentOffers);
 
   const cardSectionRef = useRef();
@@ -85,11 +87,11 @@ Main.propTypes = {
   onLoadData: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({MAIN, DATA}) => ({
-  offers: DATA.offers,
-  city: MAIN.city,
-  currentSort: MAIN.currentSort,
-  isDataLoaded: DATA.isDataLoaded,
+const mapStateToProps = (state) => ({
+  offers: getOffers(state),
+  city: getCity(state),
+  currentSort: getCurrentSort(state),
+  isDataLoaded: getLoadedDataStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

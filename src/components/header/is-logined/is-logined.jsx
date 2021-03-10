@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {AuthorizationStatus, Routes} from './../../../const';
+import {getAuthorizationStatus, getUserName, getAvatarUrl} from './../../../store/user/selectors';
 
 const IsLogined = ({authorizationStatus, userName, avatarUrl}) => {
   return (
@@ -20,10 +21,10 @@ IsLogined.propTypes = {
   avatarUrl: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({USER}) => ({
-  authorizationStatus: USER.authorizationStatus,
-  userName: USER.userName,
-  avatarUrl: USER.avatarUrl
+const mapStateToProps = (state) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+  userName: getUserName(state),
+  avatarUrl: getAvatarUrl(state)
 });
 
 export {IsLogined};

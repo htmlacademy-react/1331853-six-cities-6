@@ -10,7 +10,7 @@ export const sortDate = (a, b) => (
 
 export const getOfferPath = (id) => Routes.OFFER.replace(/id/, id);
 
-export const getOffers = (city, offers) => (
+export const getCurrentOffers = (city, offers) => (
   offers.filter((offer) => offer.city.name === city)
 );
 

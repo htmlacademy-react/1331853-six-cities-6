@@ -6,6 +6,7 @@ import {submitComment} from '../../../store/api-actions';
 import {PropTypes} from 'prop-types';
 import {offersPropValid} from './../../offer-list/offer-card/offer-card.prop';
 import {setLoadingReviewStatus} from '../../../store/action';
+import {getOpenedOffer, getReviewLoadingStatus} from './../../../store/data/selectors';
 
 const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, onSetLoadingReviewStatus}) => {
   const submitButtonRef = useRef();
@@ -95,9 +96,9 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-const mapStateToProps = ({DATA}) => ({
-  openedOffer: DATA.openedOffer,
-  reviewLoadingStatus: DATA.reviewLoadingStatus
+const mapStateToProps = (state) => ({
+  openedOffer: getOpenedOffer(state),
+  reviewLoadingStatus: getReviewLoadingStatus(state)
 });
 
 export {UserReview};

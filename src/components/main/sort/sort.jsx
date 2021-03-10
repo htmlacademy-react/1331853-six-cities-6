@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import {changeSort} from '../../../store/action';
 import {SORT_LIST, SORT_TEXTS} from '../../../const';
+import {getCurrentSort} from './../../../store/main/selectors';
 
 const Sort = ({onChangeSort, currentSort}) => {
 
@@ -46,8 +47,8 @@ Sort.propTypes = {
   currentSort: PropTypes.string.isRequired
 };
 
-const mapStateToProps = ({MAIN}) => ({
-  currentSort: MAIN.currentSort
+const mapStateToProps = (state) => ({
+  currentSort: getCurrentSort(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

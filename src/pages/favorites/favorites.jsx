@@ -12,9 +12,10 @@ import Toast from '../../components/toast/toast';
 import FavoritesEmpty from './empty/empty';
 
 import {connect} from 'react-redux';
-import {getOffers} from '../../utils';
+import {getCurrentOffers} from '../../utils';
 import {changeCity} from '../../store/action';
 import {fetchFavoriteList} from './../../store/api-actions';
+import {getFavoriteList, getLoadedFavoriteListStatus} from './../../store/data/selectors';
 
 
 const Favorites = ({favoriteList, onChangeCity, setFavoriteList, isFavoriteListLoaded}) => {
@@ -58,7 +59,7 @@ const Favorites = ({favoriteList, onChangeCity, setFavoriteList, isFavoriteListL
                           </div>
 
                           <div className="favorites__places">
-                            <OfferList offers={getOffers(city, favoriteList)} mode="FAVOR"/>
+                            <OfferList offers={getCurrentOffers(city, favoriteList)} mode="FAVOR"/>
                           </div>
 
                         </li>
@@ -86,9 +87,9 @@ Favorites.propTypes = {
   setFavoriteList: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({DATA}) => ({
-  favoriteList: DATA.favoriteList,
-  isFavoriteListLoaded: DATA.isFavoriteListLoaded
+const mapStateToProps = (state) => ({
+  favoriteList: getFavoriteList(state),
+  isFavoriteListLoaded: getLoadedFavoriteListStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

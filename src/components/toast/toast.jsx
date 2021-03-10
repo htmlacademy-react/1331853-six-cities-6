@@ -3,6 +3,7 @@ import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
 import "./toast.css";
 import {setErrorMessage} from '../../store/action';
+import {getErrorMessage} from '../../store/user/selectors';
 
 const SHOW_TIME = 5000;
 
@@ -25,8 +26,8 @@ Toast.propTypes = {
   removeErrorMessage: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({USER}) => ({
-  errorMessage: USER.errorMessage
+const mapStateToProps = (state) => ({
+  errorMessage: getErrorMessage(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -20,6 +20,9 @@ import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
 import {fetchOpenedOfferData, toggleFavorOnServer} from '../../store/api-actions';
 import {toggleOpenedCardFavor} from '../../store/action';
+import {getNearbyOffers, getOffers, getOpenedOffer, getCurrentReviews} from './../../store/data/selectors';
+import {getCity} from '../../store/main/selectors';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 
 const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews, toggleFavorOnClick, onToggleOpenedCardFavor}) => {
@@ -155,13 +158,13 @@ OfferProperty.propTypes = {
 
 };
 
-const mapStateToProps = ({MAIN, USER, DATA}) => ({
-  offers: DATA.offers,
-  city: MAIN.city,
-  authorizationStatus: USER.authorizationStatus,
-  openedOffer: DATA.openedOffer,
-  nearbyOffers: DATA.nearbyOffers,
-  currentReviews: DATA.currentReviews,
+const mapStateToProps = (state) => ({
+  offers: getOffers(state),
+  city: getCity(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  openedOffer: getOpenedOffer(state),
+  nearbyOffers: getNearbyOffers(state),
+  currentReviews: getCurrentReviews(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
