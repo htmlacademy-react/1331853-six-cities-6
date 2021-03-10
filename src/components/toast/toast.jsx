@@ -1,16 +1,17 @@
 import React from 'react';
-import {PropTypes} from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import "./toast.css";
 import {setErrorMessage} from '../../store/action';
-import {getErrorMessage} from '../../store/user/selectors';
 
 const SHOW_TIME = 5000;
 
-const Toast = ({errorMessage, removeErrorMessage}) => {
+const Toast = () => {
+  const {errorMessage} = useSelector((state) => state.USER);
+  const dispatch = useDispatch();
+
   if (errorMessage.length) {
     setTimeout(() => {
-      removeErrorMessage(``);
+      dispatch(setErrorMessage(``));
     }, SHOW_TIME);
   }
 
@@ -21,20 +22,4 @@ const Toast = ({errorMessage, removeErrorMessage}) => {
   );
 };
 
-Toast.propTypes = {
-  errorMessage: PropTypes.string.isRequired,
-  removeErrorMessage: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  errorMessage: getErrorMessage(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  removeErrorMessage(message) {
-    dispatch(setErrorMessage(message));
-  }
-});
-
-export {Toast};
-export default connect(mapStateToProps, mapDispatchToProps)(Toast);
+export default Toast;

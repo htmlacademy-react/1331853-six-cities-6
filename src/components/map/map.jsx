@@ -4,19 +4,18 @@ import {PropTypes} from 'prop-types';
 import {offersPropValid} from '../offer-list/offer-card/offer-card.prop';
 
 import leaflet from 'leaflet';
-import "leaflet/dist/leaflet.css";
+import 'leaflet/dist/leaflet.css';
 import {MAP_CLASS_NAME} from '../../const';
-import {connect} from 'react-redux';
-import {getActiveOffer} from '../../store/main/selectors';
+import {useSelector} from 'react-redux';
 
-
-const Map = ({offers, mode, city, activeOffer}) => {
+const Map = ({offers, mode, city}) => {
 
   if (!offers.length) {
     return ``;
   }
-
   const mapRef = useRef();
+  const {activeOffer} = useSelector((state) => state.MAIN);
+
   const cityLocation = offers[0].city.location;
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const Map = ({offers, mode, city, activeOffer}) => {
   }, [city, activeOffer]);
 
   return (
-    <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} style={{width: `${mode === `OFFER` && `1144px`}`, margin: `${mode === `OFFER` && `auto auto 50px auto`}`}} ref={mapRef}/>
+    <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} style={{width: `${mode === `OFFER` && `1144px`}`, margin: `${mode === `OFFER` && `auto auto 50px auto`}`}} />
   );
 };
 
@@ -66,12 +65,8 @@ Map.propTypes = {
   offers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
   mode: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
-  activeOffer: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired
 };
-const mapStateToProps = (state) => ({
-  activeOffer: getActiveOffer(state)
-});
 
-export {Map};
-export default connect(mapStateToProps, null)(Map);
+
+export default Map;
 

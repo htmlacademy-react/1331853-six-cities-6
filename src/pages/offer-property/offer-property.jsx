@@ -1,10 +1,6 @@
 import React from 'react';
 import {useRouteMatch} from 'react-router-dom';
-import {connect} from 'react-redux';
-
-import PropTypes from 'prop-types';
-import {reviewsPropValid} from '../../components/offer-property/review-list/review-item/review-item.prop';
-import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Header from '../../components/header/header';
 import UserReview from '../../components/offer-property/user-review/user-review';
@@ -20,18 +16,20 @@ import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
 import {fetchOpenedOfferData, toggleFavorOnServer} from '../../store/api-actions';
 import {toggleOpenedCardFavor} from '../../store/action';
-import {getNearbyOffers, getOffers, getOpenedOffer, getCurrentReviews} from './../../store/data/selectors';
-import {getCity} from '../../store/main/selectors';
-import {getAuthorizationStatus} from '../../store/user/selectors';
 
 
-const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews, toggleFavorOnClick, onToggleOpenedCardFavor}) => {
+const OfferProperty = () => {
+  const {authorizationStatus} = useSelector((state) => state.USER);
+  const {city} = useSelector((state) => state.MAIN);
+  const {openedOffer, nearbyOffers, currentReviews} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
 
   const match = useRouteMatch();
   const pathId = match.params.id.slice(1);
 
   if (String(openedOffer.id) !== pathId) {
-    setOpenedOfferData(pathId);
+    dispatch(fetchOpenedOfferData(pathId));
+
     return (
       <Loading />
     );
@@ -47,8 +45,8 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
 
   const cardFavorClickHandler = (cardId, status) => {
     const newStatus = status ? 0 : 1;
-    toggleFavorOnClick(cardId, newStatus);
-    onToggleOpenedCardFavor();
+    dispatch(toggleFavorOnServer(cardId, newStatus));
+    dispatch(toggleOpenedCardFavor());
   };
 
   return (
@@ -142,43 +140,7 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
         }
       </main>
     </div>
-
   );
 };
 
-OfferProperty.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  openedOffer: PropTypes.oneOfType([PropTypes.shape(offersPropValid), PropTypes.object]).isRequired,
-  nearbyOffers: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.bool]).isRequired,
-  currentReviews: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(reviewsPropValid)), PropTypes.bool]).isRequired,
-  city: PropTypes.string.isRequired,
-  setOpenedOfferData: PropTypes.func.isRequired,
-  toggleFavorOnClick: PropTypes.func.isRequired,
-  onToggleOpenedCardFavor: PropTypes.func.isRequired,
-
-};
-
-const mapStateToProps = (state) => ({
-  offers: getOffers(state),
-  city: getCity(state),
-  authorizationStatus: getAuthorizationStatus(state),
-  openedOffer: getOpenedOffer(state),
-  nearbyOffers: getNearbyOffers(state),
-  currentReviews: getCurrentReviews(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setOpenedOfferData(id) {
-    dispatch(fetchOpenedOfferData(id));
-  },
-  toggleFavorOnClick(id, status) {
-    dispatch(toggleFavorOnServer(id, status));
-  },
-  onToggleOpenedCardFavor() {
-    dispatch(toggleOpenedCardFavor());
-  },
-});
-
-
-export {OfferProperty};
-export default connect(mapStateToProps, mapDispatchToProps)(OfferProperty);
+export default OfferProperty;

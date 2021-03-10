@@ -1,8 +1,5 @@
 import React, {useEffect} from 'react';
 
-import PropTypes from 'prop-types';
-import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
-
 import LocationBtn from '../../components/common/location-btn';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
@@ -11,18 +8,19 @@ import Loading from '../../components/loading/loading';
 import Toast from '../../components/toast/toast';
 import FavoritesEmpty from './empty/empty';
 
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getCurrentOffers} from '../../utils';
 import {changeCity} from '../../store/action';
 import {fetchFavoriteList} from './../../store/api-actions';
-import {getFavoriteList, getLoadedFavoriteListStatus} from './../../store/data/selectors';
 
 
-const Favorites = ({favoriteList, onChangeCity, setFavoriteList, isFavoriteListLoaded}) => {
+const Favorites = () => {
+  const {favoriteList, isFavoriteListLoaded} = useSelector((state)=> state.DATA);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isFavoriteListLoaded) {
-      setFavoriteList();
+      dispatch(fetchFavoriteList());
     }
   }, [isFavoriteListLoaded]);
 
@@ -35,7 +33,7 @@ const Favorites = ({favoriteList, onChangeCity, setFavoriteList, isFavoriteListL
   const cityList = [...new Set(favoriteList.map((offer) => offer.city.name))];
 
   const cardClickHandler = (city) => {
-    onChangeCity(city);
+    dispatch(changeCity(city));
   };
 
   return (
@@ -71,35 +69,10 @@ const Favorites = ({favoriteList, onChangeCity, setFavoriteList, isFavoriteListL
             </main>
             <Footer />
           </div>
-
           : <FavoritesEmpty />
       }
-
     </>
-
   );
 };
 
-Favorites.propTypes = {
-  favoriteList: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
-  isFavoriteListLoaded: PropTypes.bool.isRequired,
-  onChangeCity: PropTypes.func.isRequired,
-  setFavoriteList: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  favoriteList: getFavoriteList(state),
-  isFavoriteListLoaded: getLoadedFavoriteListStatus(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onChangeCity(city) {
-    dispatch(changeCity(city));
-  },
-  setFavoriteList() {
-    dispatch(fetchFavoriteList());
-  }
-});
-
-export {Favorites};
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
+export default Favorites;

@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Star from './star/star';
 import {STAR_LIST, ReviewValid, ReviewLoadingStatus} from '../../../const';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {submitComment} from '../../../store/api-actions';
-import {PropTypes} from 'prop-types';
-import {offersPropValid} from './../../offer-list/offer-card/offer-card.prop';
 import {setLoadingReviewStatus} from '../../../store/action';
-import {getOpenedOffer, getReviewLoadingStatus} from './../../../store/data/selectors';
 
-const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, onSetLoadingReviewStatus}) => {
+const UserReview = () => {
+  const {openedOffer, reviewLoadingStatus} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
+
   const submitButtonRef = useRef();
   const commentRef = useRef();
   const formRef = useRef();
@@ -20,8 +20,8 @@ const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, on
 
   const formSubmitHandler = (evt) => {
     evt.preventDefault();
-    submitCommentOnServer(openedOffer.id, {review, rating});
-    onSetLoadingReviewStatus(ReviewLoadingStatus.LOADING);
+    dispatch(submitComment(openedOffer.id, {review, rating}));
+    dispatch(setLoadingReviewStatus(ReviewLoadingStatus.LOADING));
   };
 
   const formChangeHandler = (evt) => {
@@ -46,17 +46,15 @@ const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, on
       case ReviewLoadingStatus.LOADED:
         commentRef.current.disabled = false;
         formRef.current.reset();
+
         setUserReview({review: ``, rating: 0});
-        onSetLoadingReviewStatus(``);
+        dispatch(setLoadingReviewStatus(``));
         break;
 
       case ReviewLoadingStatus.LOADING_FAILED:
         submitButtonRef.current.disabled = false;
         commentRef.current.disabled = false;
-        onSetLoadingReviewStatus(``);
-        break;
-
-      default:
+        dispatch(setLoadingReviewStatus(``));
         break;
     }
   }, [reviewLoadingStatus]);
@@ -80,26 +78,5 @@ const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, on
   );
 };
 
-UserReview.propTypes = {
-  openedOffer: PropTypes.shape(offersPropValid).isRequired,
-  reviewLoadingStatus: PropTypes.string.isRequired,
-  submitCommentOnServer: PropTypes.func.isRequired,
-  onSetLoadingReviewStatus: PropTypes.func.isRequired
-};
 
-const mapDispatchToProps = (dispatch) => ({
-  submitCommentOnServer(id, review) {
-    dispatch(submitComment(id, review));
-  },
-  onSetLoadingReviewStatus(status) {
-    dispatch(setLoadingReviewStatus(status));
-  }
-});
-
-const mapStateToProps = (state) => ({
-  openedOffer: getOpenedOffer(state),
-  reviewLoadingStatus: getReviewLoadingStatus(state)
-});
-
-export {UserReview};
-export default connect(mapStateToProps, mapDispatchToProps)(UserReview);
+export default UserReview;

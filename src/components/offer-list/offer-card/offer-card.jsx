@@ -7,24 +7,26 @@ import {offersPropValid} from './offer-card.prop';
 import {getOfferPath, getRatingCount} from '../../../utils';
 import {CARD_CLASS_NAME} from '../../../const';
 import {removeActiveOffer, setActiveOffer} from '../../../store/action';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {toggleFavorOnServer} from '../../../store/api-actions';
 
-const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode, onSetActiveOffer, onRemoveActiveOffer, toggleFavorOnClick}) => {
+const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode}) => {
+  const dispatch = useDispatch();
+
   const isCardPremium = isPremium && <div className="place-card__mark"><span>Premium</span></div>;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
 
   const cardMouseOverHandler = (cardId) => {
-    onSetActiveOffer(cardId);
+    dispatch(setActiveOffer(cardId));
   };
 
   const cardMouseLeaveHandler = () => {
-    onRemoveActiveOffer();
+    dispatch(removeActiveOffer());
   };
 
   const cardFavorClickHandler = (cardId, status) => {
     const newStatus = Number(!status);
-    toggleFavorOnClick(cardId, newStatus);
+    dispatch(toggleFavorOnServer(cardId, newStatus));
   };
 
   return (
@@ -67,25 +69,7 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
 OfferCard.propTypes = {
   ...offersPropValid,
   mode: PropTypes.string.isRequired,
-  onSetActiveOffer: PropTypes.func.isRequired,
-  onRemoveActiveOffer: PropTypes.func.isRequired,
-  toggleFavorOnClick: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onSetActiveOffer(id) {
-    dispatch(setActiveOffer(id));
-  },
 
-  onRemoveActiveOffer() {
-    dispatch(removeActiveOffer());
-  },
-
-  toggleFavorOnClick(id, status) {
-    dispatch(toggleFavorOnServer(id, status));
-  }
-});
-
-
-export {OfferCard};
-export default connect(null, mapDispatchToProps)(OfferCard);
+export default OfferCard;

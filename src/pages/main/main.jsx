@@ -1,8 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {connect} from 'react-redux';
-
-import PropTypes from 'prop-types';
-import {offersPropValid} from '../../components/offer-list/offer-card/offer-card.prop';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Header from '../../components/header/header';
 import Locations from '../../components/main/locations/locations';
@@ -16,10 +13,12 @@ import Loading from '../../components/loading/loading';
 import {getCurrentOffers, getSortedOffers} from '../../utils';
 
 import {fetchOfferList} from '../../store/api-actions';
-import {getLoadedDataStatus, getOffers} from './../../store/data/selectors';
-import {getCity, getCurrentSort} from '../../store/main/selectors';
 
-const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
+const Main = () => {
+  const {city, currentSort} = useSelector((state) => state.MAIN);
+  const {offers, isDataLoaded} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
+
   const currentOffers = getCurrentOffers(city, offers);
   const sortedOffers = getSortedOffers(currentSort, currentOffers);
 
@@ -27,7 +26,7 @@ const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
 
   useEffect(() => {
     if (!isDataLoaded) {
-      onLoadData();
+      dispatch(fetchOfferList());
     }
   }, [isDataLoaded]);
 
@@ -78,27 +77,4 @@ const Main = ({offers, city, currentSort, isDataLoaded, onLoadData}) => {
   );
 };
 
-
-Main.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(offersPropValid).isRequired).isRequired,
-  city: PropTypes.string.isRequired,
-  currentSort: PropTypes.string.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  offers: getOffers(state),
-  city: getCity(state),
-  currentSort: getCurrentSort(state),
-  isDataLoaded: getLoadedDataStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchOfferList());
-  }
-});
-
-export {Main};
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;
