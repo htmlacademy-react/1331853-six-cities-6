@@ -2,13 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {PropTypes} from 'prop-types';
 
-import {ActionCreator} from '../../../store/action';
+import {changeCity} from '../../../store/action';
 import {CITY_LIST} from '../../../const';
 
-const Locations = ({changeCity, city}) => {
+const Locations = ({onChangeCity, city}) => {
 
   const menuClickHandler = (currentCity) => {
-    changeCity(currentCity);
+    onChangeCity(currentCity);
   };
 
   return (
@@ -24,20 +24,21 @@ const Locations = ({changeCity, city}) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
-  }
-});
+Locations.propTypes = {
+  onChangeCity: PropTypes.func.isRequired,
+  city: PropTypes.string.isRequired
+};
 
 const mapStateToProps = ({city}) => ({
   city
 });
 
-Locations.propTypes = {
-  changeCity: PropTypes.func.isRequired,
-  city: PropTypes.string.isRequired
-};
+const mapDispatchToProps = (dispatch) => ({
+  onChangeCity(city) {
+    dispatch(changeCity(city));
+  }
+});
+
 
 export {Locations};
 export default connect(mapStateToProps, mapDispatchToProps)(Locations);

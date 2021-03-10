@@ -2,7 +2,7 @@ import React from 'react';
 import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
 import "./toast.css";
-import {ActionCreator} from '../../store/action';
+import {setErrorMessage} from '../../store/action';
 
 const SHOW_TIME = 5000;
 
@@ -31,7 +31,7 @@ const mapStateToProps = ({errorMessage}) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   removeErrorMessage(message) {
-    dispatch(ActionCreator.setErrorMessage(message));
+    dispatch(setErrorMessage(message));
   }
 });
 

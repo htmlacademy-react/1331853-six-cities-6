@@ -2,15 +2,15 @@ import React, {useRef} from 'react';
 import {connect} from 'react-redux';
 
 import {PropTypes} from 'prop-types';
-import {ActionCreator} from '../../../store/action';
+import {changeSort} from '../../../store/action';
 import {SORT_LIST, SORT_TEXTS} from '../../../const';
 
-const Sort = ({changeSort, currentSort}) => {
+const Sort = ({onChangeSort, currentSort}) => {
 
   const selectRef = useRef();
 
   const sortTypeClickHandler = (evt) => {
-    changeSort(evt.currentTarget.dataset.sortType);
+    onChangeSort(evt.currentTarget.dataset.sortType);
     selectRef.current.classList.remove(`places__options--opened`);
 
   };
@@ -41,21 +41,20 @@ const Sort = ({changeSort, currentSort}) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeSort(currentSort) {
-    dispatch(ActionCreator.changeSort(currentSort));
-  }
-});
+Sort.propTypes = {
+  onChangeSort: PropTypes.func.isRequired,
+  currentSort: PropTypes.string.isRequired
+};
 
 const mapStateToProps = (state) => ({
   currentSort: state.currentSort
 });
 
-Sort.propTypes = {
-  changeSort: PropTypes.func.isRequired,
-  currentSort: PropTypes.string.isRequired
-};
-
+const mapDispatchToProps = (dispatch) => ({
+  onChangeSort(currentSort) {
+    dispatch(changeSort(currentSort));
+  }
+});
 
 export {Sort};
 export default connect(mapStateToProps, mapDispatchToProps)(Sort);

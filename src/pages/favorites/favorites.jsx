@@ -13,11 +13,11 @@ import FavoritesEmpty from './empty/empty';
 
 import {connect} from 'react-redux';
 import {getOffers} from '../../utils';
-import {ActionCreator} from '../../store/action';
+import {changeCity} from '../../store/action';
 import {fetchFavoriteList} from './../../store/api-actions';
 
 
-const Favorites = ({favoriteList, changeCity, setFavoriteList, isFavoriteListLoaded}) => {
+const Favorites = ({favoriteList, onChangeCity, setFavoriteList, isFavoriteListLoaded}) => {
 
   useEffect(() => {
     if (!isFavoriteListLoaded) {
@@ -34,7 +34,7 @@ const Favorites = ({favoriteList, changeCity, setFavoriteList, isFavoriteListLoa
   const cityList = [...new Set(favoriteList.map((offer) => offer.city.name))];
 
   const cardClickHandler = (city) => {
-    changeCity(city);
+    onChangeCity(city);
   };
 
   return (
@@ -82,7 +82,7 @@ const Favorites = ({favoriteList, changeCity, setFavoriteList, isFavoriteListLoa
 Favorites.propTypes = {
   favoriteList: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(offersPropValid)), PropTypes.array]).isRequired,
   isFavoriteListLoaded: PropTypes.bool.isRequired,
-  changeCity: PropTypes.func.isRequired,
+  onChangeCity: PropTypes.func.isRequired,
   setFavoriteList: PropTypes.func.isRequired
 };
 
@@ -92,8 +92,8 @@ const mapStateToProps = ({favoriteList, isFavoriteListLoaded}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
+  onChangeCity(city) {
+    dispatch(changeCity(city));
   },
   setFavoriteList() {
     dispatch(fetchFavoriteList());

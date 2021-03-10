@@ -19,10 +19,10 @@ import Loading from '../../components/loading/loading';
 import {getRatingCount} from '../../utils';
 import {AuthorizationStatus} from '../../const';
 import {fetchOpenedOfferData, toggleFavorOnServer} from '../../store/api-actions';
-import {ActionCreator} from '../../store/action';
+import {toggleOpenedCardFavor} from '../../store/action';
 
 
-const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews, toggleFavorOnClick, toggleOpenedCardFavor}) => {
+const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferData, nearbyOffers, currentReviews, toggleFavorOnClick, onToggleOpenedCardFavor}) => {
 
   const match = useRouteMatch();
   const pathId = match.params.id.slice(1);
@@ -45,7 +45,7 @@ const OfferProperty = ({authorizationStatus, city, openedOffer, setOpenedOfferDa
   const cardFavorClickHandler = (cardId, status) => {
     const newStatus = status ? 0 : 1;
     toggleFavorOnClick(cardId, newStatus);
-    toggleOpenedCardFavor();
+    onToggleOpenedCardFavor();
   };
 
   return (
@@ -151,7 +151,7 @@ OfferProperty.propTypes = {
   city: PropTypes.string.isRequired,
   setOpenedOfferData: PropTypes.func.isRequired,
   toggleFavorOnClick: PropTypes.func.isRequired,
-  toggleOpenedCardFavor: PropTypes.func.isRequired,
+  onToggleOpenedCardFavor: PropTypes.func.isRequired,
 
 };
 
@@ -171,8 +171,8 @@ const mapDispatchToProps = (dispatch) => ({
   toggleFavorOnClick(id, status) {
     dispatch(toggleFavorOnServer(id, status));
   },
-  toggleOpenedCardFavor() {
-    dispatch(ActionCreator.toggleOpenedCardFavor());
+  onToggleOpenedCardFavor() {
+    dispatch(toggleOpenedCardFavor());
   },
 });
 

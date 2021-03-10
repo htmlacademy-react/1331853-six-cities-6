@@ -6,20 +6,20 @@ import {offersPropValid} from './offer-card.prop';
 
 import {getOfferPath, getRatingCount} from '../../../utils';
 import {CARD_CLASS_NAME} from '../../../const';
-import {ActionCreator} from '../../../store/action';
+import {removeActiveOffer, setActiveOffer} from '../../../store/action';
 import {connect} from 'react-redux';
 import {toggleFavorOnServer} from '../../../store/api-actions';
 
-const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode, setActiveOffer, removeActiveOffer, toggleFavorOnClick}) => {
+const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode, onSetActiveOffer, onRemoveActiveOffer, toggleFavorOnClick}) => {
   const isCardPremium = isPremium && <div className="place-card__mark"><span>Premium</span></div>;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
 
   const cardMouseOverHandler = (cardId) => {
-    setActiveOffer(cardId);
+    onSetActiveOffer(cardId);
   };
 
   const cardMouseLeaveHandler = () => {
-    removeActiveOffer();
+    onRemoveActiveOffer();
   };
 
   const cardFavorClickHandler = (cardId, status) => {
@@ -67,18 +67,18 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
 OfferCard.propTypes = {
   ...offersPropValid,
   mode: PropTypes.string.isRequired,
-  setActiveOffer: PropTypes.func.isRequired,
-  removeActiveOffer: PropTypes.func.isRequired,
+  onSetActiveOffer: PropTypes.func.isRequired,
+  onRemoveActiveOffer: PropTypes.func.isRequired,
   toggleFavorOnClick: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setActiveOffer(id) {
-    dispatch(ActionCreator.setActiveOffer(id));
+  onSetActiveOffer(id) {
+    dispatch(setActiveOffer(id));
   },
 
-  removeActiveOffer() {
-    dispatch(ActionCreator.removeActiveOffer());
+  onRemoveActiveOffer() {
+    dispatch(removeActiveOffer());
   },
 
   toggleFavorOnClick(id, status) {

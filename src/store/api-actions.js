@@ -1,4 +1,4 @@
-import {ActionCreator} from "./action";
+import {addCardToFavoriteList, changeUserAvatar, changeUserName, loadOffers, redirectToRoute, removeCardFromFavoriteList, requiredAuthorization, setCurrentReviews, setErrorMessage, setFavoriteList, setLoadingReviewStatus, setNearbyOffers, setOpenOffer, toggleFavor} from "./action";
 import {APIRoute, AuthorizationStatus, avatarPlaceholder, HttpCode, LOCAL_STORE_KEYS, Routes, ReviewLoadingStatus} from './../const';
 import {adaptOfferToClient, adaptReviewsToClient} from "./adapters";
 import {sortDate} from "../utils";
@@ -13,7 +13,7 @@ const localStore = new Store(STORE_AUTH_NAME, window.localStorage);
 
 export const fetchOfferList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.HOTELS)
-  .then(({data}) => dispatch(ActionCreator.loadOffers(data.map((offer)=> adaptOfferToClient(offer)))))
+  .then(({data}) => dispatch(loadOffers(data.map((offer)=> adaptOfferToClient(offer)))))
 );
 
 export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
@@ -24,19 +24,19 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
   ])
     .then(([offer, nearby, comments]) => {
       const sortedComments = comments.data.sort(sortDate);
-      dispatch(ActionCreator.setOpenOffer(adaptOfferToClient(offer.data)));
-      dispatch(ActionCreator.setNearbyOffers(nearby.data.map((nearbyOffer) => adaptOfferToClient(nearbyOffer))));
-      dispatch(ActionCreator.setCurrentReviews(sortedComments.map((comment) => adaptReviewsToClient(comment))));
+      dispatch(setOpenOffer(adaptOfferToClient(offer.data)));
+      dispatch(setNearbyOffers(nearby.data.map((nearbyOffer) => adaptOfferToClient(nearbyOffer))));
+      dispatch(setCurrentReviews(sortedComments.map((comment) => adaptReviewsToClient(comment))));
     })
     .catch((err) => {
       const {response} = err;
       switch (response.status) {
         case HttpCode.NOT_FOUND:
-          dispatch(ActionCreator.redirectToRoute(Routes.NOT_FOUND));
+          dispatch(redirectToRoute(Routes.NOT_FOUND));
           break;
 
         default:
-          dispatch(ActionCreator.setErrorMessage(response.status));
+          dispatch(setErrorMessage(response.status));
           break;
       }
     })
@@ -44,19 +44,35 @@ export const fetchOpenedOfferData = (id) => (dispatch, _getState, api) => (
 
 export const fetchFavoriteList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FAVOR)
-  .then(({data}) => dispatch(ActionCreator.setFavoriteList(data.map((offer)=> adaptOfferToClient(offer)))))
+    .then(({data}) => dispatch(setFavoriteList(data.map((offer) => adaptOfferToClient(offer)))))
+   .catch((err) => {
+     const {response} = err;
+     switch (response.status) {
+       case HttpCode.UNAUTHORIZED:
+         dispatch(redirectToRoute(Routes.LOGIN));
+         dispatch(changeUserAvatar(avatarPlaceholder));
+         localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
+         localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
+         localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
+         break;
+
+       default:
+         dispatch(setErrorMessage(response.status));
+         break;
+     }
+   })
 );
 
 export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVOR}/${id}/${status}`)
     .then(({data}) => {
       const adaptedOffer = adaptOfferToClient(data);
-      dispatch(ActionCreator.toggleFavor(adaptedOffer));
+      dispatch(toggleFavor(adaptedOffer));
 
       if (status) {
-        dispatch(ActionCreator.addCardToFavoriteList(adaptedOffer));
+        dispatch(addCardToFavoriteList(adaptedOffer));
       } else {
-        dispatch(ActionCreator.removeCardFromFavoriteList(adaptedOffer.id));
+        dispatch(removeCardFromFavoriteList(adaptedOffer.id));
       }
 
     })
@@ -64,15 +80,15 @@ export const toggleFavorOnServer = (id, status) => (dispatch, _getState, api) =>
       const {response} = err;
       switch (response.status) {
         case HttpCode.UNAUTHORIZED:
-          dispatch(ActionCreator.redirectToRoute(Routes.LOGIN));
-          dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
+          dispatch(redirectToRoute(Routes.LOGIN));
+          dispatch(changeUserAvatar(avatarPlaceholder));
           localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
           localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
           localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
           break;
 
         default:
-          dispatch(ActionCreator.setErrorMessage(response.status));
+          dispatch(setErrorMessage(response.status));
           break;
       }
     })
@@ -82,23 +98,23 @@ export const submitComment = (id, {review: comment, rating}) => (dispatch, _getS
   api.post(`${APIRoute.COMMENTS}/${id}`, {comment, rating})
     .then(({data}) => {
       const sortedComments = data.sort(sortDate);
-      dispatch(ActionCreator.setCurrentReviews(sortedComments.map((item) => adaptReviewsToClient(item))));
-      dispatch(ActionCreator.setLoadingReviewStatus(ReviewLoadingStatus.LOADED));
+      dispatch(setCurrentReviews(sortedComments.map((item) => adaptReviewsToClient(item))));
+      dispatch(setLoadingReviewStatus(ReviewLoadingStatus.LOADED));
     })
     .catch((err) => {
       const {response} = err;
       switch (response.status) {
         case HttpCode.UNAUTHORIZED:
-          dispatch(ActionCreator.redirectToRoute(Routes.LOGIN));
-          dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
+          dispatch(redirectToRoute(Routes.LOGIN));
+          dispatch(changeUserAvatar(avatarPlaceholder));
           localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
           localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
           localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
           break;
 
         default:
-          dispatch(ActionCreator.setErrorMessage(response.status));
-          dispatch(ActionCreator.setLoadingReviewStatus(ReviewLoadingStatus.LOADING_FAILED));
+          dispatch(setErrorMessage(response.status));
+          dispatch(setLoadingReviewStatus(ReviewLoadingStatus.LOADING_FAILED));
           break;
       }
     })
@@ -108,17 +124,17 @@ export const checkAuth = () => (dispatch, _getState, api) => {
   const {authorizationStatus, email, avatarUrl} = localStore.getItems();
 
   if (authorizationStatus === AuthorizationStatus.AUTH) {
-    dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
-    dispatch(ActionCreator.changeUserName(email));
-    dispatch(ActionCreator.changeUserAvatar(avatarUrl));
+    dispatch(requiredAuthorization(AuthorizationStatus.AUTH));
+    dispatch(changeUserName(email));
+    dispatch(changeUserAvatar(avatarUrl));
     return;
   }
 
   api.get(APIRoute.LOGIN)
     .then(({data}) => {
-      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
-      dispatch(ActionCreator.changeUserName(data.email));
-      dispatch(ActionCreator.changeUserAvatar(data[`avatar_url`]));
+      dispatch(requiredAuthorization(AuthorizationStatus.AUTH));
+      dispatch(changeUserName(data.email));
+      dispatch(changeUserAvatar(data[`avatar_url`]));
     })
     .catch(()=> {});
 };
@@ -126,31 +142,32 @@ export const checkAuth = () => (dispatch, _getState, api) => {
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})
     .then(({data}) => {
-      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.AUTH));
-      dispatch(ActionCreator.changeUserName(email));
-      dispatch(ActionCreator.changeUserAvatar(data[`avatar_url`]));
+      dispatch(requiredAuthorization(AuthorizationStatus.AUTH));
+      dispatch(changeUserName(email));
+      dispatch(changeUserAvatar(data[`avatar_url`]));
 
       localStore.setItem(LOCAL_STORE_KEYS.AUTH, AuthorizationStatus.AUTH);
       localStore.setItem(LOCAL_STORE_KEYS.EMAIL, email);
       localStore.setItem(LOCAL_STORE_KEYS.AVATAR_URL, data[`avatar_url`]);
+
+      dispatch(redirectToRoute(Routes.MAIN));
     })
-    .then(() => dispatch(ActionCreator.redirectToRoute(Routes.MAIN)))
     .catch(({response}) => {
-      dispatch(ActionCreator.setErrorMessage(response.status));
+      dispatch(setErrorMessage(response.status));
     })
 );
 
 export const logout = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGOUT)
     .then(() => {
-      dispatch(ActionCreator.requiredAuthorization(AuthorizationStatus.NO_AUTH));
-      dispatch(ActionCreator.changeUserAvatar(avatarPlaceholder));
+      dispatch(requiredAuthorization(AuthorizationStatus.NO_AUTH));
+      dispatch(changeUserAvatar(avatarPlaceholder));
 
       localStore.removeItem(LOCAL_STORE_KEYS.AUTH);
       localStore.removeItem(LOCAL_STORE_KEYS.EMAIL);
       localStore.removeItem(LOCAL_STORE_KEYS.AVATAR_URL);
     })
     .catch(({response}) => {
-      dispatch(ActionCreator.setErrorMessage(response.status));
+      dispatch(setErrorMessage(response.status));
     })
 );

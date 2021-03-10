@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 import {submitComment} from '../../../store/api-actions';
 import {PropTypes} from 'prop-types';
 import {offersPropValid} from './../../offer-list/offer-card/offer-card.prop';
-import {ActionCreator} from '../../../store/action';
+import {setLoadingReviewStatus} from '../../../store/action';
 
-const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, setReviewLoadingStatus}) => {
+const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, onSetLoadingReviewStatus}) => {
   const submitButtonRef = useRef();
   const commentRef = useRef();
   const formRef = useRef();
@@ -20,7 +20,7 @@ const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, se
   const formSubmitHandler = (evt) => {
     evt.preventDefault();
     submitCommentOnServer(openedOffer.id, {review, rating});
-    setReviewLoadingStatus(ReviewLoadingStatus.LOADING);
+    onSetLoadingReviewStatus(ReviewLoadingStatus.LOADING);
   };
 
   const formChangeHandler = (evt) => {
@@ -46,13 +46,13 @@ const UserReview = ({openedOffer, submitCommentOnServer, reviewLoadingStatus, se
         commentRef.current.disabled = false;
         formRef.current.reset();
         setUserReview({review: ``, rating: 0});
-        setReviewLoadingStatus(``);
+        onSetLoadingReviewStatus(``);
         break;
 
       case ReviewLoadingStatus.LOADING_FAILED:
         submitButtonRef.current.disabled = false;
         commentRef.current.disabled = false;
-        setReviewLoadingStatus(``);
+        onSetLoadingReviewStatus(``);
         break;
 
       default:
@@ -83,15 +83,15 @@ UserReview.propTypes = {
   openedOffer: PropTypes.shape(offersPropValid).isRequired,
   reviewLoadingStatus: PropTypes.string.isRequired,
   submitCommentOnServer: PropTypes.func.isRequired,
-  setReviewLoadingStatus: PropTypes.func.isRequired
+  onSetLoadingReviewStatus: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
   submitCommentOnServer(id, review) {
     dispatch(submitComment(id, review));
   },
-  setReviewLoadingStatus(status) {
-    dispatch(ActionCreator.setLoadingReviewStatus(status));
+  onSetLoadingReviewStatus(status) {
+    dispatch(setLoadingReviewStatus(status));
   }
 });
 
