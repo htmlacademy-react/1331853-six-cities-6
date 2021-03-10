@@ -11,6 +11,8 @@ const Sort = ({changeSort, currentSort}) => {
 
   const sortTypeClickHandler = (evt) => {
     changeSort(evt.currentTarget.dataset.sortType);
+    selectRef.current.classList.remove(`places__options--opened`);
+
   };
 
   const selectClickHandler = () => {
