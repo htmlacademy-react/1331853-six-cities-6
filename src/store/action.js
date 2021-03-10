@@ -127,5 +127,3 @@ export const setErrorMessage = createAction(ActionType.SET_ERROR_MESSAGE, (messa
     payload: message
   };
 });
-
-
