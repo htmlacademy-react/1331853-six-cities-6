@@ -20,10 +20,10 @@ IsLogined.propTypes = {
   avatarUrl: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({authorizationStatus, userName, avatarUrl}) => ({
-  authorizationStatus,
-  userName,
-  avatarUrl
+const mapStateToProps = ({USER}) => ({
+  authorizationStatus: USER.authorizationStatus,
+  userName: USER.userName,
+  avatarUrl: USER.avatarUrl
 });
 
 export {IsLogined};

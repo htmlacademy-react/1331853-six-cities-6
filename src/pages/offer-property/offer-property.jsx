@@ -155,13 +155,13 @@ OfferProperty.propTypes = {
 
 };
 
-const mapStateToProps = ({offers, city, authorizationStatus, openedOffer, nearbyOffers, currentReviews}) => ({
-  offers,
-  city,
-  authorizationStatus,
-  openedOffer,
-  nearbyOffers,
-  currentReviews,
+const mapStateToProps = ({MAIN, USER, DATA}) => ({
+  offers: DATA.offers,
+  city: MAIN.city,
+  authorizationStatus: USER.authorizationStatus,
+  openedOffer: DATA.openedOffer,
+  nearbyOffers: DATA.nearbyOffers,
+  currentReviews: DATA.currentReviews,
 });
 
 const mapDispatchToProps = (dispatch) => ({

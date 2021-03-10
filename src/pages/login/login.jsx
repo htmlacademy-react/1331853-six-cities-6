@@ -53,8 +53,8 @@ Login.propTypes = {
   city: PropTypes.string.isRequired
 };
 
-const mapStateToProps = ({city}) => ({
-  city
+const mapStateToProps = ({MAIN}) => ({
+  city: MAIN.city
 });
 
 const mapDispatchToProps = (dispatch) => ({

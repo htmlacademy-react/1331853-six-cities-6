@@ -25,8 +25,8 @@ Toast.propTypes = {
   removeErrorMessage: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({errorMessage}) => ({
-  errorMessage
+const mapStateToProps = ({USER}) => ({
+  errorMessage: USER.errorMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({

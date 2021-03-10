@@ -86,9 +86,9 @@ Favorites.propTypes = {
   setFavoriteList: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({favoriteList, isFavoriteListLoaded}) => ({
-  favoriteList,
-  isFavoriteListLoaded
+const mapStateToProps = ({DATA}) => ({
+  favoriteList: DATA.favoriteList,
+  isFavoriteListLoaded: DATA.isFavoriteListLoaded
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -67,8 +67,8 @@ Map.propTypes = {
   city: PropTypes.string.isRequired,
   activeOffer: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired
 };
-const mapStateToProps = ({activeOffer}) => ({
-  activeOffer
+const mapStateToProps = ({MAIN}) => ({
+  activeOffer: MAIN.activeOffer
 });
 
 export {Map};

@@ -46,8 +46,8 @@ Sort.propTypes = {
   currentSort: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  currentSort: state.currentSort
+const mapStateToProps = ({MAIN}) => ({
+  currentSort: MAIN.currentSort
 });
 
 const mapDispatchToProps = (dispatch) => ({

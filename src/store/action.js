@@ -17,7 +17,7 @@ export const ActionType = {
   CHANGE_USER_NAME: `user/changeUserName`,
   CHANGE_USER_AVATAR: `user/changeUserAvatar`,
   REDIRECT_TO_ROUTE: `login/redirectToRoute`,
-  SET_ERROR_MESSAGE: `error/setErrorMessage`
+  SET_ERROR_MESSAGE: `user/setErrorMessage`
 };
 
 export const changeCity = (city) => ({

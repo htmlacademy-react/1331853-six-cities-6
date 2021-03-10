@@ -1,6 +1,4 @@
-import {ActionType} from "./action";
-import {AuthorizationStatus, avatarPlaceholder, SORT_TYPES} from "../const";
-
+import {ActionType} from "../action";
 
 const getItemIndex = (list, id) => {
   const idList = list.map((item) => item.id);
@@ -27,11 +25,7 @@ const removeCardFromFavoriteList = (offerId, currentFavoriteList) => {
 };
 
 const initialState = {
-  city: `Paris`,
   offers: [],
-  activeOffer: false,
-  currentSort: SORT_TYPES.POPULAR,
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
   isDataLoaded: false,
   openedOffer: {},
   nearbyOffers: false,
@@ -39,37 +33,10 @@ const initialState = {
   reviewLoadingStatus: ``,
   favoriteList: [],
   isFavoriteListLoaded: false,
-  userName: ``,
-  avatarUrl: avatarPlaceholder,
-  errorMessage: ``
 };
 
-const reducer = (state = initialState, action) => {
+const data = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.CHANGE_CITY:
-      return {
-        ...state,
-        city: action.payload
-      };
-
-    case ActionType.SET_ACTIVE_OFFER:
-      return {
-        ...state,
-        activeOffer: action.payload
-      };
-
-    case ActionType.REMOVE_ACTIVE_OFFER:
-      return {
-        ...state,
-        activeOffer: false
-      };
-
-    case ActionType.CHANGE_SORT:
-      return {
-        ...state,
-        currentSort: action.payload
-      };
-
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
@@ -87,13 +54,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         openedOffer: Object.assign({}, state.openedOffer, {isFavorite: !state.openedOffer.isFavorite})
-      };
-
-
-    case ActionType.REMOVE_INTERACTED_OFFER:
-      return {
-        ...state,
-        offerInteractedWith: false
       };
 
     case ActionType.SET_OPEN_OFFER:
@@ -139,33 +99,10 @@ const reducer = (state = initialState, action) => {
         favoriteList: removeCardFromFavoriteList(action.payload, state.favoriteList),
       };
 
-    case ActionType.REQUIRED_AUTHORIZATION:
-      return {
-        ...state,
-        authorizationStatus: action.payload
-      };
-
-    case ActionType.CHANGE_USER_NAME:
-      return {
-        ...state,
-        userName: action.payload
-      };
-
-    case ActionType.CHANGE_USER_AVATAR:
-      return {
-        ...state,
-        avatarUrl: action.payload
-      };
-
-    case ActionType.SET_ERROR_MESSAGE:
-      return {
-        ...state,
-        errorMessage: String(action.payload)
-      };
 
     default:
       return state;
   }
 };
 
-export {reducer};
+export {data};

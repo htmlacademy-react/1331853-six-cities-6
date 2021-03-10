@@ -95,9 +95,9 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-const mapStateToProps = ({openedOffer, reviewLoadingStatus}) => ({
-  openedOffer,
-  reviewLoadingStatus
+const mapStateToProps = ({DATA}) => ({
+  openedOffer: DATA.openedOffer,
+  reviewLoadingStatus: DATA.reviewLoadingStatus
 });
 
 export {UserReview};

@@ -85,11 +85,11 @@ Main.propTypes = {
   onLoadData: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({city, offers, currentSort, isDataLoaded}) => ({
-  offers,
-  city,
-  currentSort,
-  isDataLoaded,
+const mapStateToProps = ({MAIN, DATA}) => ({
+  offers: DATA.offers,
+  city: MAIN.city,
+  currentSort: MAIN.currentSort,
+  isDataLoaded: DATA.isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({
