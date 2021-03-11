@@ -16,11 +16,15 @@ const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isF
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
 
   const cardMouseOverHandler = (cardId) => {
-    dispatch(setActiveOffer(cardId));
+    if (mode !== `OFFER`) {
+      dispatch(setActiveOffer(cardId));
+    }
   };
 
   const cardMouseLeaveHandler = () => {
-    dispatch(removeActiveOffer());
+    if (mode !== `OFFER`) {
+      dispatch(removeActiveOffer());
+    }
   };
 
   const cardFavorClickHandler = (cardId, status) => {

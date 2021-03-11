@@ -15,6 +15,7 @@ const Map = ({offers, mode, city}) => {
   }
   const mapRef = useRef();
   const {activeOffer} = useSelector((state) => state.MAIN);
+  const {openedOffer} = useSelector((state) => state.DATA);
 
   const cityLocation = offers[0].city.location;
 
@@ -39,23 +40,32 @@ const Map = ({offers, mode, city}) => {
   }, [city]);
 
   useEffect(() => {
+    const markers = [];
     offers.forEach((point) => {
+      const isActiveOffer = activeOffer === point.id ? `./img/pin-active.svg` : `./img/pin.svg`;
+      const isOpenedOffer = openedOffer.id === point.id ? `./img/pin-active.svg` : `./img/pin.svg`;
+
       const customIcon = leaflet.icon({
-        iconUrl: `${activeOffer !== point.id ? `./img/pin.svg` : `./img/pin-active.svg`}`,
+        iconUrl: mode === `OFFER` ? isOpenedOffer : isActiveOffer,
         iconSize: [27, 39],
       });
 
-      leaflet.marker({
+      const marker = leaflet.marker({
         lat: point.location.latitude,
         lng: point.location.longitude,
       },
       {
         icon: customIcon
       })
-        .addTo(mapRef.current)
         .bindPopup(point.title);
+      markers.push(marker);
     });
-  }, [activeOffer, city]);
+    const markersGroup = leaflet.layerGroup(markers);
+    mapRef.current.addLayer(markersGroup);
+    return () => {
+      markersGroup.clearLayers();
+    };
+  }, [activeOffer, city, offers]);
 
   return (
     <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} style={{width: `${mode === `OFFER` && `1144px`}`, margin: `${mode === `OFFER` && `auto auto 50px auto`}`}} />

@@ -48,7 +48,6 @@ const OfferProperty = () => {
     dispatch(toggleFavorOnServer(cardId, newStatus));
     dispatch(toggleOpenedCardFavor());
   };
-
   return (
     <div className="page">
       <Toast />
@@ -125,7 +124,9 @@ const OfferProperty = () => {
               </section>
             </div>
           </div>
-          <Map offers={nearbyOffers} city={city} mode="OFFER"/>
+          {
+            nearbyOffers && <Map offers={[...nearbyOffers, openedOffer]} city={city} mode="OFFER"/>
+          }
         </section>
         {
           nearbyOffers &&

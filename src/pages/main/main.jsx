@@ -12,6 +12,7 @@ import Loading from '../../components/loading/loading';
 
 import {fetchOfferList} from '../../store/api-actions';
 import {getCurrentOffers, getSortedOffers} from '../../store/selectors';
+import {setActiveOffer, setOpenOffer} from '../../store/action';
 
 const Main = () => {
   const {city} = useSelector((state) => state.MAIN);
@@ -31,6 +32,8 @@ const Main = () => {
   useEffect(() => {
     if (isDataLoaded) {
       cardSectionRef.current.scrollTop = 0;
+      dispatch(setActiveOffer(``));
+      dispatch(setOpenOffer({}));
     }
   }, [city]);
 
