@@ -32,7 +32,13 @@ const Map = ({offers, mode, city}) => {
         attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
       })
       .addTo(mapRef.current);
+    return () => {
+      mapRef.current.remove();
+    };
 
+  }, [city]);
+
+  useEffect(() => {
     offers.forEach((point) => {
       const customIcon = leaflet.icon({
         iconUrl: `${activeOffer !== point.id ? `./img/pin.svg` : `./img/pin-active.svg`}`,
@@ -49,12 +55,7 @@ const Map = ({offers, mode, city}) => {
         .addTo(mapRef.current)
         .bindPopup(point.title);
     });
-
-    return () => {
-      mapRef.current.remove();
-    };
-
-  }, [city, activeOffer]);
+  }, [activeOffer, city]);
 
   return (
     <section id="map" className={`${MAP_CLASS_NAME[mode]} map`} style={{width: `${mode === `OFFER` && `1144px`}`, margin: `${mode === `OFFER` && `auto auto 50px auto`}`}} />

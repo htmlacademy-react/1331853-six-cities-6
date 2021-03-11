@@ -4,7 +4,7 @@ import {offersPropValid} from './offer-card/offer-card.prop';
 
 import OfferCard from './offer-card/offer-card';
 
-const OfferList = ({offers, mode, _currentSort}) => (
+const OfferList = ({offers, mode}) => (
   offers.map((offer) => <OfferCard key={offer.id} {...offer} mode={mode}/>)
 );
 
@@ -14,8 +14,6 @@ OfferList.propTypes = {
 };
 
 
-export default React.memo(OfferList, (prevProps, nextProps) => {
-  return prevProps.offers === nextProps.offers && prevProps.mode === nextProps.mode && prevProps._currentSort === nextProps._currentSort;
-});
+export default React.memo(OfferList);
 
 

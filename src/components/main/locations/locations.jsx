@@ -24,4 +24,4 @@ const Locations = () => {
   );
 };
 
-export default Locations;
+export default React.memo(Locations);

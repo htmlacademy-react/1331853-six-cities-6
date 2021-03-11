@@ -14,7 +14,7 @@ import {fetchOfferList} from '../../store/api-actions';
 import {getCurrentOffers, getSortedOffers} from '../../store/selectors';
 
 const Main = () => {
-  const {city, currentSort} = useSelector((state) => state.MAIN);
+  const {city} = useSelector((state) => state.MAIN);
   const {isDataLoaded} = useSelector((state) => state.DATA);
   const dispatch = useDispatch();
 
@@ -58,7 +58,7 @@ const Main = () => {
                   <b className="places__found">{currentOffers.length} places to stay in {city}</b>
                   <Sort />
                   <div className="cities__places-list places__list tabs__content">
-                    <OfferList offers={sortedOffers} mode="MAIN" _currentSort={currentSort}/>
+                    <OfferList offers={sortedOffers} mode="MAIN"/>
                   </div>
                 </section>
                 <div className="cities__right-section">

@@ -71,4 +71,4 @@ OfferCard.propTypes = {
 };
 
 
-export default OfferCard;
+export default React.memo(OfferCard);
