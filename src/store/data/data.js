@@ -8,9 +8,9 @@ const getItemIndex = (list, id) => {
 
 const toggleCardFavor = (offer, currentOfferList) => {
   const cardIndex = getItemIndex(currentOfferList, offer.id);
-  return (
-    [...currentOfferList.slice(0, cardIndex), offer, ...currentOfferList.slice((cardIndex + 1), currentOfferList.length)]
-  );
+  return cardIndex !== -1
+    ? [...currentOfferList.slice(0, cardIndex), offer, ...currentOfferList.slice((cardIndex + 1), currentOfferList.length)]
+    : currentOfferList;
 };
 
 const getFavoriteListWithNewCard = (newFavoriteOffer, currentFavoriteList) => {
@@ -44,6 +44,7 @@ const data = createReducer(initialState, (builder) => {
 
   builder.addCase(toggleFavor, (state, action) => {
     state.offers = toggleCardFavor(action.payload, state.offers);
+    state.nearbyOffers = toggleCardFavor(action.payload, state.nearbyOffers);
   });
 
   builder.addCase(toggleOpenedCardFavor, (state) => {
