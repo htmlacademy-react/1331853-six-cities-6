@@ -12,7 +12,6 @@ import {toggleFavorOnServer} from '../../../store/api-actions';
 
 const OfferCard = ({id, previewImage, price, type, rating, isPremium, title, isFavorite, mode}) => {
   const dispatch = useDispatch();
-
   const isCardPremium = isPremium && <div className="place-card__mark"><span>Premium</span></div>;
   const isCardFavorite = isFavorite ? `place-card__bookmark-button--active` : ``;
 

@@ -10,18 +10,16 @@ import MainEmpty from './empty/empty';
 import Toast from '../../components/toast/toast';
 import Loading from '../../components/loading/loading';
 
-import {getCurrentOffers, getSortedOffers} from '../../utils';
-
 import {fetchOfferList} from '../../store/api-actions';
+import {getCurrentOffers, getSortedOffers} from '../../store/selectors';
 
 const Main = () => {
   const {city, currentSort} = useSelector((state) => state.MAIN);
-  const {offers, isDataLoaded} = useSelector((state) => state.DATA);
+  const {isDataLoaded} = useSelector((state) => state.DATA);
   const dispatch = useDispatch();
 
-  const currentOffers = getCurrentOffers(city, offers);
-  const sortedOffers = getSortedOffers(currentSort, currentOffers);
-
+  const currentOffers = useSelector(getCurrentOffers);
+  const sortedOffers = useSelector(getSortedOffers);
   const cardSectionRef = useRef();
 
   useEffect(() => {
@@ -60,7 +58,7 @@ const Main = () => {
                   <b className="places__found">{currentOffers.length} places to stay in {city}</b>
                   <Sort />
                   <div className="cities__places-list places__list tabs__content">
-                    <OfferList offers={sortedOffers} mode="MAIN" />
+                    <OfferList offers={sortedOffers} mode="MAIN" _currentSort={currentSort}/>
                   </div>
                 </section>
                 <div className="cities__right-section">
