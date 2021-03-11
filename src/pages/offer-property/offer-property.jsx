@@ -125,11 +125,11 @@ const OfferProperty = () => {
             </div>
           </div>
           {
-            nearbyOffers && <Map offers={[...nearbyOffers, openedOffer]} city={city} mode="OFFER"/>
+            nearbyOffers.length && <Map offers={[...nearbyOffers, openedOffer]} city={city} mode="OFFER"/>
           }
         </section>
         {
-          nearbyOffers &&
+          nearbyOffers.length &&
             <div className="container">
               <section className="near-places places">
                 <h2 className="near-places__title">Other places in the neighbourhood</h2>

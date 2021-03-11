@@ -29,7 +29,7 @@ const initialState = {
   offers: [],
   isDataLoaded: false,
   openedOffer: {},
-  nearbyOffers: false,
+  nearbyOffers: [],
   currentReviews: false,
   reviewLoadingStatus: ``,
   favoriteList: [],
